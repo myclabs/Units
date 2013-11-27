@@ -1,28 +1,15 @@
 <?php
-/**
- * Classe Component
- * @author  valentin.claras
- * @package Unit
- */
 
 namespace Unit\Domain\PhysicalQuantity;
 
-use Core_Model_Entity;
-use Unit\Domain\PhysicalQuantity;
-
 /**
- * Composant des grandeurs physique.
- * @package    Unit
- * @subpackage Model
+ * Physical quantity component.
+ *
+ * @author valentin.claras
+ * @author matthieu.napoli
  */
-class Component extends Core_Model_Entity
+class Component
 {
-    // Constantes de tri et filtres.
-    const QUERY_PHYSICALQUANTITY_DERIVED = 'derivedPhysicalQuantity';
-    const QUERY_PHYSICALQUANTITY_BASE = 'basePhysicalQuantity';
-    const QUERY_EXPONENT = 'exponent';
-
-
     /**
      * Grandeur physique possédant la grandeur physique de base.
      * @var PhysicalQuantity
@@ -41,29 +28,14 @@ class Component extends Core_Model_Entity
      */
     protected $exponent;
 
-
-    /**
-     * Définit la pool d'objet active.
-     *  Il s'agit de l'entityManager correspondant.
-     *
-     * @param string $poolName
-     *
-     * @throws \Core_Exception_Database
-     *
-     * @return string
-     */
-    public static function getActivePoolName($poolName = 'default')
-    {
-        return PhysicalQuantity::getActivePoolName();
-    }
-
-    /**
-     * Défini la grandeur physique dérivée.
-     * @param PhysicalQuantity $derivedPhysicalQuantity
-     */
-    public function setDerivedPhysicalQuantity(PhysicalQuantity $derivedPhysicalQuantity)
-    {
+    public function __construct(
+        PhysicalQuantity $derivedPhysicalQuantity,
+        PhysicalQuantity $basePhysicalQuantity,
+        $exponent
+    ) {
         $this->derivedPhysicalQuantity = $derivedPhysicalQuantity;
+        $this->basePhysicalQuantity = $basePhysicalQuantity;
+        $this->exponent = $exponent;
     }
 
     /**
@@ -76,30 +48,12 @@ class Component extends Core_Model_Entity
     }
 
     /**
-     * Défini la grandeur physique de base.
-     * @param PhysicalQuantity $basePhysicalQuantity
-     */
-    public function setBasePhysicalQuantity(PhysicalQuantity $basePhysicalQuantity)
-    {
-        $this->basePhysicalQuantity = $basePhysicalQuantity;
-    }
-
-    /**
      * Renvoi la grandeur physique de base.
      * @return PhysicalQuantity
      */
     public function getBasePhysicalQuantity()
     {
         return $this->basePhysicalQuantity;
-    }
-
-    /**
-     * Défini l'exposant auquel est associé la grandeur physique de base dans la grandeur physique dérivée.
-     * @param int $exponent
-     */
-    public function setExponent($exponent)
-    {
-        $this->exponent = $exponent;
     }
 
     /**
@@ -110,5 +64,4 @@ class Component extends Core_Model_Entity
     {
         return $this->exponent;
     }
-
 }

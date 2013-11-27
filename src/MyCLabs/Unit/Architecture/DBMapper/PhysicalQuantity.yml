@@ -1,7 +1,5 @@
 Unit\Domain\PhysicalQuantity:
   type: entity
-  repositoryClass: \Core_Model_Repository
-  table: Unit_PhysicalQuantity
 
   gedmo:
     translation:
@@ -32,14 +30,9 @@ Unit\Domain\PhysicalQuantity:
     referenceUnit:
       targetEntity: Unit\Domain\Unit\StandardUnit
       joinColumn:
-        name: idReferenceUnit
-        referencedColumnName: id
         nullable: true
 
   oneToMany:
     physicalQuantityComponents:
       targetEntity: Unit\Domain\PhysicalQuantity\Component
       mappedBy: derivedPhysicalQuantity
-
-  lifecycleCallbacks:
-    preRemove: [ preDelete ]

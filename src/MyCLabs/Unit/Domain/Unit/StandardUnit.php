@@ -1,157 +1,119 @@
 <?php
-/**
- * @author  valentin.claras
- * @author  hugo.charbonnier
- * @author  yoann.croizer
- * @package Unit
- */
 
 namespace Unit\Domain\Unit;
 
-use Core_Model_Query;
-use Unit\Domain\PhysicalQuantity;
+use Unit\Domain\IncompatibleUnitsException;
+use Unit\Domain\PhysicalQuantity\PhysicalQuantity;
 use Unit\Domain\PhysicalQuantity\Component;
 use Unit\Domain\UnitSystem;
 
 /**
- * Unité standard
- * @package    Unit
- * @subpackage Model
+ * Standard unit.
+ *
+ * Example: meter, gram, hour...
+ *
+ * @author valentin.claras
+ * @author hugo.charbonnier
+ * @author yoann.croizer
+ * @author matthieu.napoli
  */
 class StandardUnit extends Unit
 {
-    // Constantes de tri et filtres.
-    const QUERY_MULTIPLIER = 'multiplier';
-    const QUERY_PHYSICALQUANTITY = 'physicalQuantity';
-    const QUERY_UNITSYSTEM = 'unitSystem';
-
     /**
-     * Coefficient mutliplicateur d'une unité standard.
-     * Permet par exemple de savoir le rapport entre km et m.
+     * Multiplier from this unit to the standard unit (of the same physical quantity)
      * @var float
      */
-    protected $multiplier = null;
+    protected $multiplier;
 
     /**
      * Identifiant de la gandeur physique associée à l'unité standard.
      * @var PhysicalQuantity
      */
-    protected $physicalQuantity = null;
+    protected $physicalQuantity;
 
     /**
      * Identifiant du système d'unité associé à l'unité standard.
      * @var UnitSystem
      */
-    protected $unitSystem = null;
-
-
-    /**
-     * Renvoie la référence de la pool active.
-     *  Il s'agit de l'entityManager correspondant.
-     *
-     * @return string
-     */
-    public static function getActivePoolName()
-    {
-        return Unit::getActivePoolName();
-    }
+    protected $unitSystem;
 
     /**
-     * Retourne l'objet Unit à partir de son référent textuel.
-     * @param string $ref
-     * @return \Unit\Domain\Unit\StandardUnit
+     * {@inheritdoc}
+     * @param PhysicalQuantity $physicalQuantity
+     * @param UnitSystem       $unitSystem
+     * @param float            $multiplier       Multiplier from this unit to the standard unitk
      */
-    public static function loadByRef($ref)
-    {
-        return parent::loadByRef($ref);
-    }
+    public function __construct(
+        $ref,
+        $name,
+        $symbol,
+        PhysicalQuantity $physicalQuantity,
+        UnitSystem $unitSystem,
+        $multiplier
+    ) {
+        parent::__construct($ref, $name, $symbol);
 
-    /**
-     * Défini le coefficient multiplicateur de l'unité.
-     * @param float $multiplier
-     */
-    public function setMultiplier($multiplier)
-    {
+        $this->physicalQuantity = $physicalQuantity;
+        $this->unitSystem = $unitSystem;
         $this->multiplier = $multiplier;
     }
 
     /**
-     * Renvoie le coefficient multiplicateur.
-     * @throws \Core_Exception_UndefinedAttribute
+     * Returns the multiplier from this unit to the standard unit (of the same physical quantity)
+     *
      * @return float
      */
     public function getMultiplier()
     {
-        if ($this->multiplier === null) {
-            throw new \Core_Exception_UndefinedAttribute('Multiplier has not be defined');
-        }
         return $this->multiplier;
     }
 
     /**
-     * Definit la grandeur Physique associé à l'unité.
-     * @param PhysicalQuantity $physicalQuantity
-     */
-    public function setPhysicalQuantity(PhysicalQuantity $physicalQuantity)
-    {
-        $this->physicalQuantity = $physicalQuantity;
-    }
-
-    /**
-     * Renvoie la Grandeur physique Derivée associé
-     * @throws \Core_Exception_UndefinedAttribute
      * @return PhysicalQuantity
      */
     public function getPhysicalQuantity()
     {
-        if ($this->physicalQuantity == null) {
-            throw new \Core_Exception_UndefinedAttribute('Physical Quantity has not be defined');
-        }
         return $this->physicalQuantity;
     }
 
     /**
-     * Definit le systeme d'unité associé à l'unité.
-     * @param \Unit\Domain\UnitSystem $unitSystem
-     */
-    public function setUnitSystem(UnitSystem $unitSystem)
-    {
-        $this->unitSystem = $unitSystem;
-    }
-
-    /**
-     * Renvoie le SystemeUnite associé.
-     * @throws \Core_Exception_UndefinedAttribute
      * @return UnitSystem
      */
     public function getUnitSystem()
     {
-        if ($this->unitSystem == null) {
-            throw new \Core_Exception_UndefinedAttribute('System Unit has not be defined');
-        }
         return $this->unitSystem;
     }
 
     /**
-     * Renvoie l'unité de reference par rapport à l'unité
-     * @return \Unit\Domain\Unit\StandardUnit
+     * {@inheritdoc}
      */
     public function getReferenceUnit()
     {
-        return $this->getPhysicalQuantity()->getReferenceUnit();
+        return $this->physicalQuantity->getReferenceUnit();
     }
 
     /**
-     * Renvoi le facteur de Conversion de l'unité
-     * @param Unit $unit
-     * @return float
+     * {@inheritdoc}
      */
     public function getConversionFactor(Unit $unit)
     {
-        if ($this->getPhysicalQuantity()->getKey() != $unit->getPhysicalQuantity()->getKey()) {
-            throw new \Core_Exception_InvalidArgument('Units need to have same PhysicalQuantity.');
+        if (! $unit instanceof StandardUnit) {
+            throw new IncompatibleUnitsException(sprintf(
+                'Conversion factor impossible: unit %s is only compatible with standard units, %s given',
+                $this->name,
+                get_class($unit)
+            ));
         }
-        return $this->getMultiplier() / $unit->getMultiplier();
+
+        if ($this->physicalQuantity !== $unit->physicalQuantity) {
+            throw new IncompatibleUnitsException(sprintf(
+                'Conversion factor impossible: units %s and %s have different physical quantities',
+                $this->name,
+                $unit->name
+            ));
+        }
+
+        return $this->multiplier / $unit->multiplier;
     }
 
     /**
@@ -180,7 +142,7 @@ class StandardUnit extends Unit
     {
         $units = $this->getPhysicalQuantity()->getUnits();
 
-        // Filtre l'unité courante de la liste
+        // Remove this unit from the list
         return array_filter(
             $units,
             function (Unit $unit) {
@@ -188,5 +150,4 @@ class StandardUnit extends Unit
             }
         );
     }
-
 }

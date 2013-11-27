@@ -1,7 +1,5 @@
 Unit\Domain\UnitSystem:
   type: entity
-  repositoryClass: \Core_Model_Repository
-  table: Unit_UnitSystem
 
   gedmo:
     translation:
@@ -14,9 +12,6 @@ Unit\Domain\UnitSystem:
         strategy: AUTO
 
   fields:
-    ref:
-      type: string
-      unique: true
     name:
       type: string
       gedmo:

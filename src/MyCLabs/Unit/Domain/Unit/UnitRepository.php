@@ -1,14 +1,13 @@
 <?php
-/**
- * @author  matthieu.napoli
- */
 
 namespace Unit\Domain\Unit;
 
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Repository pour Unit
+ * Unit repository.
+ *
+ * @author matthieu.napoli
  */
 class UnitRepository extends EntityRepository
 {

@@ -1,7 +1,5 @@
 Unit\Domain\PhysicalQuantity\Component:
   type: entity
-  repositoryClass: \Core_Model_Repository
-  table: Unit_PhysicalQuantityComponent
 
   id:
     derivedPhysicalQuantity:
@@ -11,18 +9,11 @@ Unit\Domain\PhysicalQuantity\Component:
 
   fields:
     exponent:
-      column: exponent
       type: integer
 
   manyToOne:
     derivedPhysicalQuantity:
       targetEntity: Unit\Domain\PhysicalQuantity
       inversedBy: physicalQuantityComponents
-      joinColumns:
-        idDerivedPhysicalQuantity:
-          referencedColumnName: id
     basePhysicalQuantity:
       targetEntity: Unit\Domain\PhysicalQuantity
-      joinColumn:
-        name: idBasePhysicalQuantity
-        referencedColumnName: id

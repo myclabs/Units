@@ -1,7 +1,5 @@
 Unit\Domain\Unit\StandardUnit:
   type: entity
-  repositoryClass: \Core_Model_Repository
-  table: Unit_StandardUnit
 
   fields:
     multiplier:
@@ -10,11 +8,5 @@ Unit\Domain\Unit\StandardUnit:
   manyToOne:
     physicalQuantity:
       targetEntity: Unit\Domain\PhysicalQuantity
-      joinColumn:
-        name: idPhysicalQuantity
-        referencedColumnName: id
     unitSystem:
       targetEntity: Unit\Domain\UnitSystem
-      joinColumn:
-        name: idUnitSystem
-        referencedColumnName: id

@@ -1,15 +1,12 @@
 Unit\Domain\Unit\Unit:
   type: entity
-  repositoryClass: \Core_Model_Repository
-  table: Unit_Unit
+
   inheritanceType: JOINED
   discriminatorColumn:
-    name: unitType
+    name: unit_type
     type: string
-    length: 8
   discriminatorMap:
     standard: Unit\Domain\Unit\StandardUnit
-    extended: Unit\Domain\Unit\ExtendedUnit
     discrete: Unit\Domain\Unit\DiscreteUnit
 
   gedmo:
@@ -18,7 +15,6 @@ Unit\Domain\Unit\Unit:
 
   id:
     id:
-      column: id
       type: integer
       generator:
         strategy: AUTO

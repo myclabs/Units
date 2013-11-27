@@ -1,78 +1,59 @@
 <?php
-/**
- * @author  valentin.claras
- * @author  hugo.charbonniere
- * @author  yoann.croizer
- * @package Unit
- */
 
 namespace Unit\Domain\Unit;
 
-use Core_Model_Entity;
-use Core_Model_Entity_Translatable;
+use Unit\Domain\IncompatibleUnitsException;
 
 /**
- * Unité
- * @package Unit
+ * Unit.
+ *
+ * @author valentin.claras
+ * @author hugo.charbonniere
+ * @author yoann.croizer
+ * @author matthieu.napoli
  */
-abstract class Unit extends Core_Model_Entity
+abstract class Unit
 {
-
-    use Core_Model_Entity_Translatable;
-
-    // Constantes de tri et filtres.
-    const QUERY_ID = 'id';
-    const QUERY_NAME = 'name';
-    const QUERY_SYMBOL = 'symbol';
-    const QUERY_REF = 'ref';
-
+    use Translatable;
 
     /**
-     * Identifiant d'une unité
      * @var int
      */
     protected $id;
 
     /**
-     * Référent textuel d'une unité
+     * External identifier.
      * @var string
      */
     protected $ref;
 
     /**
-     * Nom d'une unité
+     * Display name.
      * @var string
      */
     protected $name;
 
     /**
-     * Symbole d'une unité
+     * Display symbol.
      * @var string
      */
     protected $symbol;
 
-
     /**
-     * Retourne l'objet Unit à partir de son référent textuel.
-     * @param string $ref
-     * @return Unit
+     * @param string $ref    External identifier.
+     * @param string $name   Display name.
+     * @param string $symbol Display symbol.
      */
-    public static function loadByRef($ref)
-    {
-        return self::getEntityRepository()->loadBy(array('ref' => $ref));
-    }
-
-    /**
-     * Définit la ref de l'unité.
-     * @param string $ref
-     */
-    public function setRef($ref)
+    public function __construct($ref, $name, $symbol)
     {
         $this->ref = $ref;
+        $this->name = $name;
+        $this->symbol = $symbol;
     }
 
     /**
-     * Renvoie la ref de l'unité.
+     * Returns the external identifier.
+     *
      * @return string
      */
     public function getRef()
@@ -81,16 +62,8 @@ abstract class Unit extends Core_Model_Entity
     }
 
     /**
-     * Définit le nom de l'unité.
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Renvoie le nom de l'unité.
+     * Returns the display name.
+     *
      * @return string
      */
     public function getName()
@@ -99,16 +72,8 @@ abstract class Unit extends Core_Model_Entity
     }
 
     /**
-     * Définit le symbole de l'unité.
-     * @param string $symbol
-     */
-    public function setSymbol($symbol)
-    {
-        $this->symbol = $symbol;
-    }
-
-    /**
-     * Renvoie le symbole de l'unité.
+     * Returns the display symbol.
+     *
      * @return string
      */
     public function getSymbol()
@@ -117,20 +82,26 @@ abstract class Unit extends Core_Model_Entity
     }
 
     /**
-     * Renvoi l'unité de reference.
+     * Returns the unit of reference.
+     *
+     * @return Unit
      */
     abstract public function getReferenceUnit();
 
     /**
-     * Renvoie le facteur de conversion de l'unité.
-     * @param Unit $unit
+     * Returns the conversion factor between this unit and the given unit.
+     *
+     * @param Unit $unit Must be compatible with this unit.
+     *
+     * @throws IncompatibleUnitsException
+     * @return float
      */
     abstract public function getConversionFactor(Unit $unit);
 
     /**
-     * Renvoie la liste des unités compatibles, càd de même grandeur physique.
+     * Returns the list of compatible units, i.e. of same physical quantity.
+     *
      * @return Unit[]
      */
     abstract public function getCompatibleUnits();
-
 }

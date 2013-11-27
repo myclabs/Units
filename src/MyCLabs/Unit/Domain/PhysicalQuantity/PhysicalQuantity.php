@@ -1,65 +1,42 @@
 <?php
-/**
- * @author  valentin.claras
- * @author  hugo.charbonnier
- * @author  yoann.croizer
- * @package Unit
- */
 
-namespace Unit\Domain;
+namespace Unit\Domain\PhysicalQuantity;
 
-use Core_Model_Entity;
-use Core_Model_Entity_Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Unit\Domain\PhysicalQuantity\Component;
 use Unit\Domain\Unit\StandardUnit;
 use Unit\Domain\Unit\Unit;
 
 /**
- * Grandeur Physique
- * @package    Unit
- * @subpackage Model
+ * Physical quantity.
+ *
+ * @author valentin.claras
+ * @author hugo.charbonnier
+ * @author yoann.croizer
+ * @author matthieu.napoli
  */
-class PhysicalQuantity extends Core_Model_Entity
+class PhysicalQuantity
 {
-
-    use Core_Model_Entity_Translatable;
-
-    // Constantes de tri et filtres.
-    const QUERY_ID = 'id';
-    const QUERY_NAME = 'name';
-    const QUERY_ISBASE = 'isBase';
-    const QUERY_BASEPHYSICALQUANTITY = '_composedPhysicalQuantities';
-
+    use Translatable;
 
     /**
-     * Identifiant d'une grandeur physique
      * @var int
      */
     protected $id;
 
     /**
-     * Référent textuel d'une gandeur physique
-     * @var string
-     */
-    protected $ref;
-
-    /**
-     *
-     * Nom d'une grandeur physique
+     * Name.
      * @var string
      */
     protected $name;
 
     /**
-     * Symbole d'une grandeur physique
+     * Symbol.
      * @var string
      */
     protected $symbol;
 
     /**
-     *
      * Permet de savoir s'il s'agit d'une grandeur physique de base
      * si c'est à true, ou d'une grandeur physique dérivee si c'est à false.
      * @var bool
@@ -105,34 +82,6 @@ class PhysicalQuantity extends Core_Model_Entity
         foreach ($this->physicalQuantityComponents as $physicalQuantityComponent) {
             $physicalQuantityComponent->delete();
         }
-    }
-
-    /**
-     * Charge une Grandeur physique par son Reférent textuel.
-     * @param String $ref
-     * @return PhysicalQuantity
-     */
-    public static function loadByRef($ref)
-    {
-        return self::getEntityRepository()->loadBy(array('ref' => $ref));
-    }
-
-    /**
-     * Défini le référent textuel de la grandeur physique.
-     * @param string $ref
-     */
-    public function setRef($ref)
-    {
-        $this->ref = $ref;
-    }
-
-    /**
-     * Renvoi le référent textuel de la grandeur textuel.
-     * @return string
-     */
-    public function getRef()
-    {
-        return $this->ref;
     }
 
     /**
@@ -251,5 +200,4 @@ class PhysicalQuantity extends Core_Model_Entity
 
         return StandardUnit::loadList($query);
     }
-
 }
