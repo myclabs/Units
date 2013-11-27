@@ -10,7 +10,7 @@ use Unit\Domain\Unit\StandardUnit;
 use Unit\Domain\Unit\DiscreteUnit;
 use Core_Model_Query;
 use Core_Exception_NotFound;
-use Unit\IncompatibleUnitsException;
+use Unit\Domain\IncompatibleUnitsException;
 
 /**
  * Unité Composée
