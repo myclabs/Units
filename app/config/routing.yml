@@ -1,0 +1,3 @@
+unit:
+    resource: "@UnitBundle/Resources/config/routing.yml"
+    prefix:   /

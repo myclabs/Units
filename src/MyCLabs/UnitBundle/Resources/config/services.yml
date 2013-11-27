@@ -1,0 +1,7 @@
+parameters:
+#    unit.example.class: MyCLabs\UnitBundle\Example
+
+services:
+#    unit.example:
+#        class: %unit.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
