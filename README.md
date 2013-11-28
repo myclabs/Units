@@ -1,3 +1,3 @@
 # Units
 
-![Diagramme des classes](DC.jpg)
+![Diagramme des classes](docs/DC.jpg)
