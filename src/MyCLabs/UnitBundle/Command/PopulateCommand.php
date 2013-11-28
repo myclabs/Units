@@ -35,12 +35,12 @@ class PopulateCommand extends ContainerAwareCommand
         $quantitieUnits->run();
         $output->writeln('Populated physical quantities');
 
-        $entityManager->flush();
-        return;
-
         $standardUnits = new PopulateStandardUnit($entityManager);
         $standardUnits->run();
         $output->writeln('Populated standard units');
+
+        $entityManager->flush();
+        return;
 
         $quantitieUnits = new PopulatePhysicalQuantities($entityManager);
         $quantitieUnits->update();

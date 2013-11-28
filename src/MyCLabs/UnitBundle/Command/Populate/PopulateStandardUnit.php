@@ -2,11 +2,15 @@
 
 namespace MyCLabs\UnitBundle\Command\Populate;
 
+use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use Unit\Domain\Unit\StandardUnit;
-use Unit\Domain\PhysicalQuantity;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
+use Gedmo\Translatable\Entity\Translation;
+use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
+use MyCLabs\UnitBundle\Entity\UnitSystem;
 
 /**
  * @author hugo.charbonniere
@@ -15,6 +19,22 @@ use Unit\Domain\PhysicalQuantity;
  */
 class PopulateStandardUnit
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    /**
+     * @var TranslationRepository
+     */
+    private $translationRepository;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->translationRepository = $entityManager->getRepository(Translation::class);
+    }
+
     public function run()
     {
         $xml = new DOMDocument();
@@ -25,26 +45,33 @@ class PopulateStandardUnit
         }
     }
 
-
     /**
      * Parcours le fichier xml des unités standards
      * @param DOMElement $element
      */
     protected function parseStandardUnit(DOMElement $element)
     {
-        $unit = new StandardUnit($element->getAttribute('ref'));
-        $unit->setMultiplier($element->getElementsByTagName('multiplier')->item(0)->firstChild->nodeValue);
+        $id = $element->getAttribute('ref');
+        $multiplier = $element->getElementsByTagName('multiplier')->item(0)->firstChild->nodeValue;
 
-        $refUnitSystem = $element->getElementsByTagName('unitSystemRef')->item(0)->firstChild->nodeValue;
-        $unitSystem = UnitSystem::loadByRef($refUnitSystem);
-        $unit->setUnitSystem($unitSystem);
+        // Default label and symbol
+        $label = $element->getElementsByTagName('name')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
+        $symbol = $element->getElementsByTagName('symbol')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
 
-        $refPhysicalQuantity = $element->getElementsByTagName('quantityRef')->item(0)->firstChild->nodeValue;
-        $physicalQuantity = PhysicalQuantity::loadByRef($refPhysicalQuantity);
-        $unit->setPhysicalQuantity($physicalQuantity);
+        $idUnitSystem = $element->getElementsByTagName('unitSystemRef')->item(0)->firstChild->nodeValue;
+        /** @var UnitSystem $unitSystem */
+        $unitSystem = $this->entityManager->find(UnitSystem::class, $idUnitSystem);
+
+        $idPhysicalQuantity = $element->getElementsByTagName('quantityRef')->item(0)->firstChild->nodeValue;
+        /** @var PhysicalQuantity $physicalQuantity */
+        $physicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $idPhysicalQuantity);
+
+        $unit = new StandardUnit($id, $label, $symbol, $physicalQuantity, $unitSystem, $multiplier);
+
+        $this->entityManager->persist($unit);
 
         // Label & Symbol
-        foreach (['fr', 'en'] as $lang) {
+        foreach (['fr'] as $lang) {
             // Label
             $found = false;
             foreach ($element->getElementsByTagName('name')->item(0)->childNodes as $node) {
@@ -58,7 +85,7 @@ class PopulateStandardUnit
                 continue;
             }
             /** @var $node DOMNode */
-            $name = trim($node->nodeValue);
+            $label = trim($node->nodeValue);
 
             // Symbol
             $found = false;
@@ -75,11 +102,8 @@ class PopulateStandardUnit
             /** @var $node DOMNode */
             $symbol = trim($node->nodeValue);
 
-            $unit->setTranslatableLocale($lang);
-            $unit->setName($name);
-            $unit->setSymbol($symbol);
-            $unit->save();
+            $this->translationRepository->translate($unit, 'label', $lang, $label);
+            $this->translationRepository->translate($unit, 'symbol', $lang, $symbol);
         }
     }
-
 }
