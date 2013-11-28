@@ -7,7 +7,6 @@
 ```shell
 $ composer install
 $ app/console doctrine:database:create
-$ app/console doctrine:schema:update --force
 $ app/console unit:populate
 ```
 
