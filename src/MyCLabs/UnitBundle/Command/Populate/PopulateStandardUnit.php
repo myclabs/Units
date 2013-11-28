@@ -45,10 +45,6 @@ class PopulateStandardUnit
         }
     }
 
-    /**
-     * Parcours le fichier xml des unités standards
-     * @param DOMElement $element
-     */
     protected function parseStandardUnit(DOMElement $element)
     {
         $id = $element->getAttribute('ref');

@@ -43,9 +43,6 @@ class PopulateUnitSystem
         }
     }
 
-    /**
-     * @param DOMElement $element
-     */
     protected function parseUnitSystem(DOMElement $element)
     {
         $nameNode = $element->getElementsByTagName('name')->item(0);

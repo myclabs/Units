@@ -2,7 +2,6 @@
 
 namespace MyCLabs\UnitBundle\Command;
 
-use Doctrine\ORM\EntityManager;
 use MyCLabs\UnitBundle\Command\Populate\PopulateDiscreteUnit;
 use MyCLabs\UnitBundle\Command\Populate\PopulatePhysicalQuantities;
 use MyCLabs\UnitBundle\Command\Populate\PopulateStandardUnit;
@@ -39,9 +38,6 @@ class PopulateCommand extends ContainerAwareCommand
         $standardUnits->run();
         $output->writeln('Populated standard units');
 
-        $entityManager->flush();
-        return;
-
         $quantitieUnits = new PopulatePhysicalQuantities($entityManager);
         $quantitieUnits->update();
         $output->writeln('Physical quantities updated with reference units');
@@ -49,5 +45,8 @@ class PopulateCommand extends ContainerAwareCommand
         $discreteUnits = new PopulateDiscreteUnit($entityManager);
         $discreteUnits->run();
         $output->writeln('Populated discrete units');
+
+        $output->writeln('Flushing...');
+        $entityManager->flush();
     }
 }

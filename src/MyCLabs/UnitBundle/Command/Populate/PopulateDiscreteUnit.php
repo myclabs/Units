@@ -6,7 +6,9 @@ use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use Unit\Domain\Unit\DiscreteUnit;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
+use Gedmo\Translatable\Entity\Translation;
+use MyCLabs\UnitBundle\Entity\Unit\DiscreteUnit;
 
 /**
  * @author hugo.charbonniere
@@ -15,6 +17,22 @@ use Unit\Domain\Unit\DiscreteUnit;
  */
 class PopulateDiscreteUnit
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    /**
+     * @var TranslationRepository
+     */
+    private $translationRepository;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->translationRepository = $entityManager->getRepository(Translation::class);
+    }
+
     public function run()
     {
         $xml = new DOMDocument();
@@ -25,24 +43,26 @@ class PopulateDiscreteUnit
         }
     }
 
-    /**
-     * @param DOMElement $element
-     */
     private function parseDiscreteUnit(DOMElement $element)
     {
-        $discreteUnit = new DiscreteUnit($element->getAttribute('ref'));
+        // Default label
+        $label = $element->getElementsByTagName('name')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
+
+        $unit = new DiscreteUnit($element->getAttribute('ref'), $label);
+
+        $this->entityManager->persist($unit);
 
         foreach ($element->getElementsByTagName('name')->item(0)->childNodes as $node) {
             /** @var $node DOMNode */
             $lang = trim($node->nodeName);
             $value = trim($node->nodeValue);
-            if ($lang == '' || $value == '') {
+
+            if ($lang == '' || $value == '' || $lang == 'en') {
                 continue;
             }
 
-            $discreteUnit->setTranslatableLocale($lang);
-            $discreteUnit->setName($value);
-            $discreteUnit->save();
+            $this->translationRepository->translate($unit, 'label', $lang, $value);
+            $this->translationRepository->translate($unit, 'symbol', $lang, $value);
         }
     }
 }

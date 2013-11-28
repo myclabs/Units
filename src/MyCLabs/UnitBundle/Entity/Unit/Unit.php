@@ -15,7 +15,7 @@ use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
 abstract class Unit
 {
     /**
-     * @var int
+     * @var string
      */
     protected $id;
 
@@ -44,9 +44,9 @@ abstract class Unit
      */
     public function __construct($id, $label, $symbol)
     {
-        $this->id = $id;
-        $this->label = $label;
-        $this->symbol = $symbol;
+        $this->id = (string) $id;
+        $this->label = (string) $label;
+        $this->symbol = (string) $symbol;
     }
 
     /**

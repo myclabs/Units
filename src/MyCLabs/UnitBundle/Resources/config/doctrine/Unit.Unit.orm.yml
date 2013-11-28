@@ -15,9 +15,7 @@ MyCLabs\UnitBundle\Entity\Unit\Unit:
 
   id:
     id:
-      type: integer
-      generator:
-        strategy: AUTO
+      type: string
 
   fields:
     label:

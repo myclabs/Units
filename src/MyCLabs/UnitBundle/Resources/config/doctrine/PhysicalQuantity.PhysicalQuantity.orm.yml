@@ -31,3 +31,5 @@ MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity:
     physicalQuantityComponents:
       targetEntity: Component
       mappedBy: derivedPhysicalQuantity
+      cascade: [ all ]
+      orphanRemoval: true

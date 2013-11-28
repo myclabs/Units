@@ -9,6 +9,7 @@ use DOMNode;
 use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Gedmo\Translatable\Entity\Translation;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
 /**
  * @author hugo.charbonniere
@@ -43,9 +44,6 @@ class PopulatePhysicalQuantities
         }
     }
 
-    /**
-     * @param DOMElement $element
-     */
     protected function parsePhysicalQuantity(DOMElement $element)
     {
         $physicalQuantity = new PhysicalQuantity($element->getAttribute('ref'));
@@ -86,21 +84,23 @@ class PopulatePhysicalQuantities
         }
     }
 
-    /**
-     * @param DOMElement $element
-     */
     protected function updateParserQuantity(DOMElement $element)
     {
-        $physicalQuantity = PhysicalQuantity::loadByRef($element->getAttribute('ref'));
+        /** @var PhysicalQuantity $physicalQuantity */
+        $physicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $element->getAttribute('ref'));
 
         $unitRef = $element->getElementsByTagName('standardUnitRef')->item(0)->firstChild->nodeValue;
-        $unit = StandardUnit::loadByRef($unitRef);
+
+        $unit = $this->entityManager->find(StandardUnit::class, $unitRef);
         $physicalQuantity->setReferenceUnit($unit);
 
         if ($element->getElementsByTagName('isBase')->item(0)->firstChild->nodeValue === 'false') {
             foreach ($element->getElementsByTagName('component') as $component) {
-                $basePhysicalQuantityRef = $component->getElementsByTagName('baseQuantityRef')->item(0)->firstChild->nodeValue;
-                $basePhysicalQuantity = PhysicalQuantity::loadByRef($basePhysicalQuantityRef);
+                $basePhysicalQuantityRef = $component->getElementsByTagName('baseQuantityRef')
+                    ->item(0)->firstChild->nodeValue;
+
+                /** @var PhysicalQuantity $basePhysicalQuantity */
+                $basePhysicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $basePhysicalQuantityRef);
                 $exponent = $component->getElementsByTagName('exponent')->item(0)->firstChild->nodeValue;
                 $physicalQuantity->addPhysicalQuantityComponent($basePhysicalQuantity, $exponent);
             }

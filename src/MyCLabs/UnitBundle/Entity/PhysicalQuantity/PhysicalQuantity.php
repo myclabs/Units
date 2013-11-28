@@ -4,6 +4,7 @@ namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use InvalidArgumentException;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
 /**
@@ -140,28 +141,18 @@ class PhysicalQuantity
     }
 
     /**
-     * Ajoute une ligne au tableau  $_composedPhysicalQuantities
      * @param PhysicalQuantity $basePhysicalQuantity
      * @param int              $exponent
-     * @throws \Core_Exception_NotFound
-     * @throws \Core_Exception_InvalidArgument
+     * @throws InvalidArgumentException
      */
     public function addPhysicalQuantityComponent(PhysicalQuantity $basePhysicalQuantity, $exponent)
     {
-        if ($this->getKey() === array()) {
-            throw new \Core_Exception_NotFound('PhysicalQuantity must be flushed before a Component can be added');
-        }
         if ($basePhysicalQuantity->isBase() === false) {
-            throw new \Core_Exception_InvalidArgument('Only Base PhysicalQuantity can be added as Component');
+            throw new InvalidArgumentException('Only Base PhysicalQuantity can be added as Component');
         }
-        $physicalQuantityComponent = new Component();
-        $physicalQuantityComponent->setDerivedPhysicalQuantity($this);
-        $physicalQuantityComponent->setBasePhysicalQuantity($basePhysicalQuantity);
-        $physicalQuantityComponent->setExponent($exponent);
-        self::getEntityManager()->persist($physicalQuantityComponent);
+        $physicalQuantityComponent = new Component($this, $basePhysicalQuantity, $exponent);
         $this->physicalQuantityComponents->add($physicalQuantityComponent);
     }
-
 
     /**
      * Récupère la composition en grandeurs physiques de base d'une grandeur physique
