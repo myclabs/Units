@@ -22,4 +22,4 @@ $ phpunit
 $ app/console server:run
 ```
 
-The server is now running at http://localhost:8000/.
+The server is now running at [http://localhost:8000/](http://localhost:8000/).
