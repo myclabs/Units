@@ -1,4 +1,4 @@
-Unit\Domain\Unit\Unit:
+MyCLabs\UnitBundle\Entity\Unit\Unit:
   type: entity
 
   inheritanceType: JOINED
@@ -6,12 +6,12 @@ Unit\Domain\Unit\Unit:
     name: unit_type
     type: string
   discriminatorMap:
-    standard: Unit\Domain\Unit\StandardUnit
-    discrete: Unit\Domain\Unit\DiscreteUnit
+    standard: StandardUnit
+    discrete: DiscreteUnit
 
   gedmo:
     translation:
-      locale: translationLocale
+      locale: translatableLocale
 
   id:
     id:
@@ -20,10 +20,7 @@ Unit\Domain\Unit\Unit:
         strategy: AUTO
 
   fields:
-    ref:
-      type: string
-      unique: true
-    name:
+    label:
       type: string
       nullable: true
       gedmo:

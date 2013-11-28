@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Domain\PhysicalQuantity;
+namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 
 /**
  * Physical quantity component.

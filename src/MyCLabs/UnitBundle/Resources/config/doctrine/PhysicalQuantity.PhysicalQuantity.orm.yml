@@ -1,21 +1,16 @@
-Unit\Domain\PhysicalQuantity:
+MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity:
   type: entity
 
   gedmo:
     translation:
-      locale: translationLocale
+      locale: translatableLocale
 
   id:
     id:
-      type: integer
-      generator:
-        strategy: AUTO
+      type: string
 
   fields:
-    ref:
-      type: string
-      unique: true
-    name:
+    label:
       type: string
       nullable: true
       gedmo:
@@ -28,11 +23,11 @@ Unit\Domain\PhysicalQuantity:
 
   manyToOne:
     referenceUnit:
-      targetEntity: Unit\Domain\Unit\StandardUnit
+      targetEntity: MyCLabs\UnitBundle\Entity\Unit\StandardUnit
       joinColumn:
         nullable: true
 
   oneToMany:
     physicalQuantityComponents:
-      targetEntity: Unit\Domain\PhysicalQuantity\Component
+      targetEntity: Component
       mappedBy: derivedPhysicalQuantity

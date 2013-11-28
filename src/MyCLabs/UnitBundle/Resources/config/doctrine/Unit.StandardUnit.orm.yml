@@ -1,0 +1,12 @@
+MyCLabs\UnitBundle\Entity\Unit\StandardUnit:
+  type: entity
+
+  fields:
+    multiplier:
+      type: float
+
+  manyToOne:
+    physicalQuantity:
+      targetEntity: MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity
+    unitSystem:
+      targetEntity: MyCLabs\UnitBundle\Entity\UnitSystem

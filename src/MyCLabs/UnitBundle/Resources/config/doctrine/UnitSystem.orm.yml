@@ -1,0 +1,16 @@
+MyCLabs\UnitBundle\Entity\UnitSystem:
+  type: entity
+
+  gedmo:
+    translation:
+      locale: translatableLocale
+
+  id:
+    id:
+      type: string
+
+  fields:
+    label:
+      type: string
+      gedmo:
+        - translatable

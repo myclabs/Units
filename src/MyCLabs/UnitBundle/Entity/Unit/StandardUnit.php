@@ -1,11 +1,11 @@
 <?php
 
-namespace Unit\Domain\Unit;
+namespace MyCLabs\UnitBundle\Entity\Unit;
 
-use Unit\Domain\IncompatibleUnitsException;
-use Unit\Domain\PhysicalQuantity\PhysicalQuantity;
-use Unit\Domain\PhysicalQuantity\Component;
-use Unit\Domain\UnitSystem;
+use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
+use MyCLabs\UnitBundle\Entity\PhysicalQuantity\Component;
+use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\UnitSystem;
 
 /**
  * Standard unit.
@@ -44,14 +44,14 @@ class StandardUnit extends Unit
      * @param float            $multiplier       Multiplier from this unit to the standard unitk
      */
     public function __construct(
-        $ref,
-        $name,
+        $id,
+        $label,
         $symbol,
         PhysicalQuantity $physicalQuantity,
         UnitSystem $unitSystem,
         $multiplier
     ) {
-        parent::__construct($ref, $name, $symbol);
+        parent::__construct($id, $label, $symbol);
 
         $this->physicalQuantity = $physicalQuantity;
         $this->unitSystem = $unitSystem;
@@ -100,7 +100,7 @@ class StandardUnit extends Unit
         if (! $unit instanceof StandardUnit) {
             throw new IncompatibleUnitsException(sprintf(
                 'Conversion factor impossible: unit %s is only compatible with standard units, %s given',
-                $this->name,
+                $this->label,
                 get_class($unit)
             ));
         }
@@ -108,8 +108,8 @@ class StandardUnit extends Unit
         if ($this->physicalQuantity !== $unit->physicalQuantity) {
             throw new IncompatibleUnitsException(sprintf(
                 'Conversion factor impossible: units %s and %s have different physical quantities',
-                $this->name,
-                $unit->name
+                $this->label,
+                $unit->label
             ));
         }
 

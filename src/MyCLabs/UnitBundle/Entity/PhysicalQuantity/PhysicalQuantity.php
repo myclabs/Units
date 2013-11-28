@@ -1,11 +1,10 @@
 <?php
 
-namespace Unit\Domain\PhysicalQuantity;
+namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Unit\Domain\Unit\StandardUnit;
-use Unit\Domain\Unit\Unit;
+use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
 /**
  * Physical quantity.
@@ -17,18 +16,17 @@ use Unit\Domain\Unit\Unit;
  */
 class PhysicalQuantity
 {
-    use Translatable;
-
     /**
-     * @var int
+     * Identifier.
+     * @var string
      */
     protected $id;
 
     /**
-     * Name.
+     * Label.
      * @var string
      */
-    protected $name;
+    protected $label;
 
     /**
      * Symbol.
@@ -55,51 +53,36 @@ class PhysicalQuantity
      */
     protected $physicalQuantityComponents;
 
+    /**
+     * Locale for Translatable extension.
+     * @var string
+     */
+    protected $translatableLocale;
 
-    public function __construct()
+
+    public function __construct($id)
     {
+        $this->id = $id;
+
         $this->physicalQuantityComponents = new ArrayCollection();
-    }
-
-    /**
-     * Fonction appelée avant un delete (spécifié dans le mapper).
-     *
-     * @return void
-     */
-    public function preDelete()
-    {
-        // TODO remplacer par un cascade ?
-        $this->deletePhysicalQuantityComponents();
-    }
-
-    /**
-     * Supprime les physicalQuantityComponent
-     *
-     * @return void
-     */
-    protected function deletePhysicalQuantityComponents()
-    {
-        foreach ($this->physicalQuantityComponents as $physicalQuantityComponent) {
-            $physicalQuantityComponent->delete();
-        }
     }
 
     /**
      * Défini le nom de la grandeur physique.
      * @param string $name
      */
-    public function setName($name)
+    public function setLabel($name)
     {
-        $this->name = $name;
+        $this->label = $name;
     }
 
     /**
      * Renvoi le nom de la grandeur textuel.
      * @return string
      */
-    public function getName()
+    public function getLabel()
     {
-        return $this->name;
+        return $this->label;
     }
 
     /**
@@ -187,17 +170,5 @@ class PhysicalQuantity
     public function getPhysicalQuantityComponents()
     {
         return $this->physicalQuantityComponents->toArray();
-    }
-
-    /**
-     * @todo Transformer ça en association dans le modèle
-     * @return Unit[]
-     */
-    public function getUnits()
-    {
-        $query = new \Core_Model_Query();
-        $query->filter->addCondition(StandardUnit::QUERY_PHYSICALQUANTITY, $this);
-
-        return StandardUnit::loadList($query);
     }
 }

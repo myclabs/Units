@@ -1,0 +1,2 @@
+MyCLabs\UnitBundle\Entity\Unit\DiscreteUnit:
+  type: entity

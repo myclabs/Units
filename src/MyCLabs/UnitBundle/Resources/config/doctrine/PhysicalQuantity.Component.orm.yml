@@ -1,4 +1,4 @@
-Unit\Domain\PhysicalQuantity\Component:
+MyCLabs\UnitBundle\Entity\PhysicalQuantity\Component:
   type: entity
 
   id:
@@ -13,7 +13,7 @@ Unit\Domain\PhysicalQuantity\Component:
 
   manyToOne:
     derivedPhysicalQuantity:
-      targetEntity: Unit\Domain\PhysicalQuantity
+      targetEntity: PhysicalQuantity
       inversedBy: physicalQuantityComponents
     basePhysicalQuantity:
-      targetEntity: Unit\Domain\PhysicalQuantity
+      targetEntity: PhysicalQuantity

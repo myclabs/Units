@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Domain;
+namespace MyCLabs\UnitBundle\Entity;
 
 use Exception;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Unit\Domain\Unit;
+namespace MyCLabs\UnitBundle\Entity\Unit;
 
-use Unit\Domain\IncompatibleUnitsException;
+use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
 
 /**
  * Unit.
@@ -14,24 +14,16 @@ use Unit\Domain\IncompatibleUnitsException;
  */
 abstract class Unit
 {
-    use Translatable;
-
     /**
      * @var int
      */
     protected $id;
 
     /**
-     * External identifier.
+     * Label.
      * @var string
      */
-    protected $ref;
-
-    /**
-     * Display name.
-     * @var string
-     */
-    protected $name;
+    protected $label;
 
     /**
      * Display symbol.
@@ -40,35 +32,41 @@ abstract class Unit
     protected $symbol;
 
     /**
-     * @param string $ref    External identifier.
-     * @param string $name   Display name.
+     * Locale for Translatable extension.
+     * @var string
+     */
+    protected $translatableLocale;
+
+    /**
+     * @param string $id     Unique identifier.
+     * @param string $label  Label.
      * @param string $symbol Display symbol.
      */
-    public function __construct($ref, $name, $symbol)
+    public function __construct($id, $label, $symbol)
     {
-        $this->ref = $ref;
-        $this->name = $name;
+        $this->id = $id;
+        $this->label = $label;
         $this->symbol = $symbol;
     }
 
     /**
-     * Returns the external identifier.
+     * Returns the identifier.
      *
      * @return string
      */
-    public function getRef()
+    public function getId()
     {
-        return $this->ref;
+        return $this->id;
     }
 
     /**
-     * Returns the display name.
+     * Returns the label.
      *
      * @return string
      */
-    public function getName()
+    public function getLabel()
     {
-        return $this->name;
+        return $this->label;
     }
 
     /**

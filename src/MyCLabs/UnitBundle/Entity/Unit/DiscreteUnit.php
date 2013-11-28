@@ -1,8 +1,8 @@
 <?php
 
-namespace Unit\Domain\Unit;
+namespace MyCLabs\UnitBundle\Entity\Unit;
 
-use Unit\Domain\IncompatibleUnitsException;
+use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
 
 /**
  * Discrete unit.
@@ -17,13 +17,13 @@ use Unit\Domain\IncompatibleUnitsException;
 class DiscreteUnit extends Unit
 {
     /**
-     * @param string $ref  External identifier.
-     * @param string $name Display name.
+     * @param string $id  External identifier.
+     * @param string $label Display name.
      */
-    public function __construct($ref, $name)
+    public function __construct($id, $label)
     {
         // The symbol is not useful in discrete units, so we use the name
-        parent::__construct($ref, $name, $name);
+        parent::__construct($id, $label, $label);
     }
 
     /**
