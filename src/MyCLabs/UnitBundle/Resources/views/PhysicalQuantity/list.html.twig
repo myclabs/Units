@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <h2>
+        {% trans %}Physical quantities{% endtrans %}
+    </h2>
+
+    {{ grid(grid, 'APYDataGridBundle::blocks_js.jquery.html.twig') }}
+
+{% endblock %}

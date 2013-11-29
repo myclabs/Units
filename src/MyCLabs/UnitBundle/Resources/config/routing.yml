@@ -2,6 +2,10 @@ homepage:
     pattern:  /
     defaults: { _controller: UnitBundle:Default:home }
 
+physical_quantity_list:
+    pattern:  physicalquantity/list
+    defaults: { _controller: UnitBundle:PhysicalQuantity:list }
+
 unit_system:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\UnitSystemRESTController

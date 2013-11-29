@@ -1,7 +1,15 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <p>
+
+    <h2>
         {% trans %}title{% endtrans %}
-    </p>
+    </h2>
+
+    <ul>
+        <li>
+            <a href="{{ path('physical_quantity_list') }}">{% trans %}Physical quantities{% endtrans %}</a>
+        </li>
+    </ul>
+
 {% endblock %}
