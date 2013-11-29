@@ -1,3 +1,8 @@
 homepage:
     pattern:  /
     defaults: { _controller: UnitBundle:Default:home }
+
+unit_system:
+    type: rest
+    resource: MyCLabs\UnitBundle\Controller\UnitSystemRESTController
+    prefix: api
