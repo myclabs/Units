@@ -89,7 +89,7 @@ class StandardUnit extends Unit
      */
     public function getReferenceUnit()
     {
-        return $this->physicalQuantity->getReferenceUnit();
+        return $this->physicalQuantity->getUnitOfReference();
     }
 
     /**
@@ -127,7 +127,7 @@ class StandardUnit extends Unit
         /* @var $physicalQuantityComponent Component */
         foreach ($this->getPhysicalQuantity()->getPhysicalQuantityComponents() as $physicalQuantityComponent) {
             $tabResults[] = array(
-                'unit'     => $physicalQuantityComponent->getBasePhysicalQuantity()->getReferenceUnit(),
+                'unit'     => $physicalQuantityComponent->getBaseQuantity()->getUnitOfReference(),
                 'exponent' => $physicalQuantityComponent->getExponent()
             );
         }

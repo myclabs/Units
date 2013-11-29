@@ -2,9 +2,9 @@ MyCLabs\UnitBundle\Entity\PhysicalQuantity\Component:
   type: entity
 
   id:
-    derivedPhysicalQuantity:
+    derivedQuantity:
       associationKey: true
-    basePhysicalQuantity:
+    baseQuantity:
       associationKey: true
 
   fields:
@@ -12,8 +12,8 @@ MyCLabs\UnitBundle\Entity\PhysicalQuantity\Component:
       type: integer
 
   manyToOne:
-    derivedPhysicalQuantity:
-      targetEntity: PhysicalQuantity
-      inversedBy: physicalQuantityComponents
-    basePhysicalQuantity:
-      targetEntity: PhysicalQuantity
+    derivedQuantity:
+      targetEntity: DerivedPhysicalQuantity
+      inversedBy: components
+    baseQuantity:
+      targetEntity: BasePhysicalQuantity

@@ -1,0 +1,2 @@
+MyCLabs\UnitBundle\Entity\PhysicalQuantity\BasePhysicalQuantity:
+  type: entity

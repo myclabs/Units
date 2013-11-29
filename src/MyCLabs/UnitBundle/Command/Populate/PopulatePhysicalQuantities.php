@@ -8,6 +8,8 @@ use DOMElement;
 use DOMNode;
 use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Gedmo\Translatable\Entity\Translation;
+use MyCLabs\UnitBundle\Entity\PhysicalQuantity\BasePhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\PhysicalQuantity\DerivedPhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
@@ -46,15 +48,19 @@ class PopulatePhysicalQuantities
 
     protected function parsePhysicalQuantity(DOMElement $element)
     {
-        $physicalQuantity = new PhysicalQuantity($element->getAttribute('ref'));
+        // Default label
+        $label = $element->getElementsByTagName('name')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
 
         if ($element->getElementsByTagName('symbol')->item(0)->hasChildNodes()) {
-            $physicalQuantity->setSymbol($element->getElementsByTagName('symbol')->item(0)->firstChild->nodeValue);
-        }
-        if ($element->getElementsByTagName('isBase')->item(0)->firstChild->nodeValue === 'true') {
-            $physicalQuantity->setIsBase(true);
+            $symbol = $element->getElementsByTagName('symbol')->item(0)->firstChild->nodeValue;
         } else {
-            $physicalQuantity->setIsBase(false);
+            $symbol = '';
+        }
+
+        if ($element->getElementsByTagName('isBase')->item(0)->firstChild->nodeValue === 'true') {
+            $physicalQuantity = new BasePhysicalQuantity($element->getAttribute('ref'), $label, $symbol);
+        } else {
+            $physicalQuantity = new DerivedPhysicalQuantity($element->getAttribute('ref'), $label, $symbol);
         }
 
         $this->entityManager->persist($physicalQuantity);
@@ -64,7 +70,7 @@ class PopulatePhysicalQuantities
             /** @var $node DOMNode */
             $lang = trim($node->nodeName);
             $value = trim($node->nodeValue);
-            if ($lang == '' || $value == '') {
+            if ($lang == '' || $value == '' || $lang == 'en') {
                 continue;
             }
 
@@ -91,21 +97,22 @@ class PopulatePhysicalQuantities
 
         $unitRef = $element->getElementsByTagName('standardUnitRef')->item(0)->firstChild->nodeValue;
 
+        /** @var StandardUnit $unit */
         $unit = $this->entityManager->find(StandardUnit::class, $unitRef);
-        $physicalQuantity->setReferenceUnit($unit);
+        $physicalQuantity->setUnitOfReference($unit);
 
-        if ($element->getElementsByTagName('isBase')->item(0)->firstChild->nodeValue === 'false') {
+        if ($physicalQuantity instanceof DerivedPhysicalQuantity) {
+            /** @var DerivedPhysicalQuantity $physicalQuantity */
             foreach ($element->getElementsByTagName('component') as $component) {
                 $basePhysicalQuantityRef = $component->getElementsByTagName('baseQuantityRef')
                     ->item(0)->firstChild->nodeValue;
 
-                /** @var PhysicalQuantity $basePhysicalQuantity */
-                $basePhysicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $basePhysicalQuantityRef);
+                /** @var BasePhysicalQuantity $baseQuantity */
+                $baseQuantity = $this->entityManager->find(BasePhysicalQuantity::class, $basePhysicalQuantityRef);
                 $exponent = $component->getElementsByTagName('exponent')->item(0)->firstChild->nodeValue;
-                $physicalQuantity->addPhysicalQuantityComponent($basePhysicalQuantity, $exponent);
+
+                $physicalQuantity->addComponent($baseQuantity, $exponent);
             }
-        } else {
-            $physicalQuantity->addPhysicalQuantityComponent($physicalQuantity, 1);
         }
     }
 }

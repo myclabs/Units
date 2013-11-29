@@ -3,7 +3,7 @@
 namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 
 /**
- * Physical quantity component.
+ * A derived quantity is composed of base quantities. This class represents each component.
  *
  * @author valentin.claras
  * @author matthieu.napoli
@@ -14,13 +14,13 @@ class Component
      * Grandeur physique possédant la grandeur physique de base.
      * @var PhysicalQuantity
      */
-    protected $derivedPhysicalQuantity;
+    protected $derivedQuantity;
 
     /**
      * Grandeur physique de base possédée par la grandeur physique dérivée.
      * @var PhysicalQuantity
      */
-    protected $basePhysicalQuantity;
+    protected $baseQuantity;
 
     /**
      * Exposant que possède la grandeur physique de base au sein de la grandeur physique dérivée.
@@ -28,13 +28,10 @@ class Component
      */
     protected $exponent;
 
-    public function __construct(
-        PhysicalQuantity $derivedPhysicalQuantity,
-        PhysicalQuantity $basePhysicalQuantity,
-        $exponent
-    ) {
-        $this->derivedPhysicalQuantity = $derivedPhysicalQuantity;
-        $this->basePhysicalQuantity = $basePhysicalQuantity;
+    public function __construct(PhysicalQuantity $derivedQuantity, PhysicalQuantity $baseQuantity, $exponent)
+    {
+        $this->derivedQuantity = $derivedQuantity;
+        $this->baseQuantity = $baseQuantity;
         $this->exponent = $exponent;
     }
 
@@ -42,18 +39,18 @@ class Component
      * Renvoi la grandeur physique dérivée.
      * @return PhysicalQuantity
      */
-    public function getDerivedPhysicalQuantity()
+    public function getDerivedQuantity()
     {
-        return $this->derivedPhysicalQuantity;
+        return $this->derivedQuantity;
     }
 
     /**
      * Renvoi la grandeur physique de base.
      * @return PhysicalQuantity
      */
-    public function getBasePhysicalQuantity()
+    public function getBaseQuantity()
     {
-        return $this->basePhysicalQuantity;
+        return $this->baseQuantity;
     }
 
     /**

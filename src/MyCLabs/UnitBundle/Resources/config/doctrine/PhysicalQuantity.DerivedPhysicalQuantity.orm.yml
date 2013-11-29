@@ -1,0 +1,9 @@
+MyCLabs\UnitBundle\Entity\PhysicalQuantity\DerivedPhysicalQuantity:
+  type: entity
+
+  oneToMany:
+    components:
+      targetEntity: Component
+      mappedBy: derivedQuantity
+      cascade: [ all ]
+      orphanRemoval: true
