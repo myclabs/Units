@@ -1,6 +1,5 @@
 <?php
 
-use APY\DataGridBundle\APYDataGridBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use FOS\RestBundle\FOSRestBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
@@ -37,7 +36,6 @@ class AppKernel extends Kernel
             new MopaBootstrapBundle(),
             new JMSSerializerBundle(),
             new FOSRestBundle(),
-            new APYDataGridBundle(),
             new UnitBundle(),
         ];
 

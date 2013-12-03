@@ -6,6 +6,23 @@
         {% trans %}Physical quantities{% endtrans %}
     </h2>
 
-    {{ grid(grid, 'APYDataGridBundle::blocks_js.jquery.html.twig') }}
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{% trans %}Identifier{% endtrans %}</th>
+            <th>{% trans %}Symbol{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for physicalQuantity in physicalQuantities %}
+            <tr>
+                <td>{{ physicalQuantity.label }}</td>
+                <td>{{ physicalQuantity.id }}</td>
+                <td>{{ physicalQuantity.symbol }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

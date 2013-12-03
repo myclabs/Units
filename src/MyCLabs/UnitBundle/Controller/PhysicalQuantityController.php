@@ -2,29 +2,21 @@
 
 namespace MyCLabs\UnitBundle\Controller;
 
-use APY\DataGridBundle\Grid\Column\BlankColumn;
-use APY\DataGridBundle\Grid\Row;
-use APY\DataGridBundle\Grid\Source\Entity;
-use MyCLabs\UnitBundle\Entity\PhysicalQuantity\BasePhysicalQuantity;
+use Doctrine\ORM\EntityRepository;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PhysicalQuantityController extends Controller
 {
+    /**
+     * @Template
+     */
     public function listAction()
     {
-        // Grid
-        $gridSource = new Entity(PhysicalQuantity::class);
-        $grid = $this->get('grid');
-        $grid->setSource($gridSource);
+        /** @var EntityRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(PhysicalQuantity::class);
 
-        // Type column
-        $typeColumn = new BlankColumn(['id' => 'type', 'title' => 'Type']);
-        $typeColumn->manipulateRenderCell(function ($value, Row $row, $router) {
-            return ($row->getEntity() instanceof BasePhysicalQuantity) ? 'Base quantity' : 'Derived quantity';
-        });
-        $grid->addColumn($typeColumn);
-
-        return $grid->getGridResponse('UnitBundle:PhysicalQuantity:list.html.twig');
+        return ['physicalQuantities' => $repository->findAll()];
     }
 }
