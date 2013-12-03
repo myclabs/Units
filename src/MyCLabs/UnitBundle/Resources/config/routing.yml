@@ -6,7 +6,14 @@ physical_quantity_list:
     pattern:  physicalquantity/list
     defaults: { _controller: UnitBundle:PhysicalQuantity:list }
 
-unit_system:
+# API
+
+api_unit_system:
     type: rest
-    resource: MyCLabs\UnitBundle\Controller\UnitSystemRESTController
+    resource: MyCLabs\UnitBundle\Controller\API\UnitSystemController
+    prefix: api
+
+api_physical_quantity:
+    type: rest
+    resource: MyCLabs\UnitBundle\Controller\API\PhysicalQuantityController
     prefix: api

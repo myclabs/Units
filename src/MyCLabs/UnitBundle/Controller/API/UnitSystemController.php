@@ -1,16 +1,17 @@
 <?php
 
-namespace MyCLabs\UnitBundle\Controller;
+namespace MyCLabs\UnitBundle\Controller\API;
 
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
+use MyCLabs\UnitBundle\DTO\UnitSystemDTO;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * REST controller for unit systems.
  */
-class UnitSystemRESTController extends FOSRestController
+class UnitSystemController extends FOSRestController
 {
     /**
      * @Get("/unit-system/")
@@ -19,7 +20,7 @@ class UnitSystemRESTController extends FOSRestController
     {
         $repository = $this->getDoctrine()->getRepository(UnitSystem::class);
 
-        $unitSystems = $repository->findAll();
+        $unitSystems = UnitSystemDTO::createMany($repository->findAll());
 
         $view = $this->view($unitSystems, 200);
 
@@ -33,13 +34,13 @@ class UnitSystemRESTController extends FOSRestController
     {
         $repository = $this->getDoctrine()->getRepository(UnitSystem::class);
 
-        $unitSystems = $repository->find($id);
+        $unitSystem = $repository->find($id);
 
-        if ($unitSystems === null) {
+        if ($unitSystem === null) {
             throw new HttpException(404, "No unit system named $id was found");
         }
 
-        $view = $this->view($unitSystems, 200);
+        $view = $this->view(UnitSystemDTO::create($unitSystem), 200);
 
         return $this->handleView($view);
     }
