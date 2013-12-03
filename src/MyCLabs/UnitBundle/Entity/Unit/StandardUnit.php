@@ -26,13 +26,11 @@ class StandardUnit extends Unit
     protected $multiplier;
 
     /**
-     * Identifiant de la gandeur physique associée à l'unité standard.
      * @var PhysicalQuantity
      */
     protected $physicalQuantity;
 
     /**
-     * Identifiant du système d'unité associé à l'unité standard.
      * @var UnitSystem
      */
     protected $unitSystem;
@@ -99,17 +97,20 @@ class StandardUnit extends Unit
     {
         if (! $unit instanceof StandardUnit) {
             throw new IncompatibleUnitsException(sprintf(
-                'Conversion factor impossible: unit %s is only compatible with standard units, %s given',
-                $this->label,
+                'Conversion factor impossible: unit "%s" is only compatible with standard units, %s given',
+                $this->id,
                 get_class($unit)
             ));
         }
 
-        if ($this->physicalQuantity !== $unit->physicalQuantity) {
+        if ($this->getPhysicalQuantity() !== $unit->getPhysicalQuantity()) {
             throw new IncompatibleUnitsException(sprintf(
-                'Conversion factor impossible: units %s and %s have different physical quantities',
-                $this->label,
-                $unit->label
+                'Conversion factor impossible: units "%s" and "%s" have different physical quantities: '
+                . '"%s" and "%s"',
+                $this->id,
+                $unit->id,
+                $this->getPhysicalQuantity()->getId(),
+                $unit->getPhysicalQuantity()->getId()
             ));
         }
 
@@ -124,11 +125,11 @@ class StandardUnit extends Unit
     {
         $tabResults = array();
 
-        /* @var $physicalQuantityComponent Component */
-        foreach ($this->getPhysicalQuantity()->getPhysicalQuantityComponents() as $physicalQuantityComponent) {
+        /* @var $component Component */
+        foreach ($this->getPhysicalQuantity()->getComponents() as $component) {
             $tabResults[] = array(
-                'unit'     => $physicalQuantityComponent->getBaseQuantity()->getUnitOfReference(),
-                'exponent' => $physicalQuantityComponent->getExponent()
+                'unit'     => $component->getBaseQuantity()->getUnitOfReference(),
+                'exponent' => $component->getExponent()
             );
         }
 

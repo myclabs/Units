@@ -22,3 +22,8 @@ api_unit:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\API\UnitController
     prefix: api
+
+api_conversion:
+    type: rest
+    resource: MyCLabs\UnitBundle\Controller\API\ConversionController
+    prefix: api

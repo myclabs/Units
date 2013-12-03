@@ -86,7 +86,7 @@ class Value
     public static function unserialize($str)
     {
         if (substr_count($str, ' ') !== 2) {
-            throw new InvalidArgumentException("The string has an invalid format");
+            throw new InvalidArgumentException("The string has an invalid format: '$str'");
         }
 
         list($value, $unit, $uncertainty) = explode(' ', $str);
