@@ -2,6 +2,13 @@ parameters:
 #    unit.example.class: MyCLabs\UnitBundle\Example
 
 services:
-#    unit.example:
-#        class: %unit.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    unit.repository.unit:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - MyCLabs\UnitBundle\Entity\Unit\Unit
+    unit.service.conversion:
+        class: MyCLabs\UnitBundle\Service\ConversionService
+        arguments:
+            - "@unit.repository.unit"
