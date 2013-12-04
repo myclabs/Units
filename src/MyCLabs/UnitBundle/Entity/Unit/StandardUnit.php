@@ -123,6 +123,7 @@ class StandardUnit extends Unit
      */
     public function getNormalizedUnit()
     {
+        // TODO remove?
         $tabResults = array();
 
         /* @var $component Component */
