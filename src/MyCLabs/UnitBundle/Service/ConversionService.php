@@ -13,39 +13,39 @@ use MyCLabs\UnitBundle\Entity\UnknownUnitException;
 class ConversionService implements \MyCLabs\UnitAPI\ConversionService
 {
     /**
-     * @var ObjectRepository
+     * @var UnitExpressionParser
      */
-    private $unitRepository;
+    private $unitExpressionParser;
 
-    public function __construct(ObjectRepository $unitRepository)
+    public function __construct(UnitExpressionParser $unitExpressionParser)
     {
-        $this->unitRepository = $unitRepository;
+        $this->unitExpressionParser = $unitExpressionParser;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convert(Value $value, $targetUnitId)
+    public function convert(Value $value, $targetUnit)
     {
         // Quick return if same units (no conversion)
-        if ($value->getUnit() == $targetUnitId) {
+        if ($value->getUnit() == $targetUnit) {
             return clone $value;
         }
 
         /** @var Unit $unit */
-        $unit = $this->unitRepository->find($value->getUnit());
+        $unit = $this->unitExpressionParser->parse($value->getUnit());
         if ($unit === null) {
             throw UnknownUnitException::create($value->getUnit());
         }
 
         /** @var Unit $targetUnit */
-        $targetUnit = $this->unitRepository->find($targetUnitId);
+        $targetUnit = $this->unitExpressionParser->parse($targetUnit);
         if ($targetUnit === null) {
-            throw UnknownUnitException::create($targetUnitId);
+            throw UnknownUnitException::create($targetUnit);
         }
 
         $newNumericValue = $value->getNumericValue() * $unit->getConversionFactor($targetUnit);
 
-        return new Value($newNumericValue, $targetUnitId, $value->getUncertainty());
+        return new Value($newNumericValue, $targetUnit->getId(), $value->getUncertainty());
     }
 }

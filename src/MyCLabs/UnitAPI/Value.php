@@ -16,7 +16,7 @@ class Value
     private $numericValue;
 
     /**
-     * Identifier of the unit in which the numeric value is expressed.
+     * Expression of the unit in which the numeric value is expressed.
      * @var string
      */
     private $unit;
@@ -29,7 +29,7 @@ class Value
 
     /**
      * @param float      $numericValue Numeric value.
-     * @param string     $unit         Identifier of the unit in which the numeric value is expressed.
+     * @param string     $unit         Expression of the unit in which the numeric value is expressed.
      * @param float|null $uncertainty  Relative uncertainty, in percent.
      */
     public function __construct($numericValue, $unit, $uncertainty = null)
@@ -50,7 +50,7 @@ class Value
     }
 
     /**
-     * @return string Identifier of the unit in which the numeric value is expressed.
+     * @return string Expression of the unit in which the numeric value is expressed.
      */
     public function getUnit()
     {
@@ -72,7 +72,7 @@ class Value
      */
     public function serialize()
     {
-        return $this->numericValue . ' ' . $this->unit . ' ' . $this->uncertainty;
+        return $this->numericValue . '|' . $this->unit . '|' . $this->uncertainty;
     }
 
     /**
@@ -85,11 +85,11 @@ class Value
      */
     public static function unserialize($str)
     {
-        if (substr_count($str, ' ') !== 2) {
+        if (substr_count($str, '|') !== 2) {
             throw new InvalidArgumentException("The string has an invalid format: '$str'");
         }
 
-        list($value, $unit, $uncertainty) = explode(' ', $str);
+        list($value, $unit, $uncertainty) = explode('|', $str);
 
         return new static($value, $unit, $uncertainty);
     }

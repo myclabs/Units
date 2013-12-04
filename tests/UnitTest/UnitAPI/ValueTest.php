@@ -27,10 +27,12 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     public function provideValidExports()
     {
         return [
-            [new Value(10, 'm', 50), '10 m 50'],
-            [new Value(10.5, 'm', 5.2), '10.5 m 5.2'],
-            [new Value(10, 'm'), '10 m '],
-            [new Value(null, null), '0  '],
+            [new Value(10, 'm', 50), '10|m|50'],
+            [new Value(10.5, 'm', 5.2), '10.5|m|5.2'],
+            [new Value(10, 'm'), '10|m|'],
+            [new Value(null, null), '0||'],
+            [new Value(10, 'm.s-1', 2), '10|m.s-1|2'],
+            [new Value(10, 'm . m', 50), '10|m . m|50'],
         ];
     }
 
@@ -49,10 +51,10 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         return [
             [null],
             [''],
-            ['10 m'],
-            ['10m 50'],
-            ['10 m 50 12'],
-            ['    '],
+            ['10|m'],
+            ['10m|50'],
+            ['10|m|50|12'],
+            ['||||'],
         ];
     }
 }

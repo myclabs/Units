@@ -2,17 +2,17 @@
 
 namespace UnitTest\UnitBundle\Service;
 
-use Doctrine\Common\Persistence\ObjectRepository;
 use MyCLabs\UnitAPI\Value;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Service\ConversionService;
+use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
 class ConversionServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testSameUnit()
     {
-        $unitRepository = $this->getMockForAbstractClass(ObjectRepository::class);
-        $service = new ConversionService($unitRepository);
+        $unitExpressionParser = $this->getMock(UnitExpressionParser::class, [], [], '', false);
+        $service = new ConversionService($unitExpressionParser);
 
         $value = new Value(10, 'm', 5);
         $newValue = $service->convert($value, 'm');
@@ -33,15 +33,15 @@ class ConversionServiceTest extends \PHPUnit_Framework_TestCase
             ->with($mUnit)
             ->will($this->returnValue(1000));
 
-        // Mock repository
-        $unitRepository = $this->getMockForAbstractClass(ObjectRepository::class);
-        $unitRepository->expects($this->any())
-            ->method('find')
+        // Mock parser
+        $unitExpressionParser = $this->getMock(UnitExpressionParser::class, [], [], '', false);
+        $unitExpressionParser->expects($this->any())
+            ->method('parse')
             ->will($this->returnCallback(function ($id) use ($mUnit, $kmUnit) {
                 return ($id == 'm') ? $mUnit : $kmUnit;
             }));
 
-        $service = new ConversionService($unitRepository);
+        $service = new ConversionService($unitExpressionParser);
 
         $value = new Value(10, 'km', 5);
         $newValue = $service->convert($value, 'm');
