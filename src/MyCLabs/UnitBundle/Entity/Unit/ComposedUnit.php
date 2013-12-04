@@ -18,11 +18,19 @@ class ComposedUnit extends Unit
     private $components = [];
 
     /**
-     * @param string $id
+     * @param UnitComponent[] $components
      */
-    public function __construct($id)
+    public function __construct(array $components)
     {
-        $this->id = (string) $id;
+        $this->components = $components;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getSymbol();
     }
 
     /**
@@ -30,7 +38,7 @@ class ComposedUnit extends Unit
      */
     public function getLabel()
     {
-        return $this->getId();
+        return $this->getSymbol();
     }
 
     /**
@@ -96,60 +104,5 @@ class ComposedUnit extends Unit
     public function getCompatibleUnits()
     {
         // TODO: Implement getCompatibleUnits() method.
-    }
-
-
-    private function build($id)
-    {
-        // TODO avec un vrai parser !
-
-
-        // Tableau qui contiendra les références des unités.
-        $componentRefs = [];
-
-        // On parse chacun des caractères de la référence de l'unité composée.
-        //  Pour chaque symbole, soit on termine la ref en cours et on l'ajoute au tableau,
-        //  soit on continue de la construire.
-        $splitRef = '';
-        foreach (str_split($id, 1) as $symbol) {
-            if ($symbol == '.' || $symbol == '^') {
-                $componentRefs[] = $splitRef;
-                $splitRef = '';
-            }
-            if ($symbol != '.') {
-                $splitRef .= $symbol;
-            }
-        }
-        if ($splitRef !== '') {
-            $componentRefs[] = $splitRef;
-        }
-
-        // Tableau qui contiendra les symboles des unités chargés du model Unit.
-        $this->components = [];
-
-        // On parse chaque Ref composantes de l'unité composée.
-        //  Pour chaque ref, on charge l'unité correspondante ou onr enseigne l'exposant.
-        foreach ($componentRefs as $ref) {
-            // Traitement des exposants.
-            if (preg_match('#\^-?[0-9]+#', $ref)) {
-                $exponent = preg_replace('#\^#', '', $ref);
-            }
-            // Traitement des unités.
-            if (preg_match('#[a-zA-Z]+#', $ref)) {
-                if (isset($unit)) {
-                    if (!(isset($exponent))) {
-                        $exponent = '1';
-                    }
-                    $this->components[] = new UnitComponent();
-                }
-                $unit = Unit::loadByRef($ref);
-            }
-        }
-        if ($unit) {
-            if (!(isset($exponent))) {
-                $exponent = '1';
-            }
-            $this->components[] = new UnitComponent();
-        }
     }
 }
