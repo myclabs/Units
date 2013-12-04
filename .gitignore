@@ -10,4 +10,8 @@
 /bin/
 /composer.phar
 *.vpp~*
-*.vpp.working
+*.vpp.*
+
+.DS_Store
+.idea/*
+.vagrant/*
