@@ -88,13 +88,14 @@ abstract class Unit
 
     /**
      * Returns the conversion factor between this unit and the given unit.
+     * If no unit is given, then the conversion factor is between this unit and the unit of reference.
      *
-     * @param Unit $unit Must be compatible with this unit.
+     * @param Unit|null $unit Must be compatible with this unit.
      *
      * @throws IncompatibleUnitsException
      * @return float
      */
-    abstract public function getConversionFactor(Unit $unit);
+    abstract public function getConversionFactor(Unit $unit = null);
 
     /**
      * Returns the list of compatible units, i.e. of same physical quantity.
@@ -102,4 +103,15 @@ abstract class Unit
      * @return Unit[]
      */
     abstract public function getCompatibleUnits();
+
+    /**
+     * Returns true if the unit is compatible (convertible to) with the given unit.
+     *
+     * @param Unit $unit
+     * @return bool
+     */
+    public function isCompatibleWith(Unit $unit)
+    {
+        return ($this->getUnitOfReference() == $unit->getUnitOfReference());
+    }
 }

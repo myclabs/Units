@@ -2,6 +2,8 @@
 
 namespace MyCLabs\UnitBundle\Entity\Unit;
 
+use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
+
 /**
  * Unit composed of other units.
  *
@@ -112,9 +114,31 @@ class ComposedUnit extends Unit
     /**
      * {@inheritdoc}
      */
-    public function getConversionFactor(Unit $unit)
+    public function getConversionFactor(Unit $unit = null)
     {
-        // TODO: Implement getConversionFactor() method.
+        // Conversion to unit of reference
+        if ($unit === null) {
+            $factor = 1;
+
+            foreach ($this->components as $component) {
+                $componentUnit = $component->getUnit();
+                if ($componentUnit instanceof StandardUnit) {
+                    $factor *= pow($componentUnit->getMultiplier(), $component->getExponent());
+                }
+            }
+
+            return $factor;
+        }
+
+        if (! $this->isCompatibleWith($unit)) {
+            throw new IncompatibleUnitsException(sprintf(
+                'Units %s and %s are not compatible',
+                $this->getId(),
+                $unit->getId()
+            ));
+        }
+
+        return $this->getConversionFactor() / $unit->getConversionFactor();
     }
 
     /**

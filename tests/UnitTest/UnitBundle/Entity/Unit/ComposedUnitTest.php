@@ -65,6 +65,7 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
     /**
      * @dataProvider getUnitOfReferenceTestProvider
      */
@@ -95,6 +96,29 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
                 'km.h^-1',
                 'm.s^-1',
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider getConversionFactorProvider
+     */
+    public function testGetConversionFactor($unitFrom, $unitTo, $expected)
+    {
+        $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
+
+        $unitFrom = $parser->parse($unitFrom);
+        $unitTo = $parser->parse($unitTo);
+
+        $this->assertEquals($expected, $unitFrom->getConversionFactor($unitTo));
+    }
+
+    public function getConversionFactorProvider()
+    {
+        return [
+            [ 'm.s', 'm.s', 1 ],
+            [ 'km.s', 'm.s', 1000 ],
+            [ 'm.s', 'km.s', 0.001 ],
+            [ 'm.s^-1', 'km.h^-1', 3.6 ],
         ];
     }
 }

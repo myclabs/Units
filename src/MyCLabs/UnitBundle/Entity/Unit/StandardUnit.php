@@ -93,8 +93,12 @@ class StandardUnit extends Unit
     /**
      * {@inheritdoc}
      */
-    public function getConversionFactor(Unit $unit)
+    public function getConversionFactor(Unit $unit = null)
     {
+        if ($unit === null) {
+            return $this->getMultiplier();
+        }
+
         if (! $unit instanceof StandardUnit) {
             throw new IncompatibleUnitsException(sprintf(
                 'Conversion factor impossible: unit "%s" is only compatible with standard units, %s given',

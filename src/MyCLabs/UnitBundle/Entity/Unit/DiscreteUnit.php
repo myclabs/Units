@@ -43,13 +43,13 @@ class DiscreteUnit extends Unit
      *
      * {@inheritdoc}
      */
-    public function getConversionFactor(Unit $unit)
+    public function getConversionFactor(Unit $unit = null)
     {
-        if ($this !== $unit) {
+        if ($unit !== null && $this !== $unit) {
             throw new IncompatibleUnitsException('Units need to be the same');
         }
 
-        return 1.;
+        return 1;
     }
 
     /**
