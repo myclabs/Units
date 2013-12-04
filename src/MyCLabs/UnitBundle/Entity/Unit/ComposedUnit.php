@@ -97,11 +97,11 @@ class ComposedUnit extends Unit
     /**
      * {@inheritdoc}
      */
-    public function getReferenceUnit()
+    public function getUnitOfReference()
     {
         $components = array_map(
             function (UnitComponent $component) {
-                return new UnitComponent($component->getUnit()->getReferenceUnit(), $component->getExponent());
+                return new UnitComponent($component->getUnit()->getUnitOfReference(), $component->getExponent());
             },
             $this->components
         );

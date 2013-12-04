@@ -85,7 +85,7 @@ class StandardUnit extends Unit
     /**
      * {@inheritdoc}
      */
-    public function getReferenceUnit()
+    public function getUnitOfReference()
     {
         return $this->physicalQuantity->getUnitOfReference();
     }

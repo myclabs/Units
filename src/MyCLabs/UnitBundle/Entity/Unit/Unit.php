@@ -80,11 +80,11 @@ abstract class Unit
     }
 
     /**
-     * Returns the unit of reference.
+     * Returns the unit of reference in the same physical quantity.
      *
      * @return Unit
      */
-    abstract public function getReferenceUnit();
+    abstract public function getUnitOfReference();
 
     /**
      * Returns the conversion factor between this unit and the given unit.

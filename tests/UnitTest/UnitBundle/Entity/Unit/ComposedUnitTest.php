@@ -66,21 +66,21 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
         ];
     }
     /**
-     * @dataProvider getReferenceUnitTestProvider
+     * @dataProvider getUnitOfReferenceTestProvider
      */
-    public function testGetReferenceUnit($unitExpression, $expectedExpression)
+    public function testGetUnitOfReference($unitExpression, $expectedExpression)
     {
         $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
 
         $unit = $parser->parse($unitExpression);
         $expected = $parser->parse($expectedExpression);
 
-        $referenceUnit = $unit->getReferenceUnit();
+        $referenceUnit = $unit->getUnitOfReference();
 
         $this->assertEquals($expected, $referenceUnit);
     }
 
-    public function getReferenceUnitTestProvider()
+    public function getUnitOfReferenceTestProvider()
     {
         return [
             'm.s' => [

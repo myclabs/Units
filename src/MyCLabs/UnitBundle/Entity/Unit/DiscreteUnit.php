@@ -33,7 +33,7 @@ class DiscreteUnit extends Unit
      *
      * @return DiscreteUnit
      */
-    public function getReferenceUnit()
+    public function getUnitOfReference()
     {
         return $this;
     }
