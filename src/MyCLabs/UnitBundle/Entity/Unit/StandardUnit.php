@@ -53,7 +53,7 @@ class StandardUnit extends Unit
 
         $this->physicalQuantity = $physicalQuantity;
         $this->unitSystem = $unitSystem;
-        $this->multiplier = $multiplier;
+        $this->multiplier = (float) $multiplier;
     }
 
     /**
@@ -114,7 +114,7 @@ class StandardUnit extends Unit
             ));
         }
 
-        return $this->multiplier / $unit->multiplier;
+        return $this->getMultiplier() / $unit->getMultiplier();
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace MyCLabs\UnitBundle\Service;
 
-use Doctrine\Common\Persistence\ObjectRepository;
 use MyCLabs\UnitAPI\Value;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\UnknownUnitException;
