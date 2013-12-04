@@ -4,7 +4,7 @@ namespace MyCLabs\UnitBundle\Controller\API;
 
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
-use MyCLabs\UnitBundle\DTO\UnitSystemDTO;
+use MyCLabs\UnitAPI\DTO\UnitSystemDTO;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -19,8 +19,9 @@ class UnitSystemController extends FOSRestController
     public function getUnitSystemsAction()
     {
         $repository = $this->getDoctrine()->getRepository(UnitSystem::class);
+        $dtoFactory = $this->get('unit.dtoFactory.unitSystem');
 
-        $unitSystems = UnitSystemDTO::createMany($repository->findAll());
+        $unitSystems = $dtoFactory->createMany($repository->findAll());
 
         $view = $this->view($unitSystems, 200);
 
@@ -33,6 +34,7 @@ class UnitSystemController extends FOSRestController
     public function getUnitSystemAction($id)
     {
         $repository = $this->getDoctrine()->getRepository(UnitSystem::class);
+        $dtoFactory = $this->get('unit.dtoFactory.unitSystem');
 
         $unitSystem = $repository->find($id);
 
@@ -40,7 +42,7 @@ class UnitSystemController extends FOSRestController
             throw new HttpException(404, "No unit system named $id was found");
         }
 
-        $view = $this->view(UnitSystemDTO::create($unitSystem), 200);
+        $view = $this->view($dtoFactory->create($unitSystem), 200);
 
         return $this->handleView($view);
     }

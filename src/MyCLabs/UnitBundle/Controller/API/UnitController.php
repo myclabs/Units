@@ -4,7 +4,7 @@ namespace MyCLabs\UnitBundle\Controller\API;
 
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
-use MyCLabs\UnitBundle\DTO\UnitDTO;
+use MyCLabs\UnitAPI\DTO\UnitDTO;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -19,8 +19,9 @@ class UnitController extends FOSRestController
     public function getUnitsAction()
     {
         $repository = $this->getDoctrine()->getRepository(Unit::class);
+        $dtoFactory = $this->get('unit.dtoFactory.unit');
 
-        $units = UnitDTO::createMany($repository->findAll());
+        $units = $dtoFactory->createMany($repository->findAll());
 
         $view = $this->view($units, 200);
 
@@ -33,6 +34,7 @@ class UnitController extends FOSRestController
     public function getUnitAction($id)
     {
         $repository = $this->getDoctrine()->getRepository(Unit::class);
+        $dtoFactory = $this->get('unit.dtoFactory.unit');
 
         $unit = $repository->find($id);
 
@@ -40,7 +42,7 @@ class UnitController extends FOSRestController
             throw new HttpException(404, "No unit named $id was found");
         }
 
-        $view = $this->view(UnitDTO::create($unit), 200);
+        $view = $this->view($dtoFactory->create($unit), 200);
 
         return $this->handleView($view);
     }

@@ -1,33 +1,22 @@
 <?php
 
-namespace MyCLabs\UnitBundle\DTO;
+namespace MyCLabs\UnitBundle\Service\DTOFactory;
 
+use MyCLabs\UnitAPI\DTO\UnitSystemDTO;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 
 /**
- * Unit system.
+ * @author matthieu.napoli
  */
-class UnitSystemDTO
+class UnitSystemDTOFactory
 {
-    /**
-     * Identifier.
-     * @var string
-     */
-    public $id;
-
-    /**
-     * Label.
-     * @var string
-     */
-    public $label;
-
     /**
      * @param UnitSystem $unitSystem
      * @return UnitSystemDTO
      */
-    public static function create(UnitSystem $unitSystem)
+    public function create(UnitSystem $unitSystem)
     {
-        $dto = new self();
+        $dto = new UnitSystemDTO();
 
         $dto->id = $unitSystem->getId();
         $dto->label = $unitSystem->getLabel();
@@ -39,12 +28,12 @@ class UnitSystemDTO
      * @param UnitSystem[] $unitSystems
      * @return UnitSystemDTO[]
      */
-    public static function createMany($unitSystems)
+    public function createMany($unitSystems)
     {
         $array = [];
 
         foreach ($unitSystems as $unitSystem) {
-            $array[] = self::create($unitSystem);
+            $array[] = $this->create($unitSystem);
         }
 
         return $array;

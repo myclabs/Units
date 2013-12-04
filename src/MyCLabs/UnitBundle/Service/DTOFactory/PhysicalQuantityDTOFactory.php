@@ -1,45 +1,22 @@
 <?php
 
-namespace MyCLabs\UnitBundle\DTO;
+namespace MyCLabs\UnitBundle\Service\DTOFactory;
 
+use MyCLabs\UnitAPI\DTO\PhysicalQuantityDTO;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 
 /**
- * Physical quantity.
+ * @author matthieu.napoli
  */
-class PhysicalQuantityDTO
+class PhysicalQuantityDTOFactory
 {
-    /**
-     * Identifier.
-     * @var string
-     */
-    public $id;
-
-    /**
-     * Label.
-     * @var string
-     */
-    public $label;
-
-    /**
-     * Symbol.
-     * @var string
-     */
-    public $symbol;
-
-    /**
-     * ID of the unit of reference of this quantity.
-     * @var string
-     */
-    public $unitOfReference;
-
     /**
      * @param PhysicalQuantity $physicalQuantity
      * @return PhysicalQuantityDTO
      */
-    public static function create(PhysicalQuantity $physicalQuantity)
+    public function create(PhysicalQuantity $physicalQuantity)
     {
-        $dto = new self();
+        $dto = new PhysicalQuantityDTO();
 
         $dto->id = $physicalQuantity->getId();
         $dto->label = $physicalQuantity->getLabel();
@@ -53,12 +30,12 @@ class PhysicalQuantityDTO
      * @param PhysicalQuantity[] $physicalQuantities
      * @return PhysicalQuantityDTO[]
      */
-    public static function createMany($physicalQuantities)
+    public function createMany($physicalQuantities)
     {
         $array = [];
 
         foreach ($physicalQuantities as $physicalQuantity) {
-            $array[] = self::create($physicalQuantity);
+            $array[] = $this->create($physicalQuantity);
         }
 
         return $array;

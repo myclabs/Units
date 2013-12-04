@@ -22,3 +22,10 @@ services:
             - "@unit.repository.unit"
     unit.service.lexer:
         class: MyCLabs\UnitBundle\Service\UnitExpressionParser\UnitExpressionLexer
+
+    unit.dtoFactory.unitSystem:
+        class: MyCLabs\UnitBundle\Service\DTOFactory\UnitSystemDTOFactory
+    unit.dtoFactory.physicalQuantity:
+        class: MyCLabs\UnitBundle\Service\DTOFactory\PhysicalQuantityDTOFactory
+    unit.dtoFactory.unit:
+        class: MyCLabs\UnitBundle\Service\DTOFactory\UnitDTOFactory
