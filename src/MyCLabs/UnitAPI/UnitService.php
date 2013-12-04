@@ -10,7 +10,18 @@ use MyCLabs\UnitAPI\DTO\UnitDTO;
 interface UnitService
 {
     /**
-     * @return UnitDTO
+     * Returns all known units.
+     *
+     * @return UnitDTO[]
      */
     public function getUnits();
+
+    /**
+     * Returns a unit.
+     *
+     * @param string $id Expression identifying the unit.
+     *
+     * @return UnitDTO
+     */
+    public function getUnit($id);
 }
