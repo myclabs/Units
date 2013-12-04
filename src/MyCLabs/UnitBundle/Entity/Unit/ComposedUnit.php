@@ -30,7 +30,15 @@ class ComposedUnit extends Unit
      */
     public function getId()
     {
-        return $this->getSymbol();
+        $components = array_map(
+            function (UnitComponent $component) {
+                $exponent = ($component->getExponent() == 1) ? '' : '^' . $component->getExponent();
+                return $component->getUnit()->getId() . $exponent;
+            },
+            $this->components
+        );
+
+        return implode('.', $components);
     }
 
     /**
@@ -43,6 +51,8 @@ class ComposedUnit extends Unit
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Refactor
      */
     public function getSymbol()
     {
@@ -72,6 +82,8 @@ class ComposedUnit extends Unit
         // Dans le cas ou une des parties est une chaine vide, cela renvoi une chaine vide.
         $leftPart = substr($leftPart, 0, -1);
         $rightPart = substr($rightPart, 0, -1);
+
+        $leftPart = ($leftPart != '') ? $leftPart : '1';
 
         // Si on a une partie négative on sépare le numérateur et le dénominateur avec un trait de fraction
         if ($rightPart != '') {
