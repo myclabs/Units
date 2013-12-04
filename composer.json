@@ -2,7 +2,10 @@
     "name": "myclabs/units",
     "type": "project",
     "autoload": {
-        "psr-0": { "MyCLabs": "src/" }
+        "psr-0": {
+            "MyCLabs": "src/",
+            "UnitTest": "tests/"
+        }
     },
     "require": {
         "php": ">=5.5.0",

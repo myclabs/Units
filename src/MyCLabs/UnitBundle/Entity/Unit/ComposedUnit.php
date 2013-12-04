@@ -99,7 +99,14 @@ class ComposedUnit extends Unit
      */
     public function getReferenceUnit()
     {
-        // TODO: Implement getReferenceUnit() method.
+        $components = array_map(
+            function (UnitComponent $component) {
+                return new UnitComponent($component->getUnit()->getReferenceUnit(), $component->getExponent());
+            },
+            $this->components
+        );
+
+        return new ComposedUnit($components);
     }
 
     /**

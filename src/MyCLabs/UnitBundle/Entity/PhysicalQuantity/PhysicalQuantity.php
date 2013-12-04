@@ -89,10 +89,15 @@ abstract class PhysicalQuantity
     /**
      * Returns the unit of reference for this physical quantity.
      *
+     * @throws \RuntimeException No unit of reference defined.
      * @return StandardUnit
      */
     public function getUnitOfReference()
     {
+        if ($this->unitOfReference === null) {
+            throw new \RuntimeException("No unit of reference was defined for the quantity $this->id");
+        }
+
         return $this->unitOfReference;
     }
 }
