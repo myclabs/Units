@@ -31,9 +31,11 @@ class ConversionTest extends WebTestCase
 
         $content = json_decode($response->getContent());
 
-        $this->assertEquals($targetNumericValue, $content->numeric_value);
-        $this->assertEquals($targetUnit, $content->unit);
-        $this->assertEquals($value->getUncertainty(), $content->uncertainty);
+        $newValue = Value::unserialize($content->value);
+
+        $this->assertEquals($targetNumericValue, $newValue->getNumericValue());
+        $this->assertEquals($targetUnit, $newValue->getUnit());
+        $this->assertEquals($value->getUncertainty(), $newValue->getUncertainty());
     }
 
     public function scenarioProvider()

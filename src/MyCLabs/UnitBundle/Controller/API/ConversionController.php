@@ -26,6 +26,6 @@ class ConversionController extends FOSRestController
 
         $newValue = $conversionService->convert($value, $targetUnit);
 
-        return $this->handleView($this->view($newValue, 200));
+        return $this->handleView($this->view(['value' => $newValue->serialize()], 200));
     }
 }
