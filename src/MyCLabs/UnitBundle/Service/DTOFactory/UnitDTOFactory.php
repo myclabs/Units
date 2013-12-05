@@ -3,6 +3,8 @@
 namespace MyCLabs\UnitBundle\Service\DTOFactory;
 
 use MyCLabs\UnitAPI\DTO\UnitDTO;
+use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
+use MyCLabs\UnitBundle\Entity\Unit\DiscreteUnit;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 
@@ -25,6 +27,18 @@ class UnitDTOFactory
 
         if ($unit instanceof StandardUnit) {
             $dto->unitSystem = $unit->getUnitSystem()->getId();
+        }
+
+        switch (true) {
+            case $unit instanceof StandardUnit:
+                $dto->type = UnitDTO::TYPE_STANDARD;
+                break;
+            case $unit instanceof DiscreteUnit:
+                $dto->type = UnitDTO::TYPE_DISCRETE;
+                break;
+            case $unit instanceof ComposedUnit:
+                $dto->type = UnitDTO::TYPE_COMPOSED;
+                break;
         }
 
         return $dto;
