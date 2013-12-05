@@ -78,7 +78,7 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
 
         $referenceUnit = $unit->getUnitOfReference();
 
-        $this->assertEquals($expected, $referenceUnit);
+        $this->assertEquals($expected->getId(), $referenceUnit->getId());
     }
 
     public function getUnitOfReferenceTestProvider()
@@ -95,6 +95,14 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
             'km.h^-1' => [
                 'km.h^-1',
                 'm.s^-1',
+            ],
+            'm^2.m^1' => [
+                'm^2.m^1',
+                'm^3',
+            ],
+            'm^2.m^-1' => [
+                'm^2.m^-1',
+                'm',
             ],
         ];
     }

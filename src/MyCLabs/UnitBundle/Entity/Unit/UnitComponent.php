@@ -40,4 +40,12 @@ class UnitComponent
     {
         return $this->exponent;
     }
+
+    /**
+     * @param int $exponent
+     */
+    public function setExponent($exponent)
+    {
+        $this->exponent = $exponent;
+    }
 }

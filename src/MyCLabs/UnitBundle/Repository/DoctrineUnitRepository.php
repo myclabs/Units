@@ -10,4 +10,14 @@ use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
  */
 class DoctrineUnitRepository extends EntityRepository implements UnitRepository
 {
+    public function find($id)
+    {
+        $unit = parent::find($id);
+
+        if ($unit === null) {
+            throw new \InvalidArgumentException("No unit was found for id '$id'");
+        }
+
+        return $unit;
+    }
 }

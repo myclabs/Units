@@ -52,7 +52,7 @@ class ConversionServiceTest extends \PHPUnit_Framework_TestCase
                     case 'km':
                         return $kmUnit;
                 }
-                return null;
+                throw new \Exception("Invalid case");
             }));
 
         $service = new ConversionService($unitExpressionParser);

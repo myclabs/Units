@@ -119,14 +119,36 @@ class ComposedUnit extends Unit
      */
     public function getUnitOfReference()
     {
-        $components = array_map(
-            function (UnitComponent $component) {
-                return new UnitComponent($component->getUnit()->getUnitOfReference(), $component->getExponent());
-            },
-            $this->components
-        );
+        /** @var UnitComponent[] $uniqueComponents */
+        $uniqueComponents = [];
 
-        return new ComposedUnit($components);
+        // Simplifies for components of same unit
+        foreach ($this->components as $component) {
+            $unit = $component->getUnit()->getUnitOfReference();
+
+            if (isset($uniqueComponents[$unit->getId()])) {
+                $newExponent = $uniqueComponents[$unit->getId()]->getExponent() + $component->getExponent();
+                $uniqueComponents[$unit->getId()]->setExponent($newExponent);
+            } else {
+                $uniqueComponents[$unit->getId()] = new UnitComponent($unit, $component->getExponent());
+            }
+        }
+
+        // If only one component is left, with exponent=1, then it's a standard unit
+        if (count($uniqueComponents) === 1) {
+            /** @var UnitComponent $component */
+            $component = reset($uniqueComponents);
+            if ($component->getExponent() === 1) {
+                return $component->getUnit();
+            }
+        }
+
+        // Sort components so that equivalent Composed units are easily comparable
+        usort($uniqueComponents, function (UnitComponent $a, UnitComponent $b) {
+            return strcmp($a->getUnit()->getId(), $b->getUnit()->getId());
+        });
+
+        return new ComposedUnit(array_values($uniqueComponents));
     }
 
     /**

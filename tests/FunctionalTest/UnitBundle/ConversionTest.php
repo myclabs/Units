@@ -42,6 +42,8 @@ class ConversionTest extends WebTestCase
             [ new Value(10, 'km.h^-1', 5), 'km.h^-1', 10 ],
             [ new Value(10, 'km.h^-1', 5), 'm.s^-1', 2.7777777777778 ],
             [ new Value(10, 'm.s^-1', 5), 'km.h^-1', 36 ],
+            [ new Value(1, 'm^2.animal^-1.m^-2.g.m^2.j^-5'), 'animal^-1.g.m^2.j^-5', 1 ],
+            [ new Value(1, 'm.m^-2.m^2'), 'm', 1 ],
         ];
     }
 
