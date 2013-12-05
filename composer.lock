@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "33cd5dfb2601d74e13b97b5c4e55c824",
+    "hash": "93314da8258136efe144df1320cec690",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1358,6 +1358,25 @@
             "time": "2013-09-10 10:06:34"
         },
         {
+            "name": "myclabs/units-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:myclabs/Units-API.git",
+                "reference": "4686c48a39d471951c9bc3818b1d8e8678471467"
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MyCLabs\\UnitAPI": "src/"
+                }
+            },
+            "time": "2013-12-04 17:36:13"
+        },
+        {
             "name": "phpcollection/phpcollection",
             "version": "0.2.0",
             "source": {
@@ -2231,9 +2250,9 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "myclabs/units-api": 20
+    },
     "platform": {
         "php": ">=5.5.0"
     },

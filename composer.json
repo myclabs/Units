@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-0": {
-            "MyCLabs": "src/",
+            "MyCLabs\\UnitBundle": "src/",
             "UnitTest": "tests/"
         }
     },
@@ -25,7 +25,8 @@
         "mopa/bootstrap-bundle": "v3.0.0-beta3",
         "friendsofsymfony/rest-bundle": "1.1.*",
         "jms/serializer-bundle": "0.*",
-        "jms/parser-lib": "1.*"
+        "jms/parser-lib": "1.*",
+        "myclabs/units-api": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -54,5 +55,11 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:myclabs/Units-API.git"
+        }
+    ]
 }
