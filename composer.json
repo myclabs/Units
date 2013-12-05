@@ -59,7 +59,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@github.com:myclabs/Units-API.git"
+            "url":  "https://github.com/myclabs/Units-API.git"
         }
     ]
 }
