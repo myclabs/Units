@@ -1,6 +1,6 @@
 <?php
 
-namespace FunctionalTest;
+namespace FunctionalTest\UnitBundle;
 
 use MyCLabs\UnitAPI\Value;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -14,7 +14,7 @@ class ConversionTest extends WebTestCase
     /**
      * @dataProvider scenarioProvider
      */
-    public function testIndex(Value $value, $targetUnit, $targetNumericValue)
+    public function testConvert(Value $value, $targetUnit, $targetNumericValue)
     {
         $client = static::createClient();
 

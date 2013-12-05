@@ -3,6 +3,7 @@
 namespace UnitTest\UnitBundle\Service;
 
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
+use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
 use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
@@ -20,6 +21,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     private $m;
     private $km;
     private $s;
+    private $m2;
 
     public function setUp()
     {
@@ -27,6 +29,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
         $this->m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
         $this->km = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
         $this->s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
+        $this->m2 = $this->getMockForAbstractClass(Unit::class, ['m2', 'Square Meter', 'm2']);
 
         // Mock unit repository
         $this->unitRepository = $this->getMockForAbstractClass(UnitRepository::class);
@@ -40,6 +43,8 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
                         return $this->km;
                     case 's':
                         return $this->s;
+                    case 'm2':
+                        return $this->m2;
                 }
                 return null;
             }));
@@ -53,7 +58,29 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider standardUnitProvider
+     */
+    public function testParseStandardUnit($expression)
+    {
+        /** @var StandardUnit $unit */
+        $unit = $this->service->parse($expression);
+
+        $this->assertInstanceOf(Unit::class, $unit);
+        $this->assertEquals($expression, $unit->getId());
+    }
+
+    public function standardUnitProvider()
+    {
+        return [
+            ['m'],
+            ['km'],
+            ['s'],
+            ['m2'],
+        ];
+    }
+
+    /**
+     * @dataProvider composedUnitProvider
      */
     public function testParseComposedUnit($expression, $expectedComponents)
     {
@@ -64,7 +91,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedComponents, $this->readAttribute($unit, 'components'));
     }
 
-    public function provider()
+    public function composedUnitProvider()
     {
         $m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
         $km = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);

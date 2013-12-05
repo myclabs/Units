@@ -66,7 +66,16 @@ class ComposedUnit extends Unit
             if ($component->getExponent() > 0) {
                 $leftPart .= $component->getUnit()->getSymbol();
                 if ($component->getExponent() > 1) {
-                    $leftPart .= $component->getExponent();
+                    switch ($component->getExponent()) {
+                        case 2:
+                            $leftPart .= '²';
+                            break;
+                        case 3:
+                            $leftPart .= '³';
+                            break;
+                        default:
+                            $leftPart .= $component->getExponent();
+                    }
                 }
                 $leftPart .= '.';
             } elseif ($component->getExponent() < 0) {
@@ -74,7 +83,16 @@ class ComposedUnit extends Unit
                 $rightPart .= $component->getUnit()->getSymbol();
                 if ($component->getExponent() < -1) {
                     // pour un exposant négatif on prend la valeur absolue de celui ci.
-                    $rightPart .= abs($component->getExponent());
+                    switch (abs($component->getExponent())) {
+                        case 2:
+                            $rightPart .= '²';
+                            break;
+                        case 3:
+                            $rightPart .= '³';
+                            break;
+                        default:
+                            $rightPart .= $component->getExponent();
+                    }
                 }
                 $rightPart .= '.';
             }

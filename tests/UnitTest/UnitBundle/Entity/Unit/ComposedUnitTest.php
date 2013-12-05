@@ -36,12 +36,12 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
             'm^2' => [
                 [ new UnitComponent($m, 2) ],
                 'm^2',
-                'm2',
+                'm²',
             ],
             'm^-2' => [
                 [ new UnitComponent($m, -2) ],
                 'm^-2',
-                '1/m2',
+                '1/m²',
             ],
             'm.m' => [
                 [ new UnitComponent($m, 1), new UnitComponent($m, 1) ],
@@ -56,12 +56,12 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
             'm^3.m^-2' => [
                 [ new UnitComponent($m, 3), new UnitComponent($m, -2) ],
                 'm^3.m^-2',
-                'm3/m2',
+                'm³/m²',
             ],
             'm^3.m^-2.m^-2' => [
                 [ new UnitComponent($m, 3), new UnitComponent($m, -2), new UnitComponent($m, -2) ],
                 'm^3.m^-2.m^-2',
-                'm3/m2.m2',
+                'm³/m².m²',
             ],
         ];
     }

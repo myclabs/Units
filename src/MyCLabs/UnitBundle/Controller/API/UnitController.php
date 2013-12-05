@@ -29,17 +29,17 @@ class UnitController extends FOSRestController
     }
 
     /**
-     * @Get("/unit/{id}/")
+     * @Get("/unit/{expression}/")
      */
-    public function getUnitAction($id)
+    public function getUnitAction($expression)
     {
-        $repository = $this->getDoctrine()->getRepository(Unit::class);
+        $parser = $this->get('unit.service.parser');
         $dtoFactory = $this->get('unit.dtoFactory.unit');
 
-        $unit = $repository->find($id);
+        $unit = $parser->parse($expression);
 
         if ($unit === null) {
-            throw new HttpException(404, "No unit named $id was found");
+            throw new HttpException(404, "No unit named $expression was found");
         }
 
         $view = $this->view($dtoFactory->create($unit), 200);
