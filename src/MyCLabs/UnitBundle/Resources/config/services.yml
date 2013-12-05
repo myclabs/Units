@@ -29,3 +29,8 @@ services:
         class: MyCLabs\UnitBundle\Service\DTOFactory\PhysicalQuantityDTOFactory
     unit.dtoFactory.unit:
         class: MyCLabs\UnitBundle\Service\DTOFactory\UnitDTOFactory
+
+    serializer.property_normalizer:
+        class: MyCLabs\UnitBundle\Service\Serializer\PropertyNormalizer
+        tags:
+            - { name: serializer.normalizer }

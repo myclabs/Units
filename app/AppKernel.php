@@ -2,7 +2,6 @@
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use FOS\RestBundle\FOSRestBundle;
-use JMS\SerializerBundle\JMSSerializerBundle;
 use Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle;
 use MyCLabs\UnitBundle\UnitBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
@@ -34,7 +33,6 @@ class AppKernel extends Kernel
             new StofDoctrineExtensionsBundle(),
             new SensioFrameworkExtraBundle(),
             new MopaBootstrapBundle(),
-            new JMSSerializerBundle(),
             new FOSRestBundle(),
             new UnitBundle(),
         ];

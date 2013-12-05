@@ -25,7 +25,6 @@
         "stof/doctrine-extensions-bundle": "1.*",
         "mopa/bootstrap-bundle": "v3.0.0-beta3",
         "friendsofsymfony/rest-bundle": "1.1.*",
-        "jms/serializer-bundle": "0.*",
         "jms/parser-lib": "1.*",
         "myclabs/units-api": "dev-master"
     },

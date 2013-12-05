@@ -20,6 +20,8 @@ framework:
     session:         ~
     fragments:       ~
     http_method_override: true
+    serializer:
+        enabled: true
 
 # Twig Configuration
 twig:
@@ -82,3 +84,5 @@ stof_doctrine_extensions:
 fos_rest:
     routing_loader:
         default_format: json
+    service:
+        serializer: serializer
