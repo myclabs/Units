@@ -10,11 +10,4 @@ use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
  */
 class DoctrineUnitRepository extends EntityRepository implements UnitRepository
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function find($id)
-    {
-        // TODO
-    }
 }
