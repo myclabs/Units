@@ -11,11 +11,11 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "app/bootstrap.php.cache" >
+    bootstrap                   = "tests/FunctionalTest/bootstrap.php" >
 
     <testsuites>
-        <testsuite name="Unit tests">
-            <directory>tests/UnitTest</directory>
+        <testsuite name="Functional tests">
+            <directory>tests/FunctionalTest</directory>
         </testsuite>
     </testsuites>
 

@@ -4,7 +4,8 @@
     "autoload": {
         "psr-0": {
             "MyCLabs\\UnitBundle": "src/",
-            "UnitTest": "tests/"
+            "UnitTest": "tests/",
+            "FunctionalTest": "tests/"
         }
     },
     "require": {

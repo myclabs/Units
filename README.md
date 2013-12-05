@@ -13,9 +13,21 @@ $ app/console unit:populate
 
 ## Running the tests
 
+Running the unit tests:
+
 ```shell
 $ phpunit
 ```
+
+Running the functional tests:
+
+```shell
+$ phpunit -c phpunit-functional.xml.dist
+```
+
+The functional test suite automatically generates a SQLite database in the `tests/FunctionalTest` directory.
+As such, it requires the `pdo_sqlite` extension and the user running the
+tests must have write permissions in that directory.
 
 ## Running the server
 

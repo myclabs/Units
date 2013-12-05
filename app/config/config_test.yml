@@ -14,3 +14,11 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+# Uses sqlite
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        path:     tests/FunctionalTest/fixtures.db
+        user:     ''
+        password: ''
