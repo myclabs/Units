@@ -1,5 +1,6 @@
 MyCLabs\UnitBundle\Entity\Unit\Unit:
   type: entity
+  repositoryClass: MyCLabs\UnitBundle\Repository\DoctrineUnitRepository
 
   inheritanceType: JOINED
   discriminatorColumn:
