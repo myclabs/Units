@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "93314da8258136efe144df1320cec690",
+    "hash": "22230b4cdff8f03ef119003ef9aad462",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1362,8 +1362,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:myclabs/Units-API.git",
-                "reference": "4686c48a39d471951c9bc3818b1d8e8678471467"
+                "url": "https://github.com/myclabs/Units-API.git",
+                "reference": "7d57965c6c9752f086f743eefddfa753dc7c33b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/7d57965c6c9752f086f743eefddfa753dc7c33b2",
+                "reference": "7d57965c6c9752f086f743eefddfa753dc7c33b2",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.5.0"
@@ -1371,10 +1377,15 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "MyCLabs\\UnitAPI": "src/"
+                    "MyCLabs\\UnitAPI": "src/",
+                    "UnitAPITest": "tests/"
                 }
             },
-            "time": "2013-12-04 17:36:13"
+            "support": {
+                "source": "https://github.com/myclabs/Units-API/tree/master",
+                "issues": "https://github.com/myclabs/Units-API/issues"
+            },
+            "time": "2013-12-05 08:52:25"
         },
         {
             "name": "phpcollection/phpcollection",
