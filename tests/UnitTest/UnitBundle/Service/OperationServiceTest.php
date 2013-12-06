@@ -15,6 +15,10 @@ class OperationServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Mock "m" unit
         $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
+        $mUnit->expects($this->any())
+            ->method('getConversionFactor')
+            ->with($mUnit)
+            ->will($this->returnValue(1));
 
         // Mock "km" unit
         $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
@@ -22,11 +26,6 @@ class OperationServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getConversionFactor')
             ->with($mUnit)
             ->will($this->returnValue(1000));
-
-        $mUnit->expects($this->any())
-            ->method('getConversionFactor')
-            ->with($kmUnit)
-            ->will($this->returnValue(1/1000));
 
         // Mock "100km" unit
         $km100Unit = $this->getMockForAbstractClass(Unit::class, ['100km', '100 KiloMeter', '100km']);
@@ -61,7 +60,6 @@ class OperationServiceTest extends \PHPUnit_Framework_TestCase
         return [
             [ 'm', 'm', 1 ],
             [ 'km', 'm', 1000 ],
-            [ 'm', 'km', 0.001 ],
             [ '100km', 'km', 100 ],
         ];
     }
