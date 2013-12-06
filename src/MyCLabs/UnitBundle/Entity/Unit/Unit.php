@@ -108,7 +108,8 @@ abstract class Unit
      * Returns true if the unit is compatible (convertible to) with the given unit.
      *
      * @param Unit $unit
-     * @return bool
+     *
+     * @return boolean
      */
     public function isCompatibleWith(Unit $unit)
     {

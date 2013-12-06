@@ -27,11 +27,6 @@ class OperationService implements \MyCLabs\UnitAPI\OperationService
      */
     public function getConversionFactor($unit1, $unit2)
     {
-        // Quick return if same units (no conversion)
-        if ($unit1 == $unit2) {
-            return 1;
-        }
-
         /** @var Unit $domainUnit1 */
         $domainUnit1 = $this->unitExpressionParser->parse($unit1);
         if ($domainUnit1 === null) {
@@ -50,5 +45,25 @@ class OperationService implements \MyCLabs\UnitAPI\OperationService
             // Translate the domain exception into the API exception
             throw new APIIncompatibleUnitsException($e->getMessage());
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function areCompatible($unit1, $unit2)
+    {
+        /** @var Unit $domainUnit1 */
+        $domainUnit1 = $this->unitExpressionParser->parse($unit1);
+        if ($domainUnit1 === null) {
+            throw UnknownUnitException::create($unit1);
+        }
+
+        /** @var Unit $domainUnit2 */
+        $domainUnit2 = $this->unitExpressionParser->parse($unit2);
+        if ($domainUnit2 === null) {
+            throw UnknownUnitException::create($unit2);
+        }
+
+        return $domainUnit1->isCompatibleWith($domainUnit2);
     }
 }
