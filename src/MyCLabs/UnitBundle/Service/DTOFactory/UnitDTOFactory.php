@@ -27,6 +27,7 @@ class UnitDTOFactory
 
         if ($unit instanceof StandardUnit) {
             $dto->unitSystem = $unit->getUnitSystem()->getId();
+            $dto->physicalQuantity = $unit->getPhysicalQuantity()->getId();
         }
 
         switch (true) {
