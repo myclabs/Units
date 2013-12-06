@@ -3,6 +3,7 @@
 namespace MyCLabs\UnitBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
 
 /**
@@ -15,7 +16,7 @@ class DoctrineUnitRepository extends EntityRepository implements UnitRepository
         $unit = parent::find($id);
 
         if ($unit === null) {
-            throw new \InvalidArgumentException("No unit was found for id '$id'");
+            throw new UnknownUnitException("No unit was found for id '$id'");
         }
 
         return $unit;

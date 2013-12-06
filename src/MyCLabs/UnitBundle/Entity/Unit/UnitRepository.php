@@ -3,6 +3,7 @@
 namespace MyCLabs\UnitBundle\Entity\Unit;
 
 use Doctrine\Common\Persistence\ObjectRepository;
+use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 
 /**
  * Unit repository.
@@ -16,6 +17,7 @@ interface UnitRepository extends ObjectRepository
      *
      * @param string $id
      *
+     * @throws UnknownUnitException
      * @return Unit
      */
     public function find($id);

@@ -10,8 +10,8 @@ services:
         arguments:
             - MyCLabs\UnitBundle\Entity\Unit\Unit
 
-    unit.service.conversion:
-        class: MyCLabs\UnitBundle\Service\ConversionService
+    unit.service.operation:
+        class: MyCLabs\UnitBundle\Service\OperationService
         arguments:
             - "@unit.service.parser"
 

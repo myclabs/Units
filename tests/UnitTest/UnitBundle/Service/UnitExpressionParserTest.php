@@ -145,7 +145,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider invalidSyntaxProvider
-     * @expectedException \MyCLabs\UnitBundle\Service\UnitExpressionParser\InvalidUnitSyntaxException
+     * @expectedException \MyCLabs\UnitAPI\Exception\UnknownUnitException
      */
     public function testInvalidSyntax1($str)
     {

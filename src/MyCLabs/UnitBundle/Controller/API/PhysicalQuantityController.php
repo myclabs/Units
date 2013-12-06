@@ -30,7 +30,7 @@ class PhysicalQuantityController extends FOSRestController
     }
 
     /**
-     * @Get("/physical-quantity/{id}/")
+     * @Get("/physical-quantity/{id}")
      */
     public function getPhysicalQuantityAction($id)
     {

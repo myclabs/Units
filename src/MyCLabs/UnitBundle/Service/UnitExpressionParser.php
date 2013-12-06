@@ -4,12 +4,12 @@ namespace MyCLabs\UnitBundle\Service;
 
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SyntaxErrorException;
+use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
 use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser\UnitExpressionLexer;
-use MyCLabs\UnitBundle\Service\UnitExpressionParser\InvalidUnitSyntaxException;
 
 /**
  * Parses an expression representing a unit.
@@ -41,7 +41,7 @@ class UnitExpressionParser extends AbstractParser
      * @param string $expression
      * @param null   $context
      *
-     * @throws UnitExpressionParser\InvalidUnitSyntaxException
+     * @throws UnknownUnitException
      * @return Unit
      */
     public function parse($expression, $context = null)
@@ -49,7 +49,7 @@ class UnitExpressionParser extends AbstractParser
         try {
             return parent::parse($expression, $context);
         } catch (SyntaxErrorException $e) {
-            throw new InvalidUnitSyntaxException($e->getMessage(), 0, $e);
+            throw new UnknownUnitException('Invalid unit expression: ' . $e->getMessage(), 0, $e);
         }
     }
 

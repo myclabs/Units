@@ -18,7 +18,7 @@ class UnitTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/unit/' . urlencode($unitExpression) . '/');
+        $client->request('GET', '/api/unit/' . urlencode($unitExpression));
 
         $response = $client->getResponse();
 
@@ -49,6 +49,6 @@ class UnitTest extends WebTestCase
     protected function assertJsonResponse(Response $response, $statusCode = 200)
     {
         $this->assertEquals($statusCode, $response->getStatusCode());
-        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), $response->headers);
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
     }
 }

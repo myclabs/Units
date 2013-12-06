@@ -5,6 +5,7 @@ namespace MyCLabs\UnitBundle\Controller\API;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use MyCLabs\UnitAPI\DTO\UnitDTO;
+use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -29,17 +30,17 @@ class UnitController extends FOSRestController
     }
 
     /**
-     * @Get("/unit/{expression}/")
+     * @Get("/unit/{expression}")
      */
     public function getUnitAction($expression)
     {
         $parser = $this->get('unit.service.parser');
         $dtoFactory = $this->get('unit.dtoFactory.unit');
 
-        $unit = $parser->parse($expression);
-
-        if ($unit === null) {
-            throw new HttpException(404, "No unit named $expression was found");
+        try {
+            $unit = $parser->parse($expression);
+        } catch (UnknownUnitException $e) {
+            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
         }
 
         $view = $this->view($dtoFactory->create($unit), 200);
