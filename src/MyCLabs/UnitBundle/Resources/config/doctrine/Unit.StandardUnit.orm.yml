@@ -8,5 +8,6 @@ MyCLabs\UnitBundle\Entity\Unit\StandardUnit:
   manyToOne:
     physicalQuantity:
       targetEntity: MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity
+      inversedBy: units
     unitSystem:
       targetEntity: MyCLabs\UnitBundle\Entity\UnitSystem

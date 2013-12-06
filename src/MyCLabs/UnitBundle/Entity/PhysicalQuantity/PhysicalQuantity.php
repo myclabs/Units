@@ -2,6 +2,8 @@
 
 namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
 /**
@@ -33,10 +35,16 @@ abstract class PhysicalQuantity
     protected $symbol;
 
     /**
-     * Unité de référence de la grandeur physique.
+     * Unit of reference for the physical quantity.
      * @var StandardUnit
      */
     protected $unitOfReference;
+
+    /**
+     * Units from this physical quantity.
+     * @var StandardUnit[]|Collection
+     */
+    protected $units;
 
     /**
      * Locale for Translatable extension.
@@ -50,6 +58,8 @@ abstract class PhysicalQuantity
         $this->id = $id;
         $this->label = $label;
         $this->symbol = $symbol;
+
+        $this->units = new ArrayCollection();
     }
 
     /**
@@ -89,7 +99,7 @@ abstract class PhysicalQuantity
     /**
      * Returns the unit of reference for this physical quantity.
      *
-     * @throws \RuntimeException No unit of reference defined.
+     * @throws \RuntimeException No unit of reference was previously defined.
      * @return StandardUnit
      */
     public function getUnitOfReference()
@@ -99,5 +109,21 @@ abstract class PhysicalQuantity
         }
 
         return $this->unitOfReference;
+    }
+
+    /**
+     * @return StandardUnit[] Units from this physical quantity.
+     */
+    public function getUnits()
+    {
+        return $this->units->toArray();
+    }
+
+    /**
+     * @param StandardUnit $unit
+     */
+    public function addUnit(StandardUnit $unit)
+    {
+        $this->units->add($unit);
     }
 }

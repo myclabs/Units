@@ -32,3 +32,8 @@ MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity:
       targetEntity: MyCLabs\UnitBundle\Entity\Unit\StandardUnit
       joinColumn:
         nullable: true
+
+  oneToMany:
+    units:
+      targetEntity: MyCLabs\UnitBundle\Entity\Unit\StandardUnit
+      mappedBy: physicalQuantity
