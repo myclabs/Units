@@ -186,6 +186,76 @@ class ComposedUnit extends Unit
      */
     public function getCompatibleUnits()
     {
-        // TODO: Implement getCompatibleUnits() method.
+        /*
+         * For "m.s^-1"
+         * Example: [
+         *   0 => [ [m, 1], [km, 1] ],
+         *   1 => [ [s, -1], [h, -1] ]
+         * ]
+         */
+        $allComponentsPossible = [];
+
+        // For each component, find alternative standard units
+        foreach ($this->components as $component) {
+            $compatibleUnits = array_map(
+                function (Unit $unit) use ($component) {
+                    return new UnitComponent($unit, $component->getExponent());
+                },
+                $component->getUnit()->getCompatibleUnits()
+            );
+
+            $allComponentsPossible[] = array_merge([$component], $compatibleUnits);
+        }
+
+        /*
+         * Do a cartesian product of all combinations.
+         *
+         * Example: [
+         *   0 => [ [m, 1], [s, -1] ],
+         *   1 => [ [m, 1], [h, -1] ],
+         *   2 => [ [km, 1], [s, -1] ],
+         *   3 => [ [km, 1], [h, -1] ]
+         * ]
+         */
+        $combinations = $this->arrayCartesianProduct($allComponentsPossible);
+
+        // Removes the current unit (first item)
+        unset($combinations[0]);
+
+        // Turns each combination of components in a ComposedUnit
+        return array_map(
+            function ($components) {
+                return new ComposedUnit($components);
+            },
+            $combinations
+        );
+    }
+
+    /**
+     * Array cartesian product.
+     *
+     * Returns all possible combinations between items of several arrays.
+     *
+     * @see http://stackoverflow.com/questions/8567082/how-to-generate-in-php-all-combinations-of-items-in-multiple-arrays
+     * @param array[] $arrays Array of arrays.
+     * @return array Cartesian product.
+     */
+    public function arrayCartesianProduct($arrays)
+    {
+        if (count($arrays) == 0) {
+            return [[]];
+        }
+
+        $array = array_shift($arrays);
+        $c = $this->arrayCartesianProduct($arrays);
+        $return = [];
+
+        foreach ($array as $v) {
+            foreach ($c as $p) {
+                $return[] = array_merge([$v], $p);
+            }
+        }
+
+        return $return;
     }
 }

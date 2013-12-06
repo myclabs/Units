@@ -16,4 +16,14 @@ class DiscreteUnitTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($unit, $unit->getUnitOfReference());
     }
+
+    /**
+     * Check that getCompatibleUnits returns an empty array.
+     */
+    public function testGetCompatibleUnits()
+    {
+        $unit = new DiscreteUnit('m', 'm');
+
+        $this->assertEmpty($unit->getCompatibleUnits());
+    }
 }

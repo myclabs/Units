@@ -63,7 +63,6 @@ class PopulateStandardUnit
         $physicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $idPhysicalQuantity);
 
         $unit = new StandardUnit($id, $label, $symbol, $physicalQuantity, $unitSystem, $multiplier);
-        $physicalQuantity->addUnit($unit);
 
         $this->entityManager->persist($unit);
 

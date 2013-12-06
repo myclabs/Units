@@ -39,9 +39,6 @@ class StandardUnitTest extends \PHPUnit_Framework_TestCase
         $unit1 = new StandardUnit('m', 'm', 'm', $physicalQuantity, $unitSystem, 1);
         $unit2 = new StandardUnit('km', 'km', 'km', $physicalQuantity, $unitSystem, 1000);
 
-        $physicalQuantity->addUnit($unit1);
-        $physicalQuantity->addUnit($unit2);
-
         $compatibleUnits = $unit1->getCompatibleUnits();
 
         $this->assertContains($unit2, $compatibleUnits);

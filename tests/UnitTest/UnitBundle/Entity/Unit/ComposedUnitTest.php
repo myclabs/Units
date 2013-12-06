@@ -2,9 +2,12 @@
 
 namespace UnitTest\UnitBundle\Entity\Unit;
 
+use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
+use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
+use MyCLabs\UnitBundle\Entity\UnitSystem;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser\UnitExpressionLexer;
 use UnitTest\UnitBundle\Fixture\FakeUnitRepository;
@@ -127,6 +130,42 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
             [ 'km.s', 'm.s', 1000 ],
             [ 'm.s', 'km.s', 0.001 ],
             [ 'm.s^-1', 'km.h^-1', 3.6 ],
+        ];
+    }
+
+    /**
+     * @dataProvider getCompatibleUnitsProvider
+     */
+    public function testGetCompatibleUnits($unitId, array $expected)
+    {
+        $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
+        $unit = $parser->parse($unitId);
+
+        $compatibleUnits = $unit->getCompatibleUnits();
+
+        // Turns to string for easier comparison
+        $compatibleUnits = array_map(function (Unit $unit) {
+            return $unit->getId();
+        }, $compatibleUnits);
+
+        $this->assertEquals($expected, array_values($compatibleUnits));
+    }
+
+    public function getCompatibleUnitsProvider()
+    {
+        return [
+            'm' => [
+                'm',
+                [ 'km' ],
+            ],
+            'km' => [
+                'km',
+                [ 'm' ],
+            ],
+            'km.h^-1' => [
+                'km.h^-1',
+                [ 'km.s^-1', 'm.h^-1', 'm.s^-1' ],
+            ],
         ];
     }
 }
