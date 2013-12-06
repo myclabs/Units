@@ -17,8 +17,7 @@ class ConversionFactorTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/conversion-factor/' . urlencode($unit1) . '/' . urlencode($unit2));
-        die('/api/conversion-factor/' . urlencode($unit1) . '/' . urlencode($unit2));
+        $client->request('GET', '/api/conversion-factor?unit1=' . urlencode($unit1) . '&unit2=' . urlencode($unit2));
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response);
@@ -31,8 +30,8 @@ class ConversionFactorTest extends WebTestCase
     public function scenarioProvider()
     {
         return [
-//            [ 'm', 'm', 1 ],
-//            [ 'km', 'm', 1000 ],
+            [ 'm', 'm', 1 ],
+            [ 'km', 'm', 1000 ],
             [ 'km.h^-1', 'km.h^-1', 1 ],
             [ 'km.h^-1', 'm.s^-1', 0.27777777777778 ],
             [ 'm.s^-1', 'km.h^-1', 3.6 ],

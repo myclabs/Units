@@ -22,6 +22,9 @@ $ phpunit
 Running the functional tests:
 
 ```shell
+$ app/console doctrine:schema:drop --force --env=test
+$ app/console doctrine:schema:create --env=test
+$ app/console unit:populate --env=test
 $ phpunit -c phpunit-functional.xml.dist
 ```
 
