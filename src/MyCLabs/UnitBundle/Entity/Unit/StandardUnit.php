@@ -158,4 +158,12 @@ class StandardUnit extends Unit
             }
         );
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inverse()
+    {
+        return new ComposedUnit([ new UnitComponent($this, -1) ]);
+    }
 }

@@ -232,6 +232,21 @@ class ComposedUnit extends Unit
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function inverse()
+    {
+        $components = array_map(
+            function (UnitComponent $component) {
+                return new UnitComponent($component->getUnit(), $component->getUnit() * -1);
+            },
+            $this->components
+        );
+
+        return new ComposedUnit($components);
+    }
+
+    /**
      * Array cartesian product.
      *
      * Returns all possible combinations between items of several arrays.
@@ -240,7 +255,7 @@ class ComposedUnit extends Unit
      * @param array[] $arrays Array of arrays.
      * @return array Cartesian product.
      */
-    public function arrayCartesianProduct($arrays)
+    private function arrayCartesianProduct($arrays)
     {
         if (count($arrays) == 0) {
             return [[]];

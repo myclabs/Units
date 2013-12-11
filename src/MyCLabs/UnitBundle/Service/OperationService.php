@@ -52,18 +52,37 @@ class OperationService implements \MyCLabs\UnitAPI\OperationService
      */
     public function areCompatible($unit1, $unit2)
     {
-        /** @var Unit $domainUnit1 */
-        $domainUnit1 = $this->unitExpressionParser->parse($unit1);
-        if ($domainUnit1 === null) {
-            throw UnknownUnitException::create($unit1);
-        }
+        $units = func_get_args();
 
-        /** @var Unit $domainUnit2 */
-        $domainUnit2 = $this->unitExpressionParser->parse($unit2);
-        if ($domainUnit2 === null) {
-            throw UnknownUnitException::create($unit2);
-        }
+        $compatible = array_reduce($units, function (Unit $result = null, $unit) {
+            $domainUnit = $this->unitExpressionParser->parse($unit);
+            if ($domainUnit === null) {
+                throw UnknownUnitException::create($unit);
+            }
 
-        return $domainUnit1->isCompatibleWith($domainUnit2);
+            // First iteration
+            if ($result === null) {
+                return $domainUnit;
+            }
+
+            if ($result->isCompatibleWith($domainUnit)) {
+                // Compatible, we return a unit so that we can continue to compare against it
+                return $result;
+            } else {
+                // Incompatible
+                return false;
+            }
+        });
+
+        return ($compatible !== false);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function multiply($unit1, $unit2)
+    {
+        // TODO: Implement multiply() method.
+        throw new \Exception;
     }
 }

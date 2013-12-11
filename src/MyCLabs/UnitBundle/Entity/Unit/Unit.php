@@ -115,4 +115,11 @@ abstract class Unit
     {
         return ($this->getUnitOfReference() == $unit->getUnitOfReference());
     }
+
+    /**
+     * Inverse the unit (inverse exponents).
+     *
+     * @return Unit
+     */
+    abstract public function inverse();
 }

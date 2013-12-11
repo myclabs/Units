@@ -61,4 +61,12 @@ class DiscreteUnit extends Unit
     {
         return [];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inverse()
+    {
+        return new ComposedUnit([ new UnitComponent($this, -1) ]);
+    }
 }
