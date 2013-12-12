@@ -38,6 +38,7 @@ class UnitTest extends WebTestCase
             'm2'                   => ['m2', 'm²'],
             'm^2'                  => ['m^2', 'm²'],
             'm^2.animal^-1.m^-2.g' => ['m^2.animal^-1.m^-2.g', 'm².g/animal.m²'],
+            'm/s'                  => ['m/s', 'm/s'],
         ];
     }
 

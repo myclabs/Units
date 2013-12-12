@@ -22,6 +22,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     private $km;
     private $s;
     private $m2;
+    private $ms;
 
     public function setUp()
     {
@@ -30,6 +31,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
         $this->km = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
         $this->s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
         $this->m2 = $this->getMockForAbstractClass(Unit::class, ['m2', 'Square Meter', 'm2']);
+        $this->ms = $this->getMockForAbstractClass(Unit::class, ['m/s', 'Meter per second', 'm/s']);
 
         // Mock unit repository
         $this->unitRepository = $this->getMockForAbstractClass(UnitRepository::class);
@@ -45,6 +47,8 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
                         return $this->s;
                     case 'm2':
                         return $this->m2;
+                    case 'm/s':
+                        return $this->ms;
                 }
                 return null;
             }));
@@ -76,6 +80,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
             ['km'],
             ['s'],
             ['m2'],
+            ['m/s'],
         ];
     }
 
@@ -96,6 +101,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
         $m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
         $km = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
         $s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
+        $ms = $this->getMockForAbstractClass(Unit::class, ['m/s', 'Meter per second', 'm/s']);
 
         return [
             'm^2' => [
@@ -137,6 +143,14 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
                 'm . s',
                 [
                     new UnitComponent($m, 1),
+                    new UnitComponent($s, 1),
+                ]
+            ],
+            // Tolerant to "/"
+            'm/s . s' => [
+                'm/s . s',
+                [
+                    new UnitComponent($ms, 1),
                     new UnitComponent($s, 1),
                 ]
             ],
