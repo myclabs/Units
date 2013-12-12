@@ -8,6 +8,16 @@ Physical quantities: Grandeurs physiques
 Unit of reference: Unité de référence
 
 Units: Unités
+Unit: Unité
+unit: unité
 Standard units: Unités standards
 Discrete units: Unités discrètes
 Multiplier: Coefficient multiplicateur
+
+unknownUnit: Unité %id% inconnue.
+incompatibleUnits: Les unités sont incompatibles.
+
+unitConversion: Conversions d'unités
+introductionUnitConversionPage: Vous pouvez utiliser cette interface pour tester les conversions d'unités.
+
+Conversion factor: Facteur de conversion

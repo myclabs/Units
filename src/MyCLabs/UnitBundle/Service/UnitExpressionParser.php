@@ -49,7 +49,11 @@ class UnitExpressionParser extends AbstractParser
         try {
             return parent::parse($expression, $context);
         } catch (SyntaxErrorException $e) {
-            throw new UnknownUnitException("Invalid unit expression '$expression': " . $e->getMessage(), 0, $e);
+            throw new UnknownUnitException(
+                "Invalid unit expression '$expression': " . $e->getMessage(),
+                $expression,
+                $e
+            );
         }
     }
 

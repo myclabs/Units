@@ -1,1 +1,7 @@
 title: Units
+
+unknownUnit: Unknown unit %id%.
+incompatibleUnits: Units are incompatibles.
+
+unitConversion: Unit conversions
+introductionUnitConversionPage: You can use this interface to test unit conversions.

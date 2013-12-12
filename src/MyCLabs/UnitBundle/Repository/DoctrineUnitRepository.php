@@ -16,7 +16,7 @@ class DoctrineUnitRepository extends EntityRepository implements UnitRepository
         $unit = parent::find($id);
 
         if ($unit === null) {
-            throw new UnknownUnitException("No unit was found for id '$id'");
+            throw UnknownUnitException::create($id);
         }
 
         return $unit;
