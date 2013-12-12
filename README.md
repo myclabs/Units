@@ -4,6 +4,8 @@
 
 ## Getting started
 
+The PHP `intl` extension is required, it can be installed easily on debian systems with `apt-get install php5-intl`.
+
 ```shell
 $ composer install
 $ app/console doctrine:database:create

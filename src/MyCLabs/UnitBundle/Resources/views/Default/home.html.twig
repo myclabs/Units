@@ -2,13 +2,16 @@
 
 {% block body %}
 
-    <h2>
-        {% trans %}title{% endtrans %}
-    </h2>
+    <div class="page-header">
+        <h1>{% trans %}title{% endtrans %}</h1>
+    </div>
 
     <ul>
         <li>
             <a href="{{ path('physical_quantity_list') }}">{% trans %}Physical quantities{% endtrans %}</a>
+        </li>
+        <li>
+            <a href="{{ path('unit_list') }}">{% trans %}Units{% endtrans %}</a>
         </li>
     </ul>
 

@@ -10,7 +10,7 @@ apt-get install -y python-software-properties
 add-apt-repository -y ppa:ondrej/php5
 apt-get update
 
-apt-get install -y curl git php5-curl php5-cli php-pear
+apt-get install -y curl git php5-curl php5-cli php5-intl php-pear
 
 echo 'date.timezone = "Europe/Paris"' > /etc/php5/cli/conf.d/mycsense.ini
 

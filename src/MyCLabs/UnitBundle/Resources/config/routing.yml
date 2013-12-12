@@ -5,6 +5,9 @@ homepage:
 physical_quantity_list:
     pattern:  physicalquantity/list
     defaults: { _controller: UnitBundle:PhysicalQuantity:list }
+unit_list:
+    pattern:  unit/list
+    defaults: { _controller: UnitBundle:Unit:list }
 
 # API
 

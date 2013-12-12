@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>{% trans %}Units{% endtrans %}</h1>
+    </div>
+
+    <h3>{% trans %}Standard units{% endtrans %}</h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{% trans %}Identifier{% endtrans %}</th>
+            <th>{% trans %}Symbol{% endtrans %}</th>
+            <th>{% trans %}Physical quantity{% endtrans %}</th>
+            <th>{% trans %}Multiplier{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for unit in standardUnits %}
+            <tr>
+                <th>{{ unit.label }}</th>
+                <td>{{ unit.id }}</td>
+                <td>{{ unit.symbol }}</td>
+                <td>{{ unit.physicalQuantity.label }}</td>
+                <td>{{ unit.multiplier|number_format_decimal }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>{% trans %}Discrete units{% endtrans %}</h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{% trans %}Identifier{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for unit in discreteUnits %}
+            <tr>
+                <th>{{ unit.label }}</th>
+                <td>{{ unit.id }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

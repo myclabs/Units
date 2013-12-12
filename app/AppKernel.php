@@ -7,6 +7,7 @@ use MyCLabs\UnitBundle\UnitBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle;
+use Sonata\IntlBundle\SonataIntlBundle;
 use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\Bundle\AsseticBundle\AsseticBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -34,6 +35,7 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new MopaBootstrapBundle(),
             new FOSRestBundle(),
+            new SonataIntlBundle(),
             new UnitBundle(),
         ];
 
