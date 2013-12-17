@@ -11,7 +11,7 @@ services:
             - MyCLabs\UnitBundle\Entity\Unit\Unit
 
     unit.service.operation:
-        class: MyCLabs\UnitBundle\Service\OperationService
+        class: MyCLabs\UnitBundle\Service\UnitOperationService
         arguments:
             - "@unit.service.parser"
 

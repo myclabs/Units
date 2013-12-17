@@ -71,6 +71,32 @@ class OperationTest extends WebTestCase
         ];
     }
 
+    /**
+     * @dataProvider inverseProvider
+     */
+    public function testInverse($unit, $expected)
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/inverse/' . urlencode($unit));
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response);
+
+        $this->assertSame($expected, json_decode($response->getContent()));
+    }
+
+    public function inverseProvider()
+    {
+        return [
+            'm'      => ['m', 'm^-1'],
+            'm.h'    => ['m.h', 'm^-1.h^-1'],
+            'm.h^-1' => ['m.h^-1', 'm^-1.h'],
+            'm^2'    => ['m^2', 'm^-2'],
+            'animal' => ['animal', 'animal^-1'],
+        ];
+    }
+
     protected static function getPhpUnitXmlDir()
     {
         return parent::getPhpUnitXmlDir() . '/app';

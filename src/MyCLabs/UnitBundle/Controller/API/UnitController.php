@@ -24,9 +24,7 @@ class UnitController extends FOSRestController
 
         $units = $dtoFactory->createMany($repository->findAll());
 
-        $view = $this->view($units, 200);
-
-        return $this->handleView($view);
+        return $this->handleView($this->view($units, 200));
     }
 
     /**
@@ -46,5 +44,24 @@ class UnitController extends FOSRestController
         $view = $this->view($dtoFactory->create($unit), 200);
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @Get("/compatible-units/{expression}")
+     */
+    public function getCompatibleUnitsAction($expression)
+    {
+        $parser = $this->get('unit.service.parser');
+        $dtoFactory = $this->get('unit.dtoFactory.unit');
+
+        try {
+            $unit = $parser->parse($expression);
+        } catch (UnknownUnitException $e) {
+            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
+        }
+
+        $units = $dtoFactory->createMany($unit->getCompatibleUnits());
+
+        return $this->handleView($this->view($units, 200));
     }
 }

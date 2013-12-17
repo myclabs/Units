@@ -3,7 +3,7 @@
 namespace UnitTest\UnitBundle\Service;
 
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
-use MyCLabs\UnitBundle\Service\OperationService;
+use MyCLabs\UnitBundle\Service\UnitOperationService;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
 class OperationServiceTest extends \PHPUnit_Framework_TestCase
@@ -50,7 +50,7 @@ class OperationServiceTest extends \PHPUnit_Framework_TestCase
                 throw new \Exception("Invalid case");
             }));
 
-        $service = new OperationService($unitExpressionParser);
+        $service = new UnitOperationService($unitExpressionParser);
 
         $this->assertEquals($expected, $service->getConversionFactor($unit1, $unit2));
     }

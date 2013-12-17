@@ -6,7 +6,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use MyCLabs\UnitAPI\Exception\IncompatibleUnitsException;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
-use MyCLabs\UnitAPI\OperationService;
+use MyCLabs\UnitAPI\UnitOperationService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -19,7 +19,7 @@ class OperationController extends FOSRestController
      */
     public function getConversionFactorAction()
     {
-        /** @var OperationService $operationService */
+        /** @var UnitOperationService $operationService */
         $operationService = $this->get('unit.service.operation');
 
         $unit1 = $this->getRequest()->get('unit1');
@@ -48,7 +48,7 @@ class OperationController extends FOSRestController
      */
     public function areCompatibleAction()
     {
-        /** @var OperationService $operationService */
+        /** @var UnitOperationService $operationService */
         $operationService = $this->get('unit.service.operation');
 
         $unit1 = $this->getRequest()->get('unit1');
@@ -68,5 +68,22 @@ class OperationController extends FOSRestController
         }
 
         return $this->handleView($this->view($compatible, 200));
+    }
+
+    /**
+     * @Get("/inverse/{unit}")
+     */
+    public function inverseAction($unit)
+    {
+        /** @var UnitOperationService $operationService */
+        $operationService = $this->get('unit.service.operation');
+
+        try {
+            $inverse = $operationService->inverse($unit);
+        } catch (UnknownUnitException $e) {
+            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
+        }
+
+        return $this->handleView($this->view($inverse, 200));
     }
 }

@@ -41,6 +41,37 @@ class UnitTest extends WebTestCase
             'm/s'                  => ['m/s', 'm/s'],
         ];
     }
+    /**
+     * @dataProvider compatibleUnitsProvider
+     */
+    public function testGetCompatibleUnits($unit, $expectedUnits)
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/compatible-units/' . urlencode($unit));
+
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response);
+
+        /** @var UnitDTO[] $compatibleUnits */
+        $compatibleUnits = json_decode($response->getContent());
+
+        $compatibleUnitsId = array_map(function ($unitDTO) {
+            return $unitDTO->id;
+        }, $compatibleUnits);
+
+        $this->assertEquals(sort($expectedUnits), sort($compatibleUnitsId));
+    }
+
+    public function compatibleUnitsProvider()
+    {
+        return [
+            'm'      => ['m', ['km', '100km', '1000km', 'mile']],
+            'm^2'    => ['m^2', ['km^2', '100km^2', '1000km^2', 'mile^2']],
+            'animal' => ['animal', []],
+        ];
+    }
 
     protected static function getPhpUnitXmlDir()
     {

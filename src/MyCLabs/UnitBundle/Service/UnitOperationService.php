@@ -10,7 +10,7 @@ use MyCLabs\UnitBundle\Entity\Unit\Unit;
 /**
  * Service that converts values from a unit to another.
  */
-class OperationService implements \MyCLabs\UnitAPI\OperationService
+class UnitOperationService implements \MyCLabs\UnitAPI\UnitOperationService
 {
     /**
      * @var UnitExpressionParser
@@ -84,5 +84,20 @@ class OperationService implements \MyCLabs\UnitAPI\OperationService
     {
         // TODO: Implement multiply() method.
         throw new \Exception;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inverse($unit)
+    {
+        $domainUnit = $this->unitExpressionParser->parse($unit);
+        if ($domainUnit === null) {
+            throw UnknownUnitException::create($unit);
+        }
+
+        $inverse = $domainUnit->inverse();
+
+        return $inverse->getId();
     }
 }
