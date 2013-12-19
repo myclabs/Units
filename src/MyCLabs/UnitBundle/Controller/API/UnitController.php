@@ -64,4 +64,23 @@ class UnitController extends FOSRestController
 
         return $this->handleView($this->view($units, 200));
     }
+
+    /**
+     * @Get("/unit-of-reference/{expression}")
+     */
+    public function getUnitOfReference($expression)
+    {
+        $parser = $this->get('unit.service.parser');
+        $dtoFactory = $this->get('unit.dtoFactory.unit');
+
+        try {
+            $unit = $parser->parse($expression);
+        } catch (UnknownUnitException $e) {
+            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
+        }
+
+        $unit = $dtoFactory->create($unit->getUnitOfReference());
+
+        return $this->handleView($this->view($unit, 200));
+    }
 }
