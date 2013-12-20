@@ -29,3 +29,15 @@ monolog:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
+
+services:
+    session.memcached:
+        class: Memcached
+        arguments:
+            persistent_id: "units"
+        calls:
+            - [ addServer, [ "localhost", 11211 ]]
+
+    session.handler.memcached:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
+        arguments: [@session.memcached, { prefix: "sessions_", expiretime: 3600 }]
