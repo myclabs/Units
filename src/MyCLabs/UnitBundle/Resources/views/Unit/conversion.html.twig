@@ -46,7 +46,7 @@
     {% if factor is defined and factor is not null %}
         <p class="well conversion-result">
             1 {{ unit1|default('') }} =
-            {{ factor|number_format_decimal }} {{ unit2|default('') }}
+            {{ factor|number_format_decimal({'max_fraction_digits': 20}) }} {{ unit2|default('') }}
         </p>
     {% endif %}
 
