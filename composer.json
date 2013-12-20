@@ -10,6 +10,7 @@
     },
     "require": {
         "php": ">=5.5.0",
+        "ext-intl": "*",
         "symfony/symfony": "2.3.*",
         "doctrine/orm": "2.4.*",
         "doctrine/doctrine-bundle": "1.2.*",
