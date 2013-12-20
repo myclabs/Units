@@ -39,6 +39,27 @@ class OperationTest extends WebTestCase
         ];
     }
 
+    public function testConversionFactorUnitNotFound()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/conversion-factor?unit1=aaa&unit2=m');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+    }
+
+    public function testConversionFactorIncompatibleUnits()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/conversion-factor?unit1=m&unit2=g');
+        $response = $client->getResponse();
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $expected = 'IncompatibleUnitsException: Conversion factor impossible: units "m" and "g" have different physical quantities: "l" and "m"';
+        $this->assertEquals($expected, $response->getContent());
+    }
+
     /**
      * @dataProvider areCompatibleProvider
      */
@@ -71,6 +92,16 @@ class OperationTest extends WebTestCase
         ];
     }
 
+    public function testAreCompatibleUnitNotFound()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/compatible?unit1=aaa&unit2=m');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+    }
+
     /**
      * @dataProvider inverseProvider
      */
@@ -95,6 +126,16 @@ class OperationTest extends WebTestCase
             'm^2'    => ['m^2', 'm^-2'],
             'animal' => ['animal', 'animal^-1'],
         ];
+    }
+
+    public function testInverseUnitNotFound()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/inverse/aaa');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
     }
 
     protected static function getPhpUnitXmlDir()

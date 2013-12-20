@@ -4,9 +4,8 @@ namespace MyCLabs\UnitBundle\Controller\API;
 
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
-use MyCLabs\UnitAPI\DTO\UnitSystemDTO;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * REST controller for unit systems.
@@ -39,7 +38,7 @@ class UnitSystemController extends FOSRestController
         $unitSystem = $repository->find($id);
 
         if ($unitSystem === null) {
-            throw new HttpException(404, "No unit system named $id was found");
+            return new Response("No unit system named $id was found", 404);
         }
 
         $view = $this->view($dtoFactory->create($unitSystem), 200);

@@ -4,10 +4,9 @@ namespace MyCLabs\UnitBundle\Controller\API;
 
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
-use MyCLabs\UnitAPI\DTO\UnitDTO;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * REST controller for units.
@@ -38,7 +37,7 @@ class UnitController extends FOSRestController
         try {
             $unit = $parser->parse($expression);
         } catch (UnknownUnitException $e) {
-            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
+            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
         }
 
         $view = $this->view($dtoFactory->create($unit), 200);
@@ -57,7 +56,7 @@ class UnitController extends FOSRestController
         try {
             $unit = $parser->parse($expression);
         } catch (UnknownUnitException $e) {
-            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
+            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
         }
 
         $units = $dtoFactory->createMany($unit->getCompatibleUnits());
@@ -76,7 +75,7 @@ class UnitController extends FOSRestController
         try {
             $unit = $parser->parse($expression);
         } catch (UnknownUnitException $e) {
-            throw new HttpException(404, 'UnknownUnitException: ' . $e->getMessage());
+            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
         }
 
         $unit = $dtoFactory->create($unit->getUnitOfReference());

@@ -41,6 +41,17 @@ class UnitTest extends WebTestCase
             'm/s'                  => ['m/s', 'm/s'],
         ];
     }
+
+    public function testGetUnitNotFound()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/unit/aaa');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+    }
+
     /**
      * @dataProvider compatibleUnitsProvider
      */
@@ -71,6 +82,16 @@ class UnitTest extends WebTestCase
             'm^2'    => ['m^2', ['km^2', '100km^2', '1000km^2', 'mile^2']],
             'animal' => ['animal', []],
         ];
+    }
+
+    public function testGetCompatibleUnitsUnitNotFound()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/compatible-units/aaa');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
     }
 
     protected static function getPhpUnitXmlDir()
