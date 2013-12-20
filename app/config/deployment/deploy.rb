@@ -40,4 +40,4 @@ set :use_set_permissions, true
 set :keep_releases, 3
 after "deploy", "deploy:cleanup"
 
-logger.level = Logger::MAX_LEVEL
+logger.level = Logger::DEBUG
