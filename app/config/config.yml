@@ -86,3 +86,7 @@ fos_rest:
         default_format: json
     service:
         serializer: serializer
+
+parameters:
+    default_locale: %locale%
+    available_locales: [ en, fr ]

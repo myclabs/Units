@@ -1,15 +1,19 @@
+locale_redirection:
+    pattern:  "/"
+    defaults: { _controller: UnitBundle:Default:localeRedirection }
+
 homepage:
-    pattern:  /
+    pattern:  "{_locale}/"
     defaults: { _controller: UnitBundle:Default:home }
 
 physical_quantity_list:
-    pattern:  physicalquantity/list
+    pattern:  "{_locale}/physicalquantity/list"
     defaults: { _controller: UnitBundle:PhysicalQuantity:list }
 unit_list:
-    pattern:  unit/list
+    pattern:  "{_locale}/unit/list"
     defaults: { _controller: UnitBundle:Unit:list }
 unit_conversion:
-    pattern:  unit/conversion
+    pattern:  "{_locale}/unit/conversion"
     defaults: { _controller: UnitBundle:Unit:conversion }
 
 # API
