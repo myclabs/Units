@@ -1,6 +1,6 @@
 # Units
 
-![UML diagram](docs/DC.jpg)
+![UML diagram](docs/UML.jpg)
 
 ## Getting started
 
