@@ -41,3 +41,14 @@ $ app/console server:run
 ```
 
 The server is now running at [http://localhost:8000/](http://localhost:8000/).
+
+## Deploying
+
+Deployment is done use Capifony.
+
+```shell
+$ cap deploy # by default, in development
+$ cap development deploy
+$ cap testing deploy
+$ cap production deploy
+```
