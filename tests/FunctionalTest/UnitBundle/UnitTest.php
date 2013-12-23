@@ -18,7 +18,7 @@ class UnitTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/unit/' . urlencode($unitExpression));
+        $client->request('GET', '/api/en/unit/' . urlencode($unitExpression));
 
         $response = $client->getResponse();
 
@@ -45,7 +45,7 @@ class UnitTest extends WebTestCase
     public function testGetUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/unit/aaa');
+        $client->request('GET', '/api/en/unit/aaa');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -59,7 +59,7 @@ class UnitTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/compatible-units/' . urlencode($unit));
+        $client->request('GET', '/api/en/compatible-units/' . urlencode($unit));
 
         $response = $client->getResponse();
 
@@ -87,7 +87,7 @@ class UnitTest extends WebTestCase
     public function testGetCompatibleUnitsUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/compatible-units/aaa');
+        $client->request('GET', '/api/en/compatible-units/aaa');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
