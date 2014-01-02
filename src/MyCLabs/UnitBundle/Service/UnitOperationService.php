@@ -3,12 +3,18 @@
 namespace MyCLabs\UnitBundle\Service;
 
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
+use MyCLabs\UnitAPI\Operation\Operation;
 use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException as DomainIncompatibleUnitsException;
 use MyCLabs\UnitAPI\Exception\IncompatibleUnitsException as APIIncompatibleUnitsException;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
+use MyCLabs\UnitBundle\Service\Operation\AdditionExecutor;
+use MyCLabs\UnitBundle\Service\Operation\MultiplicationExecutor;
+use MyCLabs\UnitBundle\Service\Operation\OperationExecutor;
 
 /**
- * Service that converts values from a unit to another.
+ * Service that performs operations on units.
+ *
+ * @author matthieu.napoli
  */
 class UnitOperationService implements \MyCLabs\UnitAPI\UnitOperationService
 {
@@ -17,9 +23,32 @@ class UnitOperationService implements \MyCLabs\UnitAPI\UnitOperationService
      */
     private $unitExpressionParser;
 
-    public function __construct(UnitExpressionParser $unitExpressionParser)
+    /**
+     * @var OperationExecutor[]
+     */
+    private $operationExecutors;
+
+    public function __construct(UnitExpressionParser $unitExpressionParser, array $operationExecutors = [])
     {
         $this->unitExpressionParser = $unitExpressionParser;
+        $this->operationExecutors = $operationExecutors ?: [
+            new AdditionExecutor($unitExpressionParser),
+            new MultiplicationExecutor($unitExpressionParser),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(Operation $operation)
+    {
+        foreach ($this->operationExecutors as $executor) {
+            if ($executor->handles($operation)) {
+                return $executor->execute($operation);
+            }
+        }
+
+        throw new \InvalidArgumentException('Unhandled operation of type ' . get_class($operation));
     }
 
     /**

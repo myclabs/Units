@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Tests the operations.
  */
-class OperationTest extends WebTestCase
+class UnitOperationTest extends WebTestCase
 {
     /**
      * @dataProvider conversionFactorProvider
