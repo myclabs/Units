@@ -2,6 +2,11 @@
 
 namespace FunctionalTest\UnitBundle;
 
+use MyCLabs\UnitAPI\Operation\Addition;
+use MyCLabs\UnitAPI\Operation\Multiplication;
+use MyCLabs\UnitAPI\Operation\Operation;
+use MyCLabs\UnitAPI\Operation\OperationBuilder;
+use MyCLabs\UnitAPI\Operation\OperationComponent;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,6 +15,84 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UnitOperationTest extends WebTestCase
 {
+    /**
+     * @dataProvider operationProvider
+     */
+    public function testExecuteOperation(Operation $operation, $expected)
+    {
+        $client = static::createClient();
+
+        switch ($operation) {
+            case $operation instanceof Addition:
+                $operationType = 'addition';
+                break;
+            case $operation instanceof Multiplication:
+                $operationType = 'multiplication';
+                break;
+            default:
+                throw new \Exception;
+        }
+
+        $components = array_map(function (OperationComponent $component) {
+            return [
+                'unit' => $component->getUnitId(),
+                'exponent' => $component->getExponent(),
+            ];
+        }, $operation->getComponents());
+
+        $query = http_build_query([
+            'operation'  => $operationType,
+            'components' => $components,
+        ]);
+        $client->request('GET', '/api/en/execute?' . $query);
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response);
+
+        $this->assertEquals($expected, json_decode($response->getContent()));
+    }
+
+    public function operationProvider()
+    {
+        return [
+            [
+                OperationBuilder::addition()
+                    ->with('m')
+                    ->with('m')
+                    ->getOperation(),
+                'm'
+            ],
+            [
+                OperationBuilder::addition()
+                    ->with('m')
+                    ->with('km')
+                    ->getOperation(),
+                'm'
+            ],
+            [
+                OperationBuilder::addition()
+                    ->with('m', 2)
+                    ->with('km', 2)
+                    ->getOperation(),
+                'm^2'
+            ],
+            [
+                OperationBuilder::addition()
+                    ->with('m.s^-1', 2)
+                    ->with('km.h^-1', 2)
+                    ->getOperation(),
+                'm^2.s^-2'
+            ],
+            [
+                OperationBuilder::addition()
+                    ->with('m/s')
+                    ->with('km.h^-1')
+                    ->getOperation(),
+                'm.s^-1'
+            ],
+        ];
+    }
+
     /**
      * @dataProvider conversionFactorProvider
      */
@@ -145,7 +228,7 @@ class UnitOperationTest extends WebTestCase
 
     protected function assertJsonResponse(Response $response, $statusCode = 200)
     {
-        $this->assertEquals($statusCode, $response->getStatusCode());
+        $this->assertEquals($statusCode, $response->getStatusCode(), substr($response->getContent(), 0, 500));
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
     }
 }
