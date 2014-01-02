@@ -234,11 +234,11 @@ class ComposedUnit extends Unit
     /**
      * {@inheritdoc}
      */
-    public function inverse()
+    public function pow($exponent)
     {
         $components = array_map(
-            function (UnitComponent $component) {
-                return new UnitComponent($component->getUnit(), $component->getUnit() * -1);
+            function (UnitComponent $component) use ($exponent) {
+                return new UnitComponent($component->getUnit(), $component->getExponent() * $exponent);
             },
             $this->components
         );

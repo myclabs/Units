@@ -2,12 +2,9 @@
 
 namespace UnitTest\UnitBundle\Entity\Unit;
 
-use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
-use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
-use MyCLabs\UnitBundle\Entity\UnitSystem;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser\UnitExpressionLexer;
 use UnitTest\UnitBundle\Fixture\FakeUnitRepository;
@@ -166,6 +163,31 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
                 'km.h^-1',
                 [ 'km.s^-1', 'm.h^-1', 'm.s^-1' ],
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider powProvider
+     */
+    public function testPow($unitId, $exponent, $expected)
+    {
+        $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
+        $unit = $parser->parse($unitId);
+
+        $unit2 = $unit->pow($exponent);
+
+        $this->assertInstanceOf(ComposedUnit::class, $unit2);
+        $this->assertEquals($expected, $unit2->getId());
+    }
+
+    public function powProvider()
+    {
+        return [
+            'm^1' => [ 'm^1', -1, 'm^-1' ],
+            'm^-1' => [ 'm^-1', -1, 'm' ],
+            'm^2' => [ 'm^2', -1, 'm^-2' ],
+            'm^3' => [ 'm^3', 2, 'm^6' ],
+            'm.s' => [ 'm.s', -1, 'm^-1.s^-1' ],
         ];
     }
 }

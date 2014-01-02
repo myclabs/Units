@@ -162,8 +162,8 @@ class StandardUnit extends Unit
     /**
      * {@inheritdoc}
      */
-    public function inverse()
+    public function pow($exponent)
     {
-        return new ComposedUnit([ new UnitComponent($this, -1) ]);
+        return new ComposedUnit([ new UnitComponent($this, $exponent) ]);
     }
 }

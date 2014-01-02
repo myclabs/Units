@@ -121,5 +121,22 @@ abstract class Unit
      *
      * @return Unit
      */
-    abstract public function inverse();
+    public function inverse()
+    {
+        return $this->pow(-1);
+    }
+
+    /**
+     * Apply the exponent to the unit.
+     *
+     * Examples:
+     * - pow(m, 2)   -> m^2
+     * - pow(m^2, 2) -> m^4
+     * - pow(m2, 2)  -> m2^2
+     *
+     * @param int $exponent
+     *
+     * @return Unit
+     */
+    abstract public function pow($exponent);
 }
