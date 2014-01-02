@@ -58,7 +58,11 @@ class DiscreteUnit extends Unit
     public function getConversionFactor(Unit $unit = null)
     {
         if ($unit !== null && $this !== $unit) {
-            throw new IncompatibleUnitsException('Units need to be the same');
+            throw new IncompatibleUnitsException(sprintf(
+                'Units "%s" and "%s" are not compatible',
+                $this->id,
+                $unit->id
+            ));
         }
 
         return 1;

@@ -121,6 +121,7 @@ class UnitOperationTest extends WebTestCase
             [ 'm^2.animal^-1.m^-2.g.m^2.j^-5', 'animal^-1.g.m^2.j^-5', 1 ],
             [ 'm.m^-2.m^2', 'm', 1 ],
             [ 'kg^2.g', 'kg^3', 0.001 ],
+            [ 'm/s', 'm.s^-1', 1 ],
         ];
     }
 
@@ -141,7 +142,7 @@ class UnitOperationTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
-        $expected = 'IncompatibleUnitsException: Conversion factor impossible: units "m" and "g" have different physical quantities: "l" and "m"';
+        $expected = 'IncompatibleUnitsException: Units "m" and "g" are not compatible';
         $this->assertEquals($expected, $response->getContent());
     }
 

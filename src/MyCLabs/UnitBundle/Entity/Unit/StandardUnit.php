@@ -109,26 +109,15 @@ class StandardUnit extends Unit
             return $this->getMultiplier();
         }
 
-        if (! $unit instanceof StandardUnit) {
+        if (! $this->isCompatibleWith($unit)) {
             throw new IncompatibleUnitsException(sprintf(
-                'Conversion factor impossible: unit "%s" is only compatible with standard units, %s given',
+                'Units "%s" and "%s" are not compatible',
                 $this->id,
-                get_class($unit)
+                $unit->id
             ));
         }
 
-        if ($this->getPhysicalQuantity() !== $unit->getPhysicalQuantity()) {
-            throw new IncompatibleUnitsException(sprintf(
-                'Conversion factor impossible: units "%s" and "%s" have different physical quantities: '
-                . '"%s" and "%s"',
-                $this->id,
-                $unit->id,
-                $this->getPhysicalQuantity()->getId(),
-                $unit->getPhysicalQuantity()->getId()
-            ));
-        }
-
-        return $this->getMultiplier() / $unit->getMultiplier();
+        return $this->getMultiplier() / $unit->getConversionFactor();
     }
 
     /**
