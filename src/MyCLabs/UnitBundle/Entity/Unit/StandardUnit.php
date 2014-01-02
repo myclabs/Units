@@ -3,7 +3,6 @@
 namespace MyCLabs\UnitBundle\Entity\Unit;
 
 use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
-use MyCLabs\UnitBundle\Entity\PhysicalQuantity\Component;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 
@@ -112,32 +111,12 @@ class StandardUnit extends Unit
         if (! $this->isCompatibleWith($unit)) {
             throw new IncompatibleUnitsException(sprintf(
                 'Units "%s" and "%s" are not compatible',
-                $this->id,
-                $unit->id
+                $this->getId(),
+                $unit->getId()
             ));
         }
 
         return $this->getMultiplier() / $unit->getConversionFactor();
-    }
-
-    /**
-     * Retourne un tableau contenant la conversion de l'unité standard en unités normalisées
-     * @return array De la forme ('unit' => StandardUnit, 'exponent' => int).
-     */
-    public function getNormalizedUnit()
-    {
-        // TODO remove?
-        $tabResults = array();
-
-        /* @var $component Component */
-        foreach ($this->getPhysicalQuantity()->getComponents() as $component) {
-            $tabResults[] = array(
-                'unit'     => $component->getBaseQuantity()->getUnitOfReference(),
-                'exponent' => $component->getExponent()
-            );
-        }
-
-        return $tabResults;
     }
 
     /**

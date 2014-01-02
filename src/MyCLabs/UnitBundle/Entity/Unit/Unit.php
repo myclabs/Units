@@ -120,7 +120,7 @@ abstract class Unit
      */
     public function isCompatibleWith(Unit $unit)
     {
-        return ($this->getBaseUnitOfReference() == $unit->getBaseUnitOfReference());
+        return ($this->getBaseUnitOfReference()->getId() === $unit->getBaseUnitOfReference()->getId());
     }
 
     /**
