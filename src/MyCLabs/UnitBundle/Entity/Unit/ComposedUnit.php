@@ -119,12 +119,61 @@ class ComposedUnit extends Unit
      */
     public function getUnitOfReference()
     {
+        return $this->computeUnitOfReference(function (Unit $unit) {
+            return $unit->getUnitOfReference();
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBaseUnitOfReference()
+    {
+        return $this->computeUnitOfReference(function (Unit $unit) {
+            return $unit->getBaseUnitOfReference();
+        });
+    }
+
+    /**
+     * Computes the unit of reference, using the given function to find the unit of reference of a single unit.
+     * @param callable $getUnitOfReference
+     * @return Unit
+     */
+    private function computeUnitOfReference(callable $getUnitOfReference)
+    {
+        // Get units of references
+        /** @var UnitComponent[] $components */
+        $components = [];
+        foreach ($this->components as $component) {
+            $unit = $getUnitOfReference($component->getUnit());
+
+            if ($unit instanceof ComposedUnit) {
+                foreach ($unit->components as $composedUnitComponent) {
+                    $components[] = $composedUnitComponent;
+                }
+            } else {
+                $components[] = new UnitComponent($unit, $component->getExponent());
+            }
+        }
+
+        $unitOfReference = new ComposedUnit($components);
+
+        return $unitOfReference->simplify();
+    }
+
+    /**
+     * Simplify the unit expression by merging components in the same unit.
+     *
+     * For example, the composed unit "m^2.m^-1" will return the standard unit "m".
+     *
+     * @return Unit
+     */
+    public function simplify()
+    {
         /** @var UnitComponent[] $uniqueComponents */
         $uniqueComponents = [];
-
-        // Simplifies for components of same unit
         foreach ($this->components as $component) {
-            $unit = $component->getUnit()->getUnitOfReference();
+            $unit = $component->getUnit();
 
             if (isset($uniqueComponents[$unit->getId()])) {
                 $newExponent = $uniqueComponents[$unit->getId()]->getExponent() + $component->getExponent();
@@ -133,6 +182,11 @@ class ComposedUnit extends Unit
                 $uniqueComponents[$unit->getId()] = new UnitComponent($unit, $component->getExponent());
             }
         }
+
+        // Remove components with exponent 0
+        $uniqueComponents = array_filter($uniqueComponents, function (UnitComponent $component) {
+            return $component->getExponent() != 0;
+        });
 
         // If only one component is left, with exponent=1, then it's a standard unit
         if (count($uniqueComponents) === 1) {

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tests the unit API.
+ *
+ * @coversNothing
  */
 class UnitTest extends WebTestCase
 {

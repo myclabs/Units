@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tests the operations.
+ *
+ * @coversNothing
  */
 class UnitOperationTest extends WebTestCase
 {
@@ -171,7 +173,9 @@ class UnitOperationTest extends WebTestCase
             [ 'g', 'm', false ],
             [ 'm.g', 'm.m', false ],
             [ 'm^2', 'm^3', false ],
-            [ 'm^2', 'm2', false ],
+            [ 'm^2', 'm2', true ],
+            [ 'm/s', 'm.s^-1', true ],
+            [ 'm/s.h', 'm', true ],
         ];
     }
 

@@ -9,6 +9,9 @@ use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser\UnitExpressionLexer;
 use UnitTest\UnitBundle\Fixture\FakeUnitRepository;
 
+/**
+ * @covers \MyCLabs\UnitBundle\Entity\Unit\ComposedUnit
+ */
 class ComposedUnitTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -69,16 +72,15 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getUnitOfReferenceTestProvider
      */
-    public function testGetUnitOfReference($unitExpression, $expectedExpression)
+    public function testGetUnitOfReference($unitExpression, $expectedId)
     {
         $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
 
         $unit = $parser->parse($unitExpression);
-        $expected = $parser->parse($expectedExpression);
 
         $referenceUnit = $unit->getUnitOfReference();
 
-        $this->assertEquals($expected->getId(), $referenceUnit->getId());
+        $this->assertEquals($expectedId, $referenceUnit->getId());
     }
 
     public function getUnitOfReferenceTestProvider()
@@ -100,9 +102,120 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
                 'm^2.m^1',
                 'm^3',
             ],
+            'm/s' => [
+                'm/s',
+                'm/s',
+            ],
+            'knot' => [
+                'knot',
+                'm/s',
+            ],
+            'knot.kg' => [
+                'knot.kg',
+                'kg.m/s',
+            ],
+            'knot.h' => [
+                'knot.h',
+                'm/s.s',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getBaseUnitOfReferenceTestProvider
+     */
+    public function testGetBaseUnitOfReference($unitExpression, $expectedId)
+    {
+        $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
+
+        $unit = $parser->parse($unitExpression);
+
+        $referenceUnit = $unit->getBaseUnitOfReference();
+
+        $this->assertEquals($expectedId, $referenceUnit->getId());
+    }
+
+    public function getBaseUnitOfReferenceTestProvider()
+    {
+        return [
+            'm.s' => [
+                'm.s',
+                'm.s',
+            ],
+            'km.s' => [
+                'km.s',
+                'm.s',
+            ],
+            'km.h^-1' => [
+                'km.h^-1',
+                'm.s^-1',
+            ],
+            'm^2.m^1' => [
+                'm^2.m^1',
+                'm^3',
+            ],
+            'm/s' => [
+                'm/s',
+                'm.s^-1',
+            ],
+            'knot' => [
+                'knot',
+                'm.s^-1',
+            ],
+            'knot.kg' => [
+                'knot.kg',
+                'kg.m.s^-1',
+            ],
+            'knot.h' => [
+                'knot.h',
+                'm',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider simplifyProvider
+     */
+    public function testSimplify($unitExpression, $expectedId)
+    {
+        $parser = new UnitExpressionParser(new UnitExpressionLexer(), new FakeUnitRepository());
+
+        /** @var ComposedUnit $unit */
+        $unit = $parser->parse($unitExpression);
+
+        $this->assertEquals($expectedId, $unit->simplify()->getId());
+    }
+
+    public function simplifyProvider()
+    {
+        return [
+            'm.s' => [
+                'm.s',
+                'm.s',
+            ],
+            'km.s' => [
+                'km.s',
+                'km.s',
+            ],
+            'm^2.m^1' => [
+                'm^2.m^1',
+                'm^3',
+            ],
             'm^2.m^-1' => [
                 'm^2.m^-1',
                 'm',
+            ],
+            'm/s' => [
+                'm/s',
+                'm/s',
+            ],
+            'm/s.s' => [
+                'm/s.s',
+                'm/s.s',
+            ],
+            'h.h^-1' => [
+                'h.h^-1',
+                '',
             ],
         ];
     }

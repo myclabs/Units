@@ -10,6 +10,9 @@ use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser\UnitExpressionLexer;
 
+/**
+ * @covers \MyCLabs\UnitBundle\Service\UnitExpressionParser
+ */
 class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
 {
     private $unitRepository;

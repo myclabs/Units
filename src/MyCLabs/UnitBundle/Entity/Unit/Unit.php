@@ -87,6 +87,13 @@ abstract class Unit
     abstract public function getUnitOfReference();
 
     /**
+     * Returns the unit of reference in the base physical quantity.
+     *
+     * @return Unit
+     */
+    abstract public function getBaseUnitOfReference();
+
+    /**
      * Returns the conversion factor between this unit and the given unit.
      * If no unit is given, then the conversion factor is between this unit and the unit of reference.
      *
@@ -113,7 +120,7 @@ abstract class Unit
      */
     public function isCompatibleWith(Unit $unit)
     {
-        return ($this->getUnitOfReference() == $unit->getUnitOfReference());
+        return ($this->getBaseUnitOfReference() == $unit->getBaseUnitOfReference());
     }
 
     /**
@@ -139,4 +146,16 @@ abstract class Unit
      * @return Unit
      */
     abstract public function pow($exponent);
+
+    /**
+     * Simplify the unit expression by merging components in the same unit.
+     *
+     * For example, the composed unit "m^2.m^-1" will return the standard unit "m".
+     *
+     * @return Unit
+     */
+    public function simplify()
+    {
+        return $this;
+    }
 }

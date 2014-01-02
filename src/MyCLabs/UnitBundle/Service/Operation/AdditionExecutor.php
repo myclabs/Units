@@ -74,7 +74,6 @@ class AdditionExecutor implements OperationExecutor
         });
 
         // Since all components are compatibles, we take the first unit (actually, its base unit of reference)
-        // TODO take the unit of reference of the base physical quantity
-        return $firstUnit->getUnitOfReference()->getId();
+        return $firstUnit->getBaseUnitOfReference()->getId();
     }
 }

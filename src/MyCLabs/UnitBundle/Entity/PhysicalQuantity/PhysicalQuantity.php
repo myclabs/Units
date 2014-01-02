@@ -5,6 +5,7 @@ namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
+use MyCLabs\UnitBundle\Entity\Unit\Unit;
 
 /**
  * Physical quantity.
@@ -110,6 +111,14 @@ abstract class PhysicalQuantity
 
         return $this->unitOfReference;
     }
+
+    /**
+     * Returns the unit of reference in the base physical quantity.
+     *
+     * @throws \RuntimeException No unit of reference was previously defined for any of the base physical quantities.
+     * @return Unit
+     */
+    abstract public function getBaseUnitOfReference();
 
     /**
      * @return StandardUnit[] Units from this physical quantity.

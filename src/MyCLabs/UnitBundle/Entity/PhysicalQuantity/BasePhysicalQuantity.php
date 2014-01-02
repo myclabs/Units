@@ -9,4 +9,11 @@ namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
  */
 class BasePhysicalQuantity extends PhysicalQuantity
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getBaseUnitOfReference()
+    {
+        return $this->getUnitOfReference();
+    }
 }

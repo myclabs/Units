@@ -10,6 +10,9 @@ use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
 use MyCLabs\UnitBundle\Service\Operation\AdditionExecutor;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
+/**
+ * @covers \MyCLabs\UnitBundle\Service\Operation\AdditionExecutor
+ */
 class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -96,6 +99,9 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
             ->method('getUnitOfReference')
             ->will($this->returnValue($mUnit));
         $mUnit->expects($this->any())
+            ->method('getBaseUnitOfReference')
+            ->will($this->returnValue($mUnit));
+        $mUnit->expects($this->any())
             ->method('pow')
             ->with(2)
             ->will($this->returnValue(new ComposedUnit([ new UnitComponent($mUnit, 2) ])));
@@ -106,6 +112,9 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
             ->method('getUnitOfReference')
             ->will($this->returnValue($mUnit));
         $kmUnit->expects($this->any())
+            ->method('getBaseUnitOfReference')
+            ->will($this->returnValue($mUnit));
+        $kmUnit->expects($this->any())
             ->method('pow')
             ->with(2)
             ->will($this->returnValue(new ComposedUnit([ new UnitComponent($kmUnit, 2) ])));
@@ -114,6 +123,9 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
         $gUnit = $this->getMockForAbstractClass(Unit::class, ['g', 'Gram', 'g']);
         $gUnit->expects($this->any())
             ->method('getUnitOfReference')
+            ->will($this->returnValue($gUnit));
+        $gUnit->expects($this->any())
+            ->method('getBaseUnitOfReference')
             ->will($this->returnValue($gUnit));
 
         $mUnit->expects($this->any())

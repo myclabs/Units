@@ -5,6 +5,9 @@ namespace UnitTest\UnitBundle\Entity;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
+/**
+ * @covers \MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity
+ */
 class PhysicalQuantityTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimple()

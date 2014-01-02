@@ -8,6 +8,9 @@ use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
+/**
+ * @covers \MyCLabs\UnitBundle\Entity\Unit\StandardUnit
+ */
 class StandardUnitTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,7 +38,7 @@ class StandardUnitTest extends \PHPUnit_Framework_TestCase
         $unitSystem = $this->getMock(UnitSystem::class, [], [], '', false);
 
         /** @var PhysicalQuantity $physicalQuantity */
-        $physicalQuantity = $this->getMock(PhysicalQuantity::class, null, ['l', 'Length', 'L']);
+        $physicalQuantity = $this->getMockForAbstractClass(PhysicalQuantity::class, ['l', 'Length', 'L']);
 
         $unit1 = new StandardUnit('m', 'm', 'm', $physicalQuantity, $unitSystem, 1);
         $unit2 = new StandardUnit('km', 'km', 'km', $physicalQuantity, $unitSystem, 1000);

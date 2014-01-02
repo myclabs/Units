@@ -95,6 +95,14 @@ class StandardUnit extends Unit
     /**
      * {@inheritdoc}
      */
+    public function getBaseUnitOfReference()
+    {
+        return $this->physicalQuantity->getBaseUnitOfReference();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getConversionFactor(Unit $unit = null)
     {
         if ($unit === null) {

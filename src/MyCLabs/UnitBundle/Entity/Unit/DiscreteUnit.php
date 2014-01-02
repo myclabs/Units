@@ -39,6 +39,18 @@ class DiscreteUnit extends Unit
     }
 
     /**
+     * The unit of reference is itself.
+     *
+     * {@inheritdoc}
+     *
+     * @return DiscreteUnit
+     */
+    public function getBaseUnitOfReference()
+    {
+        return $this;
+    }
+
+    /**
      * The conversion factor is always 1, as a discrete unit is only compatible with itself.
      *
      * {@inheritdoc}

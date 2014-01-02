@@ -6,6 +6,9 @@ use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Service\UnitOperationService;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
+/**
+ * @covers \MyCLabs\UnitBundle\Service\UnitOperationService
+ */
 class UnitOperationServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
