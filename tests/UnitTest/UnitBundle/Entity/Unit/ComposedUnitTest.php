@@ -158,6 +158,10 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
                 'm/s',
                 'm.s^-1',
             ],
+            'm/s^2' => [
+                'm/s^2',
+                'm^2.s^-2',
+            ],
             'knot' => [
                 'knot',
                 'm.s^-1',

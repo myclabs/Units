@@ -149,7 +149,8 @@ class ComposedUnit extends Unit
 
             if ($unit instanceof ComposedUnit) {
                 foreach ($unit->components as $composedUnitComponent) {
-                    $components[] = $composedUnitComponent;
+                    $newExponent = $composedUnitComponent->getExponent() * $component->getExponent();
+                    $components[] = new UnitComponent($composedUnitComponent->getUnit(), $newExponent);
                 }
             } else {
                 $components[] = new UnitComponent($unit, $component->getExponent());
