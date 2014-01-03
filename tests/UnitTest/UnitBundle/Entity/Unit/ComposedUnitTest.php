@@ -234,14 +234,15 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
         $unitFrom = $parser->parse($unitFrom);
         $unitTo = $parser->parse($unitTo);
 
-        $this->assertEquals($expected, $unitFrom->getConversionFactor($unitTo));
+        $this->assertSame($expected, $unitFrom->getConversionFactor($unitTo));
     }
 
     public function getConversionFactorProvider()
     {
         return [
-            [ 'm.s', 'm.s', 1 ],
-            [ 'km.s', 'm.s', 1000 ],
+            [ 'm.s', 'm.s', 1. ],
+            [ 'km^2', 'm^2', 1000. * 1000. ],
+            [ 'km.s', 'm.s', 1000. ],
             [ 'm.s', 'km.s', 0.001 ],
             [ 'm.s^-1', 'km.h^-1', 3.6 ],
         ];
