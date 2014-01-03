@@ -33,4 +33,4 @@ api_unit:
 api_operation:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\API\OperationController
-    prefix: "api/{_locale}/"
+    prefix: "api/"
