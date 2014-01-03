@@ -109,15 +109,6 @@ class UnitOperationService implements \MyCLabs\UnitAPI\UnitOperationService
     /**
      * {@inheritdoc}
      */
-    public function multiply($unit1, $unit2)
-    {
-        // TODO: Implement multiply() method.
-        throw new \Exception;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function inverse($unit)
     {
         $domainUnit = $this->unitExpressionParser->parse($unit);

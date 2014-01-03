@@ -296,16 +296,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "328357bd9eea9d671fe5fff0737f01953bfe66a0"
+                "reference": "fec965d330c958e175c39e61c3f6751955af32d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/328357bd9eea9d671fe5fff0737f01953bfe66a0",
-                "reference": "328357bd9eea9d671fe5fff0737f01953bfe66a0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/fec965d330c958e175c39e61c3f6751955af32d0",
+                "reference": "fec965d330c958e175c39e61c3f6751955af32d0",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-11-12 12:38:28"
+            "time": "2014-01-01 16:43:57"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -1268,12 +1268,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/Units-API.git",
-                "reference": "3ff7445c3fb594e7d823633d0b16b061699e40d3"
+                "reference": "b1c3e8712e9064ad77b3a7e54632f3aab34a88c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/3ff7445c3fb594e7d823633d0b16b061699e40d3",
-                "reference": "3ff7445c3fb594e7d823633d0b16b061699e40d3",
+                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/b1c3e8712e9064ad77b3a7e54632f3aab34a88c7",
+                "reference": "b1c3e8712e9064ad77b3a7e54632f3aab34a88c7",
                 "shasum": ""
             },
             "require": {
@@ -1291,7 +1291,7 @@
                 "source": "https://github.com/myclabs/Units-API/tree/master",
                 "issues": "https://github.com/myclabs/Units-API/issues"
             },
-            "time": "2013-12-23 13:32:11"
+            "time": "2014-01-03 10:19:53"
         },
         {
             "name": "phpoption/phpoption",
