@@ -1268,12 +1268,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/Units-API.git",
-                "reference": "b1c3e8712e9064ad77b3a7e54632f3aab34a88c7"
+                "reference": "cde872c49838a7d55fdd745c702c65689440f39c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/b1c3e8712e9064ad77b3a7e54632f3aab34a88c7",
-                "reference": "b1c3e8712e9064ad77b3a7e54632f3aab34a88c7",
+                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/cde872c49838a7d55fdd745c702c65689440f39c",
+                "reference": "cde872c49838a7d55fdd745c702c65689440f39c",
                 "shasum": ""
             },
             "require": {
@@ -1291,7 +1291,7 @@
                 "source": "https://github.com/myclabs/Units-API/tree/master",
                 "issues": "https://github.com/myclabs/Units-API/issues"
             },
-            "time": "2014-01-03 10:19:53"
+            "time": "2014-01-03 14:15:29"
         },
         {
             "name": "phpoption/phpoption",

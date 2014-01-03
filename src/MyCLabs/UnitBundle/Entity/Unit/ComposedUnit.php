@@ -217,9 +217,7 @@ class ComposedUnit extends Unit
 
             foreach ($this->components as $component) {
                 $componentUnit = $component->getUnit();
-                if ($componentUnit instanceof StandardUnit) {
-                    $factor *= pow($componentUnit->getMultiplier(), $component->getExponent());
-                }
+                $factor *= pow($componentUnit->getConversionFactor(), $component->getExponent());
             }
 
             return $factor;

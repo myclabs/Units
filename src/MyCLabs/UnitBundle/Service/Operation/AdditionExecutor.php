@@ -6,6 +6,7 @@ use MyCLabs\UnitAPI\Operation\Addition;
 use MyCLabs\UnitAPI\Operation\Operation;
 use MyCLabs\UnitAPI\Exception\IncompatibleUnitsException as APIIncompatibleUnitsException;
 use MyCLabs\UnitAPI\Operation\OperationComponent;
+use MyCLabs\UnitAPI\Operation\Result\AdditionResult;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
@@ -74,6 +75,8 @@ class AdditionExecutor implements OperationExecutor
         });
 
         // Since all components are compatibles, we take the first unit (actually, its base unit of reference)
-        return $firstUnit->getBaseUnitOfReference()->getId();
+        $unitId = $firstUnit->getBaseUnitOfReference()->getId();
+
+        return new AdditionResult($unitId);
     }
 }

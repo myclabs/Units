@@ -23,7 +23,7 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
         $executor = new AdditionExecutor($this->createParser());
         $result = $executor->execute($operation);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result->getUnitId());
     }
 
     public function operationProvider()

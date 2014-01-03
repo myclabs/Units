@@ -20,7 +20,7 @@ class UnitOperationTest extends WebTestCase
     /**
      * @dataProvider operationProvider
      */
-    public function testExecuteOperation(Operation $operation, $expected)
+    public function testExecuteOperation(Operation $operation, $expectedUnit, $expectedConversionFactor = null)
     {
         $client = static::createClient();
 
@@ -51,7 +51,11 @@ class UnitOperationTest extends WebTestCase
 
         $this->assertJsonResponse($response);
 
-        $this->assertEquals($expected, json_decode($response->getContent()));
+        $result = json_decode($response->getContent());
+        $this->assertEquals($expectedUnit, $result->unitId);
+        if ($operation instanceof Multiplication) {
+            $this->assertEquals($expectedConversionFactor, $result->conversionFactor);
+        }
     }
 
     public function operationProvider()
@@ -98,35 +102,40 @@ class UnitOperationTest extends WebTestCase
                 OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->getOperation(),
-                'm'
+                'm',
+                1.
             ],
             [
                 OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('m', 1)
                     ->getOperation(),
-                'm^2'
+                'm^2',
+                1.
             ],
             [
                 OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('km', 1)
                     ->getOperation(),
-                'm^2'
+                'm^2',
+                1000.
             ],
             [
                 OperationBuilder::multiplication()
                     ->with('km', 1)
                     ->with('km', 1)
                     ->getOperation(),
-                'm^2'
+                'm^2',
+                1000. * 1000.
             ],
             [
                 OperationBuilder::multiplication()
                     ->with('m', 2)
                     ->with('km', 2)
                     ->getOperation(),
-                'm^4'
+                'm^4',
+                1000. * 1000.
             ],
             [
                 OperationBuilder::multiplication()
@@ -134,7 +143,8 @@ class UnitOperationTest extends WebTestCase
                     ->with('m', 1)
                     ->with('m', 1)
                     ->getOperation(),
-                'm^3'
+                'm^3',
+                1.
             ],
             [
                 OperationBuilder::multiplication()
@@ -142,14 +152,16 @@ class UnitOperationTest extends WebTestCase
                     ->with('m', 1)
                     ->with('m', -1)
                     ->getOperation(),
-                'm'
+                'm',
+                1.
             ],
             [
                 OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('g', 1)
                     ->getOperation(),
-                'kg.m'
+                'kg.m',
+                0.001
             ],
             [
                 OperationBuilder::multiplication()
@@ -157,14 +169,24 @@ class UnitOperationTest extends WebTestCase
                     ->with('km', 2)
                     ->with('g', 1)
                     ->getOperation(),
-                'kg.m^-1'
+                'kg.m^-1',
+                1000.
             ],
             [
                 OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('m', -1)
                     ->getOperation(),
-                ''
+                '',
+                1.
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('km^2', -1)
+                    ->getOperation(),
+                'm^-1',
+                1. / (1000. * 1000.)
             ],
         ];
     }

@@ -5,6 +5,7 @@ namespace MyCLabs\UnitBundle\Service\Operation;
 use MyCLabs\UnitAPI\Operation\Multiplication;
 use MyCLabs\UnitAPI\Operation\Operation;
 use MyCLabs\UnitAPI\Operation\OperationComponent;
+use MyCLabs\UnitAPI\Operation\Result\MultiplicationResult;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
@@ -57,6 +58,11 @@ class MultiplicationExecutor implements OperationExecutor
             return $unit->pow($component->getExponent());
         }, $components);
 
+        // Calculate the conversion factor for the result of the multiplication
+        $conversionFactor = array_reduce($units, function ($result, Unit $unit) {
+            return $result * $unit->getConversionFactor();
+        }, 1.);
+
         // Turn each unit into its unit of reference
         $units = array_map(function (Unit $unit) {
             return $unit->getBaseUnitOfReference();
@@ -77,6 +83,6 @@ class MultiplicationExecutor implements OperationExecutor
         $resultUnit = new ComposedUnit($unitComponents);
         $resultUnit = $resultUnit->simplify();
 
-        return $resultUnit->getId();
+        return new MultiplicationResult($resultUnit->getId(), $conversionFactor);
     }
 }
