@@ -57,6 +57,7 @@ class UnitOperationTest extends WebTestCase
     public function operationProvider()
     {
         return [
+            // Additions
             [
                 OperationBuilder::addition()
                     ->with('m')
@@ -91,6 +92,79 @@ class UnitOperationTest extends WebTestCase
                     ->with('km.h^-1')
                     ->getOperation(),
                 'm.s^-1'
+            ],
+            // Multiplications
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->getOperation(),
+                'm'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('m', 1)
+                    ->getOperation(),
+                'm^2'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('km', 1)
+                    ->getOperation(),
+                'm^2'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('km', 1)
+                    ->with('km', 1)
+                    ->getOperation(),
+                'm^2'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 2)
+                    ->with('km', 2)
+                    ->getOperation(),
+                'm^4'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('m', 1)
+                    ->with('m', 1)
+                    ->getOperation(),
+                'm^3'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('m', 1)
+                    ->with('m', -1)
+                    ->getOperation(),
+                'm'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('g', 1)
+                    ->getOperation(),
+                'kg.m'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', -3)
+                    ->with('km', 2)
+                    ->with('g', 1)
+                    ->getOperation(),
+                'kg.m^-1'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('m', -1)
+                    ->getOperation(),
+                ''
             ],
         ];
     }
@@ -213,6 +287,7 @@ class UnitOperationTest extends WebTestCase
             'm.h^-1' => ['m.h^-1', 'm^-1.h'],
             'm^2'    => ['m^2', 'm^-2'],
             'animal' => ['animal', 'animal^-1'],
+            'm/s'    => ['m/s', 'm/s^-1'],
         ];
     }
 
