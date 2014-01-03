@@ -302,6 +302,14 @@ class ComposedUnit extends Unit
     }
 
     /**
+     * @return UnitComponent[]
+     */
+    public function getComponents()
+    {
+        return $this->components;
+    }
+
+    /**
      * Array cartesian product.
      *
      * Returns all possible combinations between items of several arrays.

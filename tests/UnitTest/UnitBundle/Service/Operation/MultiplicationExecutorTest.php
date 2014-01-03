@@ -7,20 +7,20 @@ use MyCLabs\UnitAPI\Operation\OperationBuilder;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
-use MyCLabs\UnitBundle\Service\Operation\AdditionExecutor;
+use MyCLabs\UnitBundle\Service\Operation\MultiplicationExecutor;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
 /**
- * @covers \MyCLabs\UnitBundle\Service\Operation\AdditionExecutor
+ * @covers \MyCLabs\UnitBundle\Service\Operation\MultiplicationExecutor
  */
-class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
+class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider operationProvider
      */
     public function testExecute(Operation $operation, $expected)
     {
-        $executor = new AdditionExecutor($this->createParser());
+        $executor = new MultiplicationExecutor($this->createParser());
         $result = $executor->execute($operation);
 
         $this->assertEquals($expected, $result);
@@ -30,75 +30,76 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                OperationBuilder::addition()
+                OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->getOperation(),
                 'm'
             ],
             [
-                OperationBuilder::addition()
+                OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('m', 1)
-                    ->getOperation(),
-                'm'
-            ],
-            [
-                OperationBuilder::addition()
-                    ->with('m', 1)
-                    ->with('km', 1)
-                    ->getOperation(),
-                'm'
-            ],
-            [
-                OperationBuilder::addition()
-                    ->with('km', 1)
-                    ->with('km', 1)
-                    ->getOperation(),
-                'm'
-            ],
-            [
-                OperationBuilder::addition()
-                    ->with('m', 2)
-                    ->with('km', 2)
                     ->getOperation(),
                 'm^2'
             ],
             [
-                OperationBuilder::addition()
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('km', 1)
+                    ->getOperation(),
+                'm^2'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('km', 1)
+                    ->with('km', 1)
+                    ->getOperation(),
+                'm^2'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 2)
+                    ->with('km', 2)
+                    ->getOperation(),
+                'm^4'
+            ],
+            [
+                OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('m', 1)
                     ->with('m', 1)
                     ->getOperation(),
+                'm^3'
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('m', 1)
+                    ->with('m', 1)
+                    ->with('m', -1)
+                    ->getOperation(),
                 'm'
             ],
-        ];
-    }
-
-    /**
-     * @dataProvider failingOperationProvider
-     * @expectedException \MyCLabs\UnitAPI\Exception\IncompatibleUnitsException
-     * @expectedExceptionMessage In an addition, components must have compatible units.
-     */
-    public function testExecuteException(Operation $operation)
-    {
-        $executor = new AdditionExecutor($this->createParser());
-        $executor->execute($operation);
-    }
-
-    public function failingOperationProvider()
-    {
-        return [
             [
-                OperationBuilder::addition()
+                OperationBuilder::multiplication()
                     ->with('m', 1)
                     ->with('g', 1)
-                    ->getOperation()
+                    ->getOperation(),
+                'g.m'
             ],
             [
-                OperationBuilder::addition()
+                OperationBuilder::multiplication()
+                    ->with('m', -3)
+                    ->with('km', 2)
+                    ->with('g', 1)
+                    ->getOperation(),
+                'g.m^-1'
+            ],
+            [
+                OperationBuilder::multiplication()
                     ->with('m', 1)
-                    ->with('m', 2)
-                    ->getOperation()
+                    ->with('m', -1)
+                    ->getOperation(),
+                ''
             ],
         ];
     }
@@ -118,8 +119,9 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mUnit));
         $mUnit->expects($this->any())
             ->method('pow')
-            ->with(2)
-            ->will($this->returnValue(new ComposedUnit([ new UnitComponent($mUnit, 2) ])));
+            ->will($this->returnCallback(function ($exponent) use ($mUnit) {
+                return new ComposedUnit([ new UnitComponent($mUnit, $exponent) ]);
+            }));
 
         // Mock "km" unit
         $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);

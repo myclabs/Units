@@ -4,6 +4,10 @@ namespace MyCLabs\UnitBundle\Service\Operation;
 
 use MyCLabs\UnitAPI\Operation\Multiplication;
 use MyCLabs\UnitAPI\Operation\Operation;
+use MyCLabs\UnitAPI\Operation\OperationComponent;
+use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
+use MyCLabs\UnitBundle\Entity\Unit\Unit;
+use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
 /**
@@ -40,6 +44,39 @@ class MultiplicationExecutor implements OperationExecutor
             throw new \InvalidArgumentException('Unhandled operation of type ' . get_class($operation));
         }
 
-        throw new \Exception("TODO");
+        $components = $operation->getComponents();
+
+        // Apply the exponent of each component
+        $units = array_map(function (OperationComponent $component) {
+            $unit = $this->unitExpressionParser->parse($component->getUnitId());
+
+            if ($component->getExponent() === 1) {
+                return $unit;
+            }
+
+            return $unit->pow($component->getExponent());
+        }, $components);
+
+        // Turn each unit into its unit of reference
+        $units = array_map(function (Unit $unit) {
+            return $unit->getBaseUnitOfReference();
+        }, $units);
+
+        // Flatten everything to unit components (m.s^-1 * s => m * s^-1 * s)
+        $unitComponents = [];
+        foreach ($units as $unit) {
+            if ($unit instanceof ComposedUnit) {
+                foreach ($unit->getComponents() as $unitComponent) {
+                    $unitComponents[] = $unitComponent;
+                }
+            } else {
+                $unitComponents[] = new UnitComponent($unit, 1);
+            }
+        }
+
+        $resultUnit = new ComposedUnit($unitComponents);
+        $resultUnit = $resultUnit->simplify();
+
+        return $resultUnit->getId();
     }
 }

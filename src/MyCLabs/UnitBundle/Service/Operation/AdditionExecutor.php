@@ -46,7 +46,7 @@ class AdditionExecutor implements OperationExecutor
 
         $components = $operation->getComponents();
 
-        // Apply the exponents of each component
+        // Apply the exponent of each component
         $units = array_map(function (OperationComponent $component) {
             $unit = $this->unitExpressionParser->parse($component->getUnitId());
 
