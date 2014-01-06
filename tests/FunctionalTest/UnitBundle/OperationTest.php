@@ -46,7 +46,7 @@ class UnitOperationTest extends WebTestCase
             'operation'  => $operationType,
             'components' => $components,
         ]);
-        $client->request('GET', '/api/en/execute?' . $query);
+        $client->request('GET', '/api/execute?' . $query);
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response);
@@ -198,7 +198,7 @@ class UnitOperationTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/en/conversion-factor?unit1=' . urlencode($unit1) . '&unit2=' . urlencode($unit2));
+        $client->request('GET', '/api/conversion-factor?unit1=' . urlencode($unit1) . '&unit2=' . urlencode($unit2));
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response);
@@ -224,7 +224,7 @@ class UnitOperationTest extends WebTestCase
     public function testConversionFactorUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/conversion-factor?unit1=aaa&unit2=m');
+        $client->request('GET', '/api/conversion-factor?unit1=aaa&unit2=m');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -234,7 +234,7 @@ class UnitOperationTest extends WebTestCase
     public function testConversionFactorIncompatibleUnits()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/conversion-factor?unit1=m&unit2=g');
+        $client->request('GET', '/api/conversion-factor?unit1=m&unit2=g');
         $response = $client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
@@ -249,7 +249,7 @@ class UnitOperationTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/en/compatible?unit1=' . urlencode($unit1) . '&unit2=' . urlencode($unit2));
+        $client->request('GET', '/api/compatible?unit1=' . urlencode($unit1) . '&unit2=' . urlencode($unit2));
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response);
@@ -279,7 +279,7 @@ class UnitOperationTest extends WebTestCase
     public function testAreCompatibleUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/compatible?unit1=aaa&unit2=m');
+        $client->request('GET', '/api/compatible?unit1=aaa&unit2=m');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -293,7 +293,7 @@ class UnitOperationTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/en/inverse/' . urlencode($unit));
+        $client->request('GET', '/api/inverse/' . urlencode($unit));
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response);
@@ -316,7 +316,7 @@ class UnitOperationTest extends WebTestCase
     public function testInverseUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/inverse/aaa');
+        $client->request('GET', '/api/inverse/aaa');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());

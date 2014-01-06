@@ -117,7 +117,7 @@ class OperationController extends FOSRestController
     }
 
     /**
-     * @Get("/inverse/{unit}")
+     * @Get("/inverse/{unit}", requirements={"unit"=".+"})
      */
     public function inverseAction($unit)
     {
