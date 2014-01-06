@@ -10,7 +10,14 @@ apt-get install -y python-software-properties
 add-apt-repository -y ppa:ondrej/php5
 apt-get update
 
-apt-get install -y curl git php5-curl php5-cli php5-intl php-pear
+# Mysql
+export DEBIAN_FRONTEND=noninteractive
+apt-get install -q -y mysql-server
+mysql -u root -e "CREATE USER 'myc-sense'@'localhost' IDENTIFIED BY '';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myc-sense'@'localhost';"
+mysql -u root -e "FLUSH PRIVILEGES;"
+
+apt-get install -y curl git php5-curl php5-cli php5-intl php5-mysql php5-sqlite php-pear
 
 echo 'date.timezone = "Europe/Paris"' > /etc/php5/cli/conf.d/mycsense.ini
 
@@ -24,5 +31,6 @@ pear install pear.phpunit.de/PHPUnit
 SCRIPT
 
     config.vm.provision :shell, inline: $script
+    config.vm.network :forwarded_port, host: 8000, guest: 8000
 
 end

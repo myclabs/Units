@@ -42,6 +42,12 @@ $ app/console server:run
 
 The server is now running at [http://localhost:8000/](http://localhost:8000/).
 
+If you are using Vagrant, run:
+
+```bash
+$ app/console server:run 0.0.0.0:8000
+```
+
 ## Deploying
 
 Deployment is done use Capifony.
