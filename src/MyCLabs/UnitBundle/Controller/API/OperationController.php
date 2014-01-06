@@ -97,18 +97,13 @@ class OperationController extends FOSRestController
         /** @var UnitOperationService $operationService */
         $operationService = $this->get('unit.service.operation');
 
-        $unit1 = $this->getRequest()->get('unit1');
-        if ($unit1 === null) {
-            return new Response("This HTTP method expects a 'unit1' parameter", 400);
-        }
-
-        $unit2 = $this->getRequest()->get('unit2');
-        if ($unit2 === null) {
-            return new Response("This HTTP method expects a 'unit2' parameter", 400);
+        $units = $this->getRequest()->get('units');
+        if ($units === null || ! is_array($units)) {
+            return new Response("This HTTP method expects a 'units' array parameter", 400);
         }
 
         try {
-            $compatible = (boolean) $operationService->areCompatible($unit1, $unit2);
+            $compatible = (boolean) call_user_func_array([$operationService, 'areCompatible'], $units);
         } catch (UnknownUnitException $e) {
             return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
         }

@@ -249,7 +249,11 @@ class UnitOperationTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/compatible?unit1=' . urlencode($unit1) . '&unit2=' . urlencode($unit2));
+        $query = http_build_query([
+            'units'  => [$unit1, $unit2],
+        ]);
+
+        $client->request('GET', '/api/compatible?' . $query);
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response);
@@ -279,7 +283,12 @@ class UnitOperationTest extends WebTestCase
     public function testAreCompatibleUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/compatible?unit1=aaa&unit2=m');
+
+        $query = http_build_query([
+            'units'  => ['aaa', 'm'],
+        ]);
+
+        $client->request('GET', '/api/compatible?' . $query);
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
