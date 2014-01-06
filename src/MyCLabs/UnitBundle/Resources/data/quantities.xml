@@ -8,12 +8,12 @@
 
     <!--  Exposant zéro -->
 
-    <quantity ref="sans_dimension">
+    <quantity ref="without_dimension">
         <name>
             <fr>Sans dimension</fr>
             <en>Without dimension</en>
         </name>
-        <standardUnitRef>un</standardUnitRef>
+        <standardUnitRef>one</standardUnitRef>
         <symbol/>
         <isBase>false</isBase>
         <component>
@@ -29,7 +29,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -57,7 +57,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -83,7 +83,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -109,12 +109,12 @@
             <exponent>1</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
 
-    <quantity ref="numeraire">
+    <quantity ref="numerical">
         <name>
             <fr>Numéraire</fr>
             <en>Numerical</en>
@@ -135,7 +135,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>1</exponent>
         </component>
     </quantity>
@@ -163,7 +163,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -189,7 +189,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -217,7 +217,7 @@
             <exponent>0</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -247,7 +247,7 @@
             <exponent>-2</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
@@ -275,10 +275,9 @@
             <exponent>-3</exponent>
         </component>
         <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
+            <baseQuantityRef>numerical</baseQuantityRef>
             <exponent>0</exponent>
         </component>
     </quantity>
-
 
 </xml>

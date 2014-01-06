@@ -10,7 +10,7 @@
 
     <!-- Sans dimension -->
 
-    <standardUnit ref="pourcent">
+    <standardUnit ref="percent">
         <name>
             <fr>pour cent</fr>
             <en>percent</en>
@@ -19,12 +19,12 @@
             <fr>%</fr>
             <en>%</en>
         </symbol>
-        <quantityRef>sans_dimension</quantityRef>
+        <quantityRef>without_dimension</quantityRef>
         <multiplier>0.01</multiplier>
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="un">
+    <standardUnit ref="one">
         <name>
             <fr>un</fr>
             <en>one</en>
@@ -33,7 +33,7 @@
             <fr>un</fr>
             <en>one</en>
         </symbol>
-        <quantityRef>sans_dimension</quantityRef>
+        <quantityRef>without_dimension</quantityRef>
         <multiplier>1</multiplier>
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
@@ -186,7 +186,7 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="jour"> <!-- ou bien "jour" ? impossible d'utiliser "j" comme ref car déjà pris pour le Joule -->
+    <standardUnit ref="d">
         <name>
             <fr>jour</fr>
             <en>day</en>
@@ -195,13 +195,12 @@
             <fr>jour</fr>
             <en>day</en>
         </symbol>
-        <!-- ou bien "d" ? ou bien "jour" ? -->
         <quantityRef>t</quantityRef>
         <multiplier>86400</multiplier>
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="mois">
+    <standardUnit ref="month">
         <name>
             <fr>mois</fr>
             <en>month</en>
@@ -215,7 +214,7 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="an">    <!-- et non pas "année" qui désigne une période plutôt qu'une unité de temps -->
+    <standardUnit ref="yr">
         <name>
             <fr>an</fr>
             <en>year</en>
@@ -240,7 +239,7 @@
             <fr>€</fr>
             <en>€</en>
         </symbol>
-        <quantityRef>numeraire</quantityRef>
+        <quantityRef>numerical</quantityRef>
         <multiplier>1</multiplier>
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
@@ -254,7 +253,7 @@
             <fr>k€</fr>
             <en>k€</en>
         </symbol>
-        <quantityRef>numeraire</quantityRef>
+        <quantityRef>numerical</quantityRef>
         <multiplier>1000</multiplier>
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
@@ -307,7 +306,7 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="noeud"> <!-- ou bien "nd" ? ou bien "kt" ? -->
+    <standardUnit ref="kt">
         <name>
             <fr>nœud</fr>
             <en>knot</en>
@@ -369,7 +368,7 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="bl">
+    <standardUnit ref="bbl">
         <name>
             <fr>baril</fr>
             <en>barrel</en>
@@ -487,7 +486,7 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
-    <standardUnit ref="tep">
+    <standardUnit ref="toe">
         <name>
             <fr>tonne équivalent pétrole</fr>
             <en>tonne of oil equivalent</en>

@@ -13,35 +13,35 @@
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="appareil">
+    <discreteUnit ref="device">
         <name>
             <fr>appareil</fr>
             <en>device</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="bouteille">
+    <discreteUnit ref="bottle">
         <name>
             <fr>bouteille</fr>
             <en>bottle</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="devise">
+    <discreteUnit ref="currency">
         <name>
             <fr>devise</fr>
             <en>currency</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="homme">
+    <discreteUnit ref="man">
         <name>
             <fr>homme</fr>
             <en>man</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="logement">
+    <discreteUnit ref="housing">
         <name>
             <fr>logement</fr>
             <en>housing</en>
@@ -62,21 +62,21 @@
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="passager">
+    <discreteUnit ref="passenger">
         <name>
             <fr>passager</fr>
             <en>passenger</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="personne">
+    <discreteUnit ref="person">
         <name>
             <fr>personne</fr>
             <en>person</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="repas">
+    <discreteUnit ref="meal">
         <name>
             <fr>repas</fr>
             <en>meal</en>
@@ -86,7 +86,7 @@
     l'unité suivante sera utilisée pour lorsqu'on préfère n'afficher aucun libellé d'unité, et que l'unité "vide" ne
     soit pas modifiable.
     -->
-    <discreteUnit ref="sans_libelle">
+    <discreteUnit ref="no_label">
         <name>
             <fr> </fr>
             <en> </en>
@@ -96,21 +96,21 @@
     l'unité suivante sera utilisée pour éviter de créer trop d'unités discrètes pour des cas particuliers
     par exemple pour le formulaire "immobilisations" du projet Bolloré
     -->
-    <discreteUnit ref="unite">
+    <discreteUnit ref="unit">
         <name>
             <fr>unité</fr>
             <en>unit</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="vehicule">
+    <discreteUnit ref="vehicle">
         <name>
             <fr>véhicule</fr>
             <en>vehicle</en>
         </name>
     </discreteUnit>
 
-    <discreteUnit ref="visiteur">
+    <discreteUnit ref="visitor">
         <name>
             <fr>visiteur</fr>
             <en>visitor</en>
@@ -118,4 +118,3 @@
     </discreteUnit>
 
 </xml>
-                    
