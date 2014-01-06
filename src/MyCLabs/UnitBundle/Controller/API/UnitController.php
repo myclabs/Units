@@ -27,7 +27,7 @@ class UnitController extends FOSRestController
     }
 
     /**
-     * @Get("/unit/{expression}")
+     * @Get("/unit/{expression}", requirements={"expression"=".+"})
      */
     public function getUnitAction($expression)
     {
@@ -46,7 +46,7 @@ class UnitController extends FOSRestController
     }
 
     /**
-     * @Get("/compatible-units/{expression}")
+     * @Get("/compatible-units/{expression}", requirements={"expression"=".+"})
      */
     public function getCompatibleUnitsAction($expression)
     {
@@ -65,7 +65,7 @@ class UnitController extends FOSRestController
     }
 
     /**
-     * @Get("/unit-of-reference/{expression}")
+     * @Get("/unit-of-reference/{expression}", requirements={"expression"=".+"})
      */
     public function getUnitOfReference($expression)
     {
