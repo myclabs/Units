@@ -5,6 +5,12 @@ machine:
 cache_directories:
   - "vendor"
 
+database:
+  override:
+    - app/console doctrine:schema:create --env=test
+    - app/console unit:populate --env=test
+
 test:
   override:
     - phpunit
+    - phpunit -c phpunit-functional.xml.dist
