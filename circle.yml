@@ -2,6 +2,9 @@ machine:
   php:
     version: 5.5.3
 
+cache_directories:
+  - "vendor"
+
 test:
   override:
     - phpunit
