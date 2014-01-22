@@ -34,6 +34,8 @@ The functional test suite automatically generates a SQLite database in the `test
 As such, it requires the `pdo_sqlite` extension and the user running the
 tests must have write permissions in that directory.
 
+Continuous integration is done on CircleCI: https://circleci.com/gh/myclabs/Units
+
 ## Running the server
 
 ```bash
