@@ -1,9 +1,9 @@
 imports:
     - { resource: config.yml }
 
-#framework:
-#    validation:
-#        cache: apc
+framework:
+    session:
+      handler_id: session.handler.memcached
 
 doctrine:
     orm:
@@ -40,4 +40,4 @@ services:
 
     session.handler.memcached:
         class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
-        arguments: [@session.memcached, { prefix: "sessions_", expiretime: 3600 }]
+        arguments: [@session.memcached, { prefix: "units_sessions_", expiretime: 3600 }]
