@@ -12,11 +12,11 @@ doctrine:
             host: localhost
             port: 11211
             instance_class: Memcached
-        query_cache_driver:
-            type: memcached
-            host: localhost
-            port: 11211
-            instance_class: Memcached
+        #query_cache_driver:
+        #    type: memcached
+        #    host: localhost
+        #    port: 11211
+        #    instance_class: Memcached
 #        result_cache_driver: apc
 
 monolog:
