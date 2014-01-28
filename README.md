@@ -52,11 +52,17 @@ $ app/console server:run 0.0.0.0:8000
 
 ## Deploying
 
-Deployment is done use Capifony.
+Deployment is done use Capifony. Execute these commands on your local machine.
 
 ```bash
 $ cap deploy # by default, in development
 $ cap development deploy
 $ cap testing deploy
 $ cap production deploy
+```
+
+The first time, the server needs to be set up:
+
+```bash
+$ cap production deploy:setup
 ```
