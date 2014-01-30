@@ -259,6 +259,88 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
+    <!-- Masse équivalent gaz à effet de serre -->
+
+    <standardUnit ref="g_co2e">
+        <name>
+            <fr>gramme équivalent CO2</fr>
+            <en>gram carbon dioxyde equivalent</en>
+        </name>
+        <symbol>
+            <fr>g équ. CO2</fr>
+            <en>g CO2e</en>
+        </symbol>
+        <quantityRef>m_ghge</quantityRef>
+        <multiplier>0.001</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+    <standardUnit ref="g_ce">
+        <name>
+            <fr>gramme équivalent carbone</fr>
+            <en>gram carbon equivalent</en>
+        </name>
+        <symbol>
+            <fr>g équ. C</fr>
+            <en>g Ce</en>
+        </symbol>
+        <quantityRef>m_ghge</quantityRef>
+        <multiplier>0.003666666667</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+    <standardUnit ref="kg_co2e">
+        <name>
+            <fr>kilogramme équivalent CO2</fr>
+            <en>kilogram carbon dioxyde equivalent</en>
+        </name>
+        <symbol>
+            <fr>kg équ. CO2</fr>
+            <en>kg CO2e</en>
+        </symbol>
+        <quantityRef>m_ghge</quantityRef>
+        <multiplier>1</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+    <standardUnit ref="kg_ce">
+        <name>
+            <fr>kilogramme équivalent carbone</fr>
+            <en>kilogram carbon equivalent</en>
+        </name>
+        <symbol>
+            <fr>kg équ. C</fr>
+            <en>kg Ce</en>
+        </symbol>
+        <quantityRef>m_ghge</quantityRef>
+        <multiplier>3.666666667</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+    <standardUnit ref="t_co2e">
+        <name>
+            <fr>tonne équivalent CO2</fr>
+            <en>tonne carbon dioxyde equivalent</en>
+        </name>
+        <symbol>
+            <fr>t équ. CO2</fr>
+            <en>t CO2e</en>
+        </symbol>
+        <quantityRef>m_ghge</quantityRef>
+        <multiplier>1000</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+    <standardUnit ref="t_ce">
+        <name>
+            <fr>tonne équivalent carbone</fr>
+            <en>tonne carbon equivalent</en>
+        </name>
+        <symbol>
+            <fr>t équ. C</fr>
+            <en>t Ce</en>
+        </symbol>
+        <quantityRef>m_ghge</quantityRef>
+        <multiplier>3666.666667</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+
+
     <!-- Exposant deux -->
 
     <!-- Surface -->
