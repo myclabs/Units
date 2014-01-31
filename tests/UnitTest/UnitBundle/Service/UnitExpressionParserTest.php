@@ -2,6 +2,7 @@
 
 namespace UnitTest\UnitBundle\Service;
 
+use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
@@ -26,15 +27,17 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     private $s;
     private $m2;
     private $ms;
+    private $kgco2e;
 
     public function setUp()
     {
         // Mock units
         $this->m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
-        $this->km = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
+        $this->km = $this->getMockForAbstractClass(Unit::class, ['km', 'Kilometer', 'km']);
         $this->s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
         $this->m2 = $this->getMockForAbstractClass(Unit::class, ['m2', 'Square Meter', 'm2']);
         $this->ms = $this->getMockForAbstractClass(Unit::class, ['m/s', 'Meter per second', 'm/s']);
+        $this->kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', 'CO2 equivalent kilogram', 'kg CO2 eq.']);
 
         // Mock unit repository
         $this->unitRepository = $this->getMockForAbstractClass(UnitRepository::class);
@@ -52,16 +55,13 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
                         return $this->m2;
                     case 'm/s':
                         return $this->ms;
+                    case 'kg_co2e':
+                        return $this->kgco2e;
                 }
-                return null;
+                throw UnknownUnitException::create($id);
             }));
 
         $this->service = new UnitExpressionParser(new UnitExpressionLexer(), $this->unitRepository);
-    }
-
-    public function testParseSimpleUnit()
-    {
-        $this->assertSame($this->m, $this->service->parse('m'));
     }
 
     /**
@@ -84,6 +84,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
             ['s'],
             ['m2'],
             ['m/s'],
+            ['kg_co2e'],
         ];
     }
 
@@ -102,9 +103,10 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     public function composedUnitProvider()
     {
         $m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
-        $km = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
+        $km = $this->getMockForAbstractClass(Unit::class, ['km', 'Kilometer', 'km']);
         $s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
         $ms = $this->getMockForAbstractClass(Unit::class, ['m/s', 'Meter per second', 'm/s']);
+        $kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', 'CO2 equivalent kilogram', 'kg CO2 eq.']);
 
         return [
             'm^2' => [
@@ -155,6 +157,14 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
                 [
                     new UnitComponent($ms, 1),
                     new UnitComponent($s, 1),
+                ]
+            ],
+            // Tolerant to "_"
+            'm . kg_co2e' => [
+                'm . kg_co2e',
+                [
+                    new UnitComponent($m, 1),
+                    new UnitComponent($kgco2e, 1),
                 ]
             ],
         ];

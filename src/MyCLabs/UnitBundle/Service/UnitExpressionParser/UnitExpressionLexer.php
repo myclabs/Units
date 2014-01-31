@@ -17,7 +17,7 @@ class UnitExpressionLexer extends AbstractLexer
     {
         return '/
             # Single unit id
-            ([a-zA-Z0-9\/]+)
+            ([a-zA-Z0-9\/_]+)
 
             # Exponent
             |(\^-?[0-9]+)
@@ -41,7 +41,7 @@ class UnitExpressionLexer extends AbstractLexer
         if (strpos($value, '^') === 0) {
             return array(UnitExpressionParser::T_EXPONENT, $value);
         }
-        if (preg_match('/^[a-zA-Z0-9\/]+$/', $value) === 1) {
+        if (preg_match('/^[a-zA-Z0-9\/_]+$/', $value) === 1) {
             return array(UnitExpressionParser::T_UNIT, $value);
         }
 

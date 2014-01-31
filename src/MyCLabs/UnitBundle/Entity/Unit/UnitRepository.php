@@ -17,7 +17,7 @@ interface UnitRepository extends ObjectRepository
      *
      * @param string $id
      *
-     * @throws UnknownUnitException
+     * @throws UnknownUnitException If the unit is not found
      * @return Unit
      */
     public function find($id);
