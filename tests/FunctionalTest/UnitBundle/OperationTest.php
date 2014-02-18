@@ -228,7 +228,10 @@ class UnitOperationTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Unknown unit aaa', $exception->message);
+        $this->assertEquals('aaa', $exception->unitId);
     }
 
     public function testConversionFactorIncompatibleUnits()
@@ -238,8 +241,9 @@ class UnitOperationTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
-        $expected = 'IncompatibleUnitsException: Units "m" and "g" are not compatible';
-        $this->assertEquals($expected, $response->getContent());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Units "m" and "g" are not compatible', $exception->message);
     }
 
     /**
@@ -292,7 +296,10 @@ class UnitOperationTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Unknown unit aaa', $exception->message);
+        $this->assertEquals('aaa', $exception->unitId);
     }
 
     /**
@@ -329,7 +336,10 @@ class UnitOperationTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Unknown unit aaa', $exception->message);
+        $this->assertEquals('aaa', $exception->unitId);
     }
 
     protected static function getPhpUnitXmlDir()

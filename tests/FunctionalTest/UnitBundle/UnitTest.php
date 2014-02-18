@@ -52,7 +52,23 @@ class UnitTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Unknown unit aaa', $exception->message);
+        $this->assertEquals('aaa', $exception->unitId);
+    }
+
+    public function testGetUnitInvalid()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/en/unit/-');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Invalid unit expression "-": Expected UNIT_ID, but got "-" of type UNKNOWN at beginning of input.', $exception->message);
+        $this->assertEquals('-', $exception->unitId);
     }
 
     /**
@@ -95,7 +111,10 @@ class UnitTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('UnknownUnitException: Unknown unit aaa', $response->getContent());
+
+        $exception = json_decode($response->getContent());
+        $this->assertEquals('Unknown unit aaa', $exception->message);
+        $this->assertEquals('aaa', $exception->unitId);
     }
 
     protected static function getPhpUnitXmlDir()

@@ -5,14 +5,18 @@ namespace MyCLabs\UnitBundle\Controller\API;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
+use MyCLabs\UnitBundle\Controller\API\Helper\ExceptionHandlingHelper;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * REST controller for units.
+ *
+ * @author matthieu.napoli
  */
 class UnitController extends FOSRestController
 {
+    use ExceptionHandlingHelper;
+
     /**
      * @Get("/unit/")
      */
@@ -37,12 +41,10 @@ class UnitController extends FOSRestController
         try {
             $unit = $parser->parse($expression);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         }
 
-        $view = $this->view($dtoFactory->create($unit), 200);
-
-        return $this->handleView($view);
+        return $this->handleView($this->view($dtoFactory->create($unit), 200));
     }
 
     /**
@@ -56,7 +58,7 @@ class UnitController extends FOSRestController
         try {
             $unit = $parser->parse($expression);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         }
 
         $units = $dtoFactory->createMany($unit->getCompatibleUnits());
@@ -75,7 +77,7 @@ class UnitController extends FOSRestController
         try {
             $unit = $parser->parse($expression);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         }
 
         $unit = $dtoFactory->create($unit->getUnitOfReference());

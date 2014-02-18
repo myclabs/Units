@@ -10,6 +10,7 @@ use MyCLabs\UnitAPI\Operation\Addition;
 use MyCLabs\UnitAPI\Operation\Multiplication;
 use MyCLabs\UnitAPI\Operation\OperationComponent;
 use MyCLabs\UnitAPI\UnitOperationService;
+use MyCLabs\UnitBundle\Controller\API\Helper\ExceptionHandlingHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OperationController extends FOSRestController
 {
+    use ExceptionHandlingHelper;
+
     /**
      * @Get("/execute")
      */
@@ -27,12 +30,12 @@ class OperationController extends FOSRestController
 
         $operationType = $this->getRequest()->get('operation');
         if ($operationType === null) {
-            return new Response("This HTTP method expects an 'operation' parameter", 400);
+            return $this->handleException(new \Exception("This HTTP method expects an 'operation' parameter"), 400);
         }
 
         $components = $this->getRequest()->get('components');
         if ($components === null || ! is_array($components)) {
-            return new Response("This HTTP method expects a 'components' array parameter", 400);
+            return $this->handleException(new \Exception("This HTTP method expects a 'components' array parameter"), 400);
         }
         $components = array_map(function ($array) {
             return new OperationComponent($array['unit'], $array['exponent']);
@@ -46,15 +49,15 @@ class OperationController extends FOSRestController
                 $operation = new Multiplication($components);
                 break;
             default:
-                return new Response("Invalid operation type: $operationType", 400);
+                return $this->handleException(new \Exception("Invalid operation type: $operationType"), 400);
         }
 
         try {
             $result = $operationService->execute($operation);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         } catch (IncompatibleUnitsException $e) {
-            return new Response('IncompatibleUnitsException: ' . $e->getMessage(), 400);
+            return $this->handleException($e, 400);
         }
 
         return $this->handleView($this->view($result, 200));
@@ -70,20 +73,20 @@ class OperationController extends FOSRestController
 
         $unit1 = $this->getRequest()->get('unit1');
         if ($unit1 === null) {
-            return new Response("This HTTP method expects a 'unit1' parameter", 400);
+            return $this->handleException(new \Exception("This HTTP method expects a 'unit1' parameter"), 400);
         }
 
         $unit2 = $this->getRequest()->get('unit2');
         if ($unit2 === null) {
-            return new Response("This HTTP method expects a 'unit2' parameter", 400);
+            return $this->handleException(new \Exception("This HTTP method expects a 'unit2' parameter"), 400);
         }
 
         try {
             $conversionFactor = $operationService->getConversionFactor($unit1, $unit2);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         } catch (IncompatibleUnitsException $e) {
-            return new Response('IncompatibleUnitsException: ' . $e->getMessage(), 400);
+            return $this->handleException($e, 400);
         }
 
         return $this->handleView($this->view($conversionFactor, 200));
@@ -99,13 +102,13 @@ class OperationController extends FOSRestController
 
         $units = $this->getRequest()->get('units');
         if ($units === null || ! is_array($units)) {
-            return new Response("This HTTP method expects a 'units' array parameter", 400);
+            return $this->handleException(new \Exception("This HTTP method expects a 'units' array parameter"), 400);
         }
 
         try {
             $compatible = (boolean) call_user_func_array([$operationService, 'areCompatible'], $units);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         }
 
         return $this->handleView($this->view($compatible, 200));
@@ -122,7 +125,7 @@ class OperationController extends FOSRestController
         try {
             $inverse = $operationService->inverse($unit);
         } catch (UnknownUnitException $e) {
-            return new Response('UnknownUnitException: ' . $e->getMessage(), 404);
+            return $this->handleException($e, 404);
         }
 
         return $this->handleView($this->view($inverse, 200));

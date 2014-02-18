@@ -4,6 +4,7 @@ namespace MyCLabs\UnitBundle\Controller\API;
 
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
+use MyCLabs\UnitBundle\Controller\API\Helper\ExceptionHandlingHelper;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PhysicalQuantityController extends FOSRestController
 {
+    use ExceptionHandlingHelper;
+
     /**
      * @Get("/physical-quantity/")
      */
@@ -38,7 +41,7 @@ class PhysicalQuantityController extends FOSRestController
         $physicalQuantity = $repository->find($id);
 
         if ($physicalQuantity === null) {
-            return new Response("No physical quantity named $id was found", 404);
+            return $this->handleException(new \Exception("No physical quantity named $id was found"), 404);
         }
 
         $view = $this->view($dtoFactory->create($physicalQuantity), 200);
