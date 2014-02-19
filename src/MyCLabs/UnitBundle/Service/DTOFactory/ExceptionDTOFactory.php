@@ -3,6 +3,7 @@
 namespace MyCLabs\UnitBundle\Service\DTOFactory;
 
 use Exception;
+use MyCLabs\UnitAPI\Exception\IncompatibleUnitsException;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 
 /**
@@ -25,8 +26,14 @@ class ExceptionDTOFactory
             'message' => $e->getMessage(),
         ];
 
-        if ($e instanceof UnknownUnitException) {
-            $dto['unitId'] = $e->getUnitId();
+        switch (true) {
+            case $e instanceof UnknownUnitException:
+                $dto['exception'] = 'UnknownUnitException';
+                $dto['unitId'] = $e->getUnitId();
+                break;
+            case $e instanceof IncompatibleUnitsException:
+                $dto['exception'] = 'IncompatibleUnitsException';
+                break;
         }
 
         return $dto;

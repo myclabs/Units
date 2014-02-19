@@ -54,6 +54,7 @@ class UnitTest extends WebTestCase
         $this->assertEquals(404, $response->getStatusCode());
 
         $exception = json_decode($response->getContent());
+        $this->assertEquals('UnknownUnitException', $exception->exception);
         $this->assertEquals('Unknown unit aaa', $exception->message);
         $this->assertEquals('aaa', $exception->unitId);
     }
@@ -113,6 +114,7 @@ class UnitTest extends WebTestCase
         $this->assertEquals(404, $response->getStatusCode());
 
         $exception = json_decode($response->getContent());
+        $this->assertEquals('UnknownUnitException', $exception->exception);
         $this->assertEquals('Unknown unit aaa', $exception->message);
         $this->assertEquals('aaa', $exception->unitId);
     }
