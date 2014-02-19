@@ -11,7 +11,6 @@ use MyCLabs\UnitAPI\Operation\Multiplication;
 use MyCLabs\UnitAPI\Operation\OperationComponent;
 use MyCLabs\UnitAPI\UnitOperationService;
 use MyCLabs\UnitBundle\Controller\API\Helper\ExceptionHandlingHelper;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * REST controller for doing operations on units.
@@ -33,10 +32,23 @@ class OperationController extends FOSRestController
             return $this->handleException(new \Exception("This HTTP method expects an 'operation' parameter"), 400);
         }
 
+        // Validate the "components" array parameter
         $components = $this->getRequest()->get('components');
         if ($components === null || ! is_array($components)) {
             return $this->handleException(new \Exception("This HTTP method expects a 'components' array parameter"), 400);
         }
+        foreach ($components as $array) {
+            if (! isset($array['unit'])) {
+                return $this->handleException(new \Exception(
+                    "Each component of the operation must have a unit defined"
+                ), 400);
+            } elseif (! isset($array['exponent'])) {
+                return $this->handleException(new \Exception(
+                    "Each component of the operation must have an exponent defined"
+                ), 400);
+            }
+        }
+
         $components = array_map(function ($array) {
             return new OperationComponent($array['unit'], $array['exponent']);
         }, $components);
