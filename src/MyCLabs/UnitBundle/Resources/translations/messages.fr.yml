@@ -12,12 +12,12 @@ Unit: Unité
 unit: unité
 Standard units: Unités standards
 Discrete units: Unités discrètes
-Multiplier: Coefficient multiplicateur
+Value: Valeur
 
 unknownUnit: Unité %id% inconnue.
 incompatibleUnits: Les unités sont incompatibles.
 
-unitConversion: Conversions d'unités
+unitConversion: Convertisseur
 introductionUnitConversionPage: Vous pouvez utiliser cette interface pour tester les conversions d'unités.
 
 Conversion factor: Facteur de conversion

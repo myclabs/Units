@@ -15,7 +15,7 @@
             <th>{% trans %}Identifier{% endtrans %}</th>
             <th>{% trans %}Symbol{% endtrans %}</th>
             <th>{% trans %}Physical quantity{% endtrans %}</th>
-            <th>{% trans %}Multiplier{% endtrans %}</th>
+            <th>{% trans %}Value{% endtrans %}</th>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +29,8 @@
                     {% if unit.physicalQuantity.unitOfReference.id != unit.id %}
                         {{ unit.multiplier|number_format_decimal }}
                         {{ unit.physicalQuantity.unitOfReference.symbol }}
+                    {% else %}
+                        -
                     {% endif %}
                 </td>
             </tr>
