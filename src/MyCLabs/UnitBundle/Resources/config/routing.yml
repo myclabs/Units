@@ -1,20 +1,20 @@
 locale_redirection:
     pattern:  "/"
-    defaults: { _controller: UnitBundle:Default:localeRedirection }
+    defaults: { _controller: MyCLabs\UnitBundle\Controller\DefaultController:localeRedirectionAction }
 
 homepage:
     pattern:  "{_locale}/"
-    defaults: { _controller: UnitBundle:Default:home }
+    defaults: { _controller: MyCLabs\UnitBundle\Controller\DefaultController:homeAction }
 
 physical_quantity_list:
     pattern:  "{_locale}/physicalquantity/list"
-    defaults: { _controller: UnitBundle:PhysicalQuantity:list }
+    defaults: { _controller: MyCLabs\UnitBundle\Controller\PhysicalQuantityController:listAction }
 unit_list:
     pattern:  "{_locale}/unit/list"
-    defaults: { _controller: UnitBundle:Unit:list }
+    defaults: { _controller: MyCLabs\UnitBundle\Controller\UnitController:listAction }
 unit_conversion:
     pattern:  "{_locale}/unit/conversion"
-    defaults: { _controller: UnitBundle:Unit:conversion }
+    defaults: { _controller: MyCLabs\UnitBundle\Controller\UnitController:conversionAction }
 
 # API
 

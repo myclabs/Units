@@ -6,7 +6,9 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Controller\API\Helper\ExceptionHandlingHelper;
-use MyCLabs\UnitBundle\Entity\Unit\Unit;
+use MyCLabs\UnitBundle\Entity\Unit\UnitRepository;
+use MyCLabs\UnitBundle\Service\DTOFactory\UnitDTOFactory;
+use MyCLabs\UnitBundle\Service\UnitExpressionParser;
 
 /**
  * REST controller for units.
@@ -18,14 +20,29 @@ class UnitController extends FOSRestController
     use ExceptionHandlingHelper;
 
     /**
+     * @Inject
+     * @var UnitRepository
+     */
+    private $unitRepository;
+
+    /**
+     * @Inject
+     * @var UnitDTOFactory
+     */
+    private $dtoFactory;
+
+    /**
+     * @Inject
+     * @var UnitExpressionParser
+     */
+    private $parser;
+
+    /**
      * @Get("/unit/")
      */
     public function getUnitsAction()
     {
-        $repository = $this->getDoctrine()->getRepository(Unit::class);
-        $dtoFactory = $this->get('unit.dtoFactory.unit');
-
-        $units = $dtoFactory->createMany($repository->findAll());
+        $units = $this->dtoFactory->createMany($this->unitRepository->findAll());
 
         return $this->handleView($this->view($units, 200));
     }
@@ -35,16 +52,13 @@ class UnitController extends FOSRestController
      */
     public function getUnitAction($expression)
     {
-        $parser = $this->get('unit.service.parser');
-        $dtoFactory = $this->get('unit.dtoFactory.unit');
-
         try {
-            $unit = $parser->parse($expression);
+            $unit = $this->parser->parse($expression);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         }
 
-        return $this->handleView($this->view($dtoFactory->create($unit), 200));
+        return $this->handleView($this->view($this->dtoFactory->create($unit), 200));
     }
 
     /**
@@ -52,16 +66,13 @@ class UnitController extends FOSRestController
      */
     public function getCompatibleUnitsAction($expression)
     {
-        $parser = $this->get('unit.service.parser');
-        $dtoFactory = $this->get('unit.dtoFactory.unit');
-
         try {
-            $unit = $parser->parse($expression);
+            $unit = $this->parser->parse($expression);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         }
 
-        $units = $dtoFactory->createMany($unit->getCompatibleUnits());
+        $units = $this->dtoFactory->createMany($unit->getCompatibleUnits());
 
         return $this->handleView($this->view($units, 200));
     }
@@ -71,16 +82,13 @@ class UnitController extends FOSRestController
      */
     public function getUnitOfReference($expression)
     {
-        $parser = $this->get('unit.service.parser');
-        $dtoFactory = $this->get('unit.dtoFactory.unit');
-
         try {
-            $unit = $parser->parse($expression);
+            $unit = $this->parser->parse($expression);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         }
 
-        $unit = $dtoFactory->create($unit->getUnitOfReference());
+        $unit = $this->dtoFactory->create($unit->getUnitOfReference());
 
         return $this->handleView($this->view($unit, 200));
     }

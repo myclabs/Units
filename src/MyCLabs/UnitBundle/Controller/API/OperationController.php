@@ -20,13 +20,16 @@ class OperationController extends FOSRestController
     use ExceptionHandlingHelper;
 
     /**
+     * @Inject
+     * @var UnitOperationService
+     */
+    private $unitOperationService;
+
+    /**
      * @Get("/execute")
      */
     public function executeOperationAction()
     {
-        /** @var UnitOperationService $operationService */
-        $operationService = $this->get('unit.service.operation');
-
         $operationType = $this->getRequest()->get('operation');
         if ($operationType === null) {
             return $this->handleException(new \Exception("This HTTP method expects an 'operation' parameter"), 400);
@@ -35,7 +38,10 @@ class OperationController extends FOSRestController
         // Validate the "components" array parameter
         $components = $this->getRequest()->get('components');
         if ($components === null || ! is_array($components)) {
-            return $this->handleException(new \Exception("This HTTP method expects a 'components' array parameter"), 400);
+            return $this->handleException(
+                new \Exception("This HTTP method expects a 'components' array parameter"),
+                400
+            );
         }
         foreach ($components as $array) {
             if (! isset($array['unit'])) {
@@ -65,7 +71,7 @@ class OperationController extends FOSRestController
         }
 
         try {
-            $result = $operationService->execute($operation);
+            $result = $this->unitOperationService->execute($operation);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         } catch (IncompatibleUnitsException $e) {
@@ -80,9 +86,6 @@ class OperationController extends FOSRestController
      */
     public function getConversionFactorAction()
     {
-        /** @var UnitOperationService $operationService */
-        $operationService = $this->get('unit.service.operation');
-
         $unit1 = $this->getRequest()->get('unit1');
         if ($unit1 === null) {
             return $this->handleException(new \Exception("This HTTP method expects a 'unit1' parameter"), 400);
@@ -94,7 +97,7 @@ class OperationController extends FOSRestController
         }
 
         try {
-            $conversionFactor = $operationService->getConversionFactor($unit1, $unit2);
+            $conversionFactor = $this->unitOperationService->getConversionFactor($unit1, $unit2);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         } catch (IncompatibleUnitsException $e) {
@@ -109,16 +112,13 @@ class OperationController extends FOSRestController
      */
     public function areCompatibleAction()
     {
-        /** @var UnitOperationService $operationService */
-        $operationService = $this->get('unit.service.operation');
-
         $units = $this->getRequest()->get('units');
         if ($units === null || ! is_array($units)) {
             return $this->handleException(new \Exception("This HTTP method expects a 'units' array parameter"), 400);
         }
 
         try {
-            $compatible = (boolean) call_user_func_array([$operationService, 'areCompatible'], $units);
+            $compatible = (boolean) call_user_func_array([$this->unitOperationService, 'areCompatible'], $units);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         }
@@ -131,11 +131,8 @@ class OperationController extends FOSRestController
      */
     public function inverseAction($unit)
     {
-        /** @var UnitOperationService $operationService */
-        $operationService = $this->get('unit.service.operation');
-
         try {
-            $inverse = $operationService->inverse($unit);
+            $inverse = $this->unitOperationService->inverse($unit);
         } catch (UnknownUnitException $e) {
             return $this->handleException($e, 404);
         }

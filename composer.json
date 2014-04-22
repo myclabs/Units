@@ -25,9 +25,11 @@
         "gedmo/doctrine-extensions": "~2.3",
         "stof/doctrine-extensions-bundle": "~1.0",
         "mopa/bootstrap-bundle": "v3.0.0-beta3",
-        "friendsofsymfony/rest-bundle": "~1.1",
+        "friendsofsymfony/rest-bundle": "dev-master",
         "sonata-project/intl-bundle": "~2.0",
         "jms/parser-lib": "~1.0",
+        "mnapoli/php-di": "~4.1",
+        "mnapoli/php-di-symfony2": "*",
         "myclabs/units-api": "dev-master"
     },
     "scripts": {

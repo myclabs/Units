@@ -6,7 +6,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use MyCLabs\UnitBundle\Controller\API\Helper\ExceptionHandlingHelper;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
-use Symfony\Component\HttpFoundation\Response;
+use MyCLabs\UnitBundle\Service\DTOFactory\PhysicalQuantityDTOFactory;
 
 /**
  * REST controller for physical quantities.
@@ -16,14 +16,19 @@ class PhysicalQuantityController extends FOSRestController
     use ExceptionHandlingHelper;
 
     /**
+     * @Inject
+     * @var PhysicalQuantityDTOFactory
+     */
+    private $dtoFactory;
+
+    /**
      * @Get("/physical-quantity/")
      */
     public function getPhysicalQuantitiesAction()
     {
         $repository = $this->getDoctrine()->getRepository(PhysicalQuantity::class);
-        $dtoFactory = $this->get('unit.dtoFactory.physicalQuantity');
 
-        $physicalQuantities = $dtoFactory->createMany($repository->findAll());
+        $physicalQuantities = $this->dtoFactory->createMany($repository->findAll());
 
         $view = $this->view($physicalQuantities, 200);
 
@@ -36,7 +41,6 @@ class PhysicalQuantityController extends FOSRestController
     public function getPhysicalQuantityAction($id)
     {
         $repository = $this->getDoctrine()->getRepository(PhysicalQuantity::class);
-        $dtoFactory = $this->get('unit.dtoFactory.physicalQuantity');
 
         $physicalQuantity = $repository->find($id);
 
@@ -44,7 +48,7 @@ class PhysicalQuantityController extends FOSRestController
             return $this->handleException(new \Exception("No physical quantity named $id was found"), 404);
         }
 
-        $view = $this->view($dtoFactory->create($physicalQuantity), 200);
+        $view = $this->view($this->dtoFactory->create($physicalQuantity), 200);
 
         return $this->handleView($view);
     }

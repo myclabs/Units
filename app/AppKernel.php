@@ -52,4 +52,21 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
+
+    protected function getContainerBaseClass()
+    {
+        return 'DI\Bridge\Symfony\SymfonyContainerBridge';
+    }
+
+    protected function initializeContainer()
+    {
+        parent::initializeContainer();
+
+        $builder = new \DI\ContainerBuilder();
+        $builder->addDefinitions(__DIR__ . '/config/config.php');
+        $builder->addDefinitions(__DIR__ . '/../src/MyCLabs/UnitBundle/Resources/config/di.php');
+        $builder->wrapContainer($this->getContainer());
+
+        $this->getContainer()->setFallbackContainer($builder->build());
+    }
 }
