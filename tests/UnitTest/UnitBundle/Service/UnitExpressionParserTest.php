@@ -3,6 +3,7 @@
 namespace UnitTest\UnitBundle\Service;
 
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
@@ -32,12 +33,12 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Mock units
-        $this->m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
-        $this->km = $this->getMockForAbstractClass(Unit::class, ['km', 'Kilometer', 'km']);
-        $this->s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
-        $this->m2 = $this->getMockForAbstractClass(Unit::class, ['m2', 'Square Meter', 'm2']);
-        $this->ms = $this->getMockForAbstractClass(Unit::class, ['m/s', 'Meter per second', 'm/s']);
-        $this->kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', 'CO2 equivalent kilogram', 'kg CO2 eq.']);
+        $this->m = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
+        $this->km = $this->getMockForAbstractClass(Unit::class, ['km', new TranslatedString(), new TranslatedString()]);
+        $this->s = $this->getMockForAbstractClass(Unit::class, ['s', new TranslatedString(), new TranslatedString()]);
+        $this->m2 = $this->getMockForAbstractClass(Unit::class, ['m2', new TranslatedString(), new TranslatedString()]);
+        $this->ms = $this->getMockForAbstractClass(Unit::class, ['m/s', new TranslatedString(), new TranslatedString()]);
+        $this->kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', new TranslatedString(), new TranslatedString()]);
 
         // Mock unit repository
         $this->unitRepository = $this->getMockForAbstractClass(UnitRepository::class);
@@ -102,11 +103,11 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
 
     public function composedUnitProvider()
     {
-        $m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
-        $km = $this->getMockForAbstractClass(Unit::class, ['km', 'Kilometer', 'km']);
-        $s = $this->getMockForAbstractClass(Unit::class, ['s', 'Second', 's']);
-        $ms = $this->getMockForAbstractClass(Unit::class, ['m/s', 'Meter per second', 'm/s']);
-        $kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', 'CO2 equivalent kilogram', 'kg CO2 eq.']);
+        $m = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
+        $km = $this->getMockForAbstractClass(Unit::class, ['km', new TranslatedString(), new TranslatedString()]);
+        $s = $this->getMockForAbstractClass(Unit::class, ['s', new TranslatedString(), new TranslatedString()]);
+        $ms = $this->getMockForAbstractClass(Unit::class, ['m/s', new TranslatedString(), new TranslatedString()]);
+        $kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', new TranslatedString(), new TranslatedString()]);
 
         return [
             'm^2' => [

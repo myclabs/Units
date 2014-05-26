@@ -20,7 +20,7 @@ class UnitTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/en/unit/' . urlencode($unitExpression));
+        $client->request('GET', '/api/unit/' . urlencode($unitExpression));
 
         $response = $client->getResponse();
 
@@ -30,7 +30,7 @@ class UnitTest extends WebTestCase
         $unit = json_decode($response->getContent());
 
         $this->assertEquals($unitExpression, $unit->id);
-        $this->assertEquals($expectedSymbol, $unit->symbol);
+        $this->assertEquals($expectedSymbol, $unit->symbol->en);
     }
 
     public function scenarioProvider()
@@ -48,7 +48,7 @@ class UnitTest extends WebTestCase
     public function testGetUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/unit/aaa');
+        $client->request('GET', '/api/unit/aaa');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -62,7 +62,7 @@ class UnitTest extends WebTestCase
     public function testGetUnitInvalid()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/unit/-');
+        $client->request('GET', '/api/unit/-');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -79,7 +79,7 @@ class UnitTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/en/compatible-units/' . urlencode($unit));
+        $client->request('GET', '/api/compatible-units/' . urlencode($unit));
 
         $response = $client->getResponse();
 
@@ -108,7 +108,7 @@ class UnitTest extends WebTestCase
     public function testGetCompatibleUnitsUnitNotFound()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/en/compatible-units/aaa');
+        $client->request('GET', '/api/compatible-units/aaa');
         $response = $client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode());

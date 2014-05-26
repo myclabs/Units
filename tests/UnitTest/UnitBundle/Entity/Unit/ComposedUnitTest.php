@@ -2,6 +2,7 @@
 
 namespace UnitTest\UnitBundle\Entity\Unit;
 
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
@@ -22,13 +23,16 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
         $unit = new ComposedUnit($components);
 
         $this->assertEquals($expectedId, $unit->getId());
-        $this->assertEquals($expectedSymbol, $unit->getSymbol());
-        $this->assertEquals($expectedSymbol, $unit->getLabel());
+        $this->assertEquals($expectedSymbol, $unit->getSymbol()->en);
+        $this->assertEquals($expectedSymbol, $unit->getLabel()->en);
     }
 
     public function stringRepresentationTestProvider()
     {
-        $m = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
+        $m = $this->getMockForAbstractClass(
+            Unit::class,
+            ['m', new TranslatedString('Meter', 'en'), new TranslatedString('m', 'en')]
+        );
 
         return [
             'm' => [

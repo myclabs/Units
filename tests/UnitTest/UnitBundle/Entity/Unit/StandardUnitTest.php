@@ -3,6 +3,7 @@
 namespace UnitTest\UnitBundle\Entity\Unit;
 
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
@@ -18,14 +19,14 @@ class StandardUnitTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUnitOfReference()
     {
-        $unitSystem = $this->getMock(UnitSystem::class, [], [], '', false);
+        $system = $this->getMock(UnitSystem::class, [], [], '', false);
 
         $physicalQuantity = $this->getMock(PhysicalQuantity::class, [], [], '', false);
         $physicalQuantity->expects($this->once())
             ->method('getUnitOfReference')
             ->will($this->returnValue('foo'));
 
-        $unit = new StandardUnit('m', 'm', 'm', $physicalQuantity, $unitSystem, 1);
+        $unit = new StandardUnit('m', new TranslatedString(), new TranslatedString(), $physicalQuantity, $system, 1);
 
         $this->assertEquals('foo', $unit->getUnitOfReference());
     }
@@ -35,13 +36,16 @@ class StandardUnitTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCompatibleUnits()
     {
-        $unitSystem = $this->getMock(UnitSystem::class, [], [], '', false);
+        $system = $this->getMock(UnitSystem::class, [], [], '', false);
 
-        /** @var PhysicalQuantity $physicalQuantity */
-        $physicalQuantity = $this->getMockForAbstractClass(PhysicalQuantity::class, ['l', 'Length', 'L']);
+        /** @var PhysicalQuantity $quantity */
+        $quantity = $this->getMockForAbstractClass(
+            PhysicalQuantity::class,
+            ['l', new TranslatedString(), new TranslatedString()]
+        );
 
-        $unit1 = new StandardUnit('m', 'm', 'm', $physicalQuantity, $unitSystem, 1);
-        $unit2 = new StandardUnit('km', 'km', 'km', $physicalQuantity, $unitSystem, 1000);
+        $unit1 = new StandardUnit('m', new TranslatedString(), new TranslatedString(), $quantity, $system, 1);
+        $unit2 = new StandardUnit('km', new TranslatedString(), new TranslatedString(), $quantity, $system, 1000);
 
         $compatibleUnits = $unit1->getCompatibleUnits();
 
@@ -63,6 +67,13 @@ class StandardUnitTest extends \PHPUnit_Framework_TestCase
     {
         $unitSystem = $this->getMock(UnitSystem::class, [], [], '', false);
         $physicalQuantity = $this->getMock(PhysicalQuantity::class, [], [], '', false);
-        return new StandardUnit('m', 'm', 'm', $physicalQuantity, $unitSystem, 1);
+        return new StandardUnit(
+            'm',
+            new TranslatedString('m', 'en'),
+            new TranslatedString('m', 'en'),
+            $physicalQuantity,
+            $unitSystem,
+            1
+        );
     }
 }

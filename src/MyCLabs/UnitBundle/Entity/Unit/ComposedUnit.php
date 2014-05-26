@@ -3,6 +3,7 @@
 namespace MyCLabs\UnitBundle\Entity\Unit;
 
 use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 
 /**
  * Unit composed of other units.
@@ -58,60 +59,64 @@ class ComposedUnit extends Unit
      */
     public function getSymbol()
     {
-        $leftPart = '';
-        $rightPart = '';
+        $leftPart = [];
+        $rightPart = [];
 
         foreach ($this->components as $component) {
-            // Pour les exposants positifs on construit le numérateur du symbole de l'unité.
+
             if ($component->getExponent() > 0) {
-                $leftPart .= $component->getUnit()->getSymbol();
+                // Pour les exposants positifs on construit le numérateur du symbole de l'unité.
+                $leftPart[] = $component->getUnit()->getSymbol();
                 if ($component->getExponent() > 1) {
                     switch ($component->getExponent()) {
                         case 2:
-                            $leftPart .= '²';
+                            $leftPart[] = '²';
                             break;
                         case 3:
-                            $leftPart .= '³';
+                            $leftPart[] = '³';
                             break;
                         default:
-                            $leftPart .= $component->getExponent();
+                            $leftPart[] = $component->getExponent();
                     }
                 }
-                $leftPart .= '.';
+                $leftPart[] = '.';
+
             } elseif ($component->getExponent() < 0) {
                 // Pour les exposants négatifs on construite le dénominateur du symbole de l'unité.
-                $rightPart .= $component->getUnit()->getSymbol();
+                $rightPart[] = $component->getUnit()->getSymbol();
                 if ($component->getExponent() < -1) {
                     // pour un exposant négatif on prend la valeur absolue de celui ci.
                     switch (abs($component->getExponent())) {
                         case 2:
-                            $rightPart .= '²';
+                            $rightPart[] = '²';
                             break;
                         case 3:
-                            $rightPart .= '³';
+                            $rightPart[] = '³';
                             break;
                         default:
-                            $rightPart .= $component->getExponent();
+                            $rightPart[] = $component->getExponent();
                     }
                 }
-                $rightPart .= '.';
+                $rightPart[] = '.';
             }
+
         }
 
-        // On supprime le dernier point de séparation à la fin de chaques parties du symbole.
-        // Dans le cas ou une des parties est une chaine vide, cela renvoi une chaine vide.
-        $leftPart = substr($leftPart, 0, -1);
-        $rightPart = substr($rightPart, 0, -1);
-
-        $leftPart = ($leftPart != '') ? $leftPart : '1';
-
-        // Si on a une partie négative on sépare le numérateur et le dénominateur avec un trait de fraction
-        if ($rightPart != '') {
-            return $leftPart . '/' . $rightPart;
+        if (empty($leftPart)) {
+            $leftPart = TranslatedString::untranslated('1');
         } else {
-            // Sinon on ne retourne que la partie positive.
+            array_pop($leftPart);
+            $leftPart = TranslatedString::join($leftPart);
+        }
+
+        if (empty($rightPart)) {
             return $leftPart;
         }
+
+        array_pop($rightPart);
+        $rightPart = TranslatedString::join($rightPart);
+
+        return TranslatedString::join([$leftPart, '/', $rightPart]);
     }
 
     /**

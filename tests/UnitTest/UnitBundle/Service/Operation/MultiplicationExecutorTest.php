@@ -4,6 +4,7 @@ namespace UnitTest\UnitBundle\Service\Operation;
 
 use MyCLabs\UnitAPI\Operation\Operation;
 use MyCLabs\UnitAPI\Operation\OperationBuilder;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
@@ -137,7 +138,7 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
     private function createParser()
     {
         // Mock "m" unit
-        $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', 'meter', 'm']);
+        $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
         $mUnit->expects($this->any())
             ->method('getConversionFactor')
             ->with()
@@ -155,7 +156,7 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
             }));
 
         // Mock "km" unit
-        $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', 'kilometer', 'km']);
+        $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', new TranslatedString(), new TranslatedString()]);
         $kmUnit->expects($this->any())
             ->method('getConversionFactor')
             ->with()
@@ -173,7 +174,7 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
             }));
 
         // Mock "kg" unit
-        $kgUnit = $this->getMockForAbstractClass(Unit::class, ['kg', 'kilogram', 'kg']);
+        $kgUnit = $this->getMockForAbstractClass(Unit::class, ['kg', new TranslatedString(), new TranslatedString()]);
         $kgUnit->expects($this->any())
             ->method('getConversionFactor')
             ->with()

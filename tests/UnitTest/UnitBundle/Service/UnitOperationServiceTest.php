@@ -2,6 +2,7 @@
 
 namespace UnitTest\UnitBundle\Service;
 
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Service\UnitOperationService;
 use MyCLabs\UnitBundle\Service\UnitExpressionParser;
@@ -17,21 +18,21 @@ class UnitOperationServiceTest extends \PHPUnit_Framework_TestCase
     public function testConversionFactor($unit1, $unit2, $expected)
     {
         // Mock "m" unit
-        $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
+        $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
         $mUnit->expects($this->any())
             ->method('getConversionFactor')
             ->with($mUnit)
             ->will($this->returnValue(1));
 
         // Mock "km" unit
-        $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
+        $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', new TranslatedString(), new TranslatedString()]);
         $kmUnit->expects($this->any())
             ->method('getConversionFactor')
             ->with($mUnit)
             ->will($this->returnValue(1000));
 
         // Mock "100km" unit
-        $km100Unit = $this->getMockForAbstractClass(Unit::class, ['100km', '100 KiloMeter', '100km']);
+        $km100Unit = $this->getMockForAbstractClass(Unit::class, ['100km', new TranslatedString(), new TranslatedString()]);
         $km100Unit->expects($this->any())
             ->method('getConversionFactor')
             ->with($kmUnit)

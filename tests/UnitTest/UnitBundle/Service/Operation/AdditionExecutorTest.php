@@ -4,6 +4,7 @@ namespace UnitTest\UnitBundle\Service\Operation;
 
 use MyCLabs\UnitAPI\Operation\Operation;
 use MyCLabs\UnitAPI\Operation\OperationBuilder;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
@@ -109,7 +110,7 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
     private function createParser()
     {
         // Mock "m" unit
-        $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', 'Meter', 'm']);
+        $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
         $mUnit->expects($this->any())
             ->method('getUnitOfReference')
             ->will($this->returnValue($mUnit));
@@ -122,7 +123,7 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new ComposedUnit([ new UnitComponent($mUnit, 2) ])));
 
         // Mock "km" unit
-        $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', 'KiloMeter', 'km']);
+        $kmUnit = $this->getMockForAbstractClass(Unit::class, ['km', new TranslatedString(), new TranslatedString()]);
         $kmUnit->expects($this->any())
             ->method('getUnitOfReference')
             ->will($this->returnValue($mUnit));
@@ -135,7 +136,7 @@ class AdditionExecutorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new ComposedUnit([ new UnitComponent($kmUnit, 2) ])));
 
         // Mock "g" unit
-        $gUnit = $this->getMockForAbstractClass(Unit::class, ['g', 'Gram', 'g']);
+        $gUnit = $this->getMockForAbstractClass(Unit::class, ['g', new TranslatedString(), new TranslatedString()]);
         $gUnit->expects($this->any())
             ->method('getUnitOfReference')
             ->will($this->returnValue($gUnit));
