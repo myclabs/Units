@@ -1046,12 +1046,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/DoctrineTranslated.git",
-                "reference": "3ff433886efc9a065a24d3d62cdd8677a82adbcb"
+                "reference": "05a8735c3570736987458589800a5194918009e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/DoctrineTranslated/zipball/3ff433886efc9a065a24d3d62cdd8677a82adbcb",
-                "reference": "3ff433886efc9a065a24d3d62cdd8677a82adbcb",
+                "url": "https://api.github.com/repos/mnapoli/DoctrineTranslated/zipball/05a8735c3570736987458589800a5194918009e9",
+                "reference": "05a8735c3570736987458589800a5194918009e9",
                 "shasum": ""
             },
             "require": {
@@ -1083,7 +1083,7 @@
                 "translation",
                 "translations"
             ],
-            "time": "2014-05-26 10:13:48"
+            "time": "2014-05-26 11:50:54"
         },
         {
             "name": "mnapoli/php-di",
