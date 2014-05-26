@@ -21,15 +21,15 @@ unit_conversion:
 api_unit_system:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\API\UnitSystemController
-    prefix: "api/{_locale}/"
+    prefix: "api/"
 api_physical_quantity:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\API\PhysicalQuantityController
-    prefix: "api/{_locale}/"
+    prefix: "api/"
 api_unit:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\API\UnitController
-    prefix: "api/{_locale}/"
+    prefix: "api/"
 api_operation:
     type: rest
     resource: MyCLabs\UnitBundle\Controller\API\OperationController

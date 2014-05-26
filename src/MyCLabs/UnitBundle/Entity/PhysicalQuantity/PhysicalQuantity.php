@@ -4,6 +4,7 @@ namespace MyCLabs\UnitBundle\Entity\PhysicalQuantity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 
@@ -25,7 +26,7 @@ abstract class PhysicalQuantity
 
     /**
      * Label.
-     * @var string
+     * @var TranslatedString
      */
     protected $label;
 
@@ -54,7 +55,7 @@ abstract class PhysicalQuantity
     protected $translatableLocale;
 
 
-    public function __construct($id, $label, $symbol)
+    public function __construct($id, TranslatedString $label, $symbol)
     {
         $this->id = $id;
         $this->label = $label;
@@ -72,7 +73,7 @@ abstract class PhysicalQuantity
     }
 
     /**
-     * @return string
+     * @return TranslatedString
      */
     public function getLabel()
     {

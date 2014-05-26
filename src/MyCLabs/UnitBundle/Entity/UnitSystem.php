@@ -24,7 +24,7 @@ class UnitSystem
     /**
      * Label of the unit system.
      *
-     * @var string
+     * @var TranslatedString
      */
     protected $label;
 
@@ -37,13 +37,13 @@ class UnitSystem
 
 
     /**
-     * @param string $id    Identifier for the system.
-     * @param string $label Label of the unit system.
+     * @param string           $id    Identifier for the system.
+     * @param TranslatedString $label Label of the unit system.
      */
-    public function __construct($id, $label)
+    public function __construct($id, TranslatedString $label)
     {
         $this->id = (string) $id;
-        $this->label = (string) $label;
+        $this->label = $label;
     }
 
     /**
@@ -59,7 +59,7 @@ class UnitSystem
     /**
      * Returns the name of the unit system.
      *
-     * @return string
+     * @return TranslatedString
      */
     public function getLabel()
     {

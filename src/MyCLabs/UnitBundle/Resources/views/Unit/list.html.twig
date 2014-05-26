@@ -21,14 +21,14 @@
         <tbody>
         {% for unit in standardUnits %}
             <tr>
-                <th>{{ unit.label }}</th>
+                <th>{{ unit.label|translate }}</th>
                 <td>{{ unit.id }}</td>
-                <td>{{ unit.symbol }}</td>
-                <td>{{ unit.physicalQuantity.label }}</td>
+                <td>{{ unit.symbol|translate }}</td>
+                <td>{{ unit.physicalQuantity.label|translate }}</td>
                 <td>
                     {% if unit.physicalQuantity.unitOfReference.id != unit.id %}
                         {{ unit.multiplier|number_format_decimal }}
-                        {{ unit.physicalQuantity.unitOfReference.symbol }}
+                        {{ unit.physicalQuantity.unitOfReference.symbol|translate }}
                     {% else %}
                         -
                     {% endif %}
@@ -50,7 +50,7 @@
         <tbody>
         {% for unit in discreteUnits %}
             <tr>
-                <th>{{ unit.label }}</th>
+                <th>{{ unit.label|translate }}</th>
                 <td>{{ unit.id }}</td>
             </tr>
         {% endfor %}

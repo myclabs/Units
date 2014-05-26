@@ -4,6 +4,7 @@ namespace MyCLabs\UnitBundle\Entity\Unit;
 
 use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 
 /**
@@ -42,8 +43,8 @@ class StandardUnit extends Unit
      */
     public function __construct(
         $id,
-        $label,
-        $symbol,
+        TranslatedString $label,
+        TranslatedString $symbol,
         PhysicalQuantity $physicalQuantity,
         UnitSystem $unitSystem,
         $multiplier

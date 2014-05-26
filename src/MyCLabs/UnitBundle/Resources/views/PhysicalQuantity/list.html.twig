@@ -18,10 +18,10 @@
         <tbody>
         {% for physicalQuantity in physicalQuantities %}
             <tr>
-                <th>{{ physicalQuantity.label }}</th>
+                <th>{{ physicalQuantity.label|translate }}</th>
                 <td>{{ physicalQuantity.id }}</td>
                 <td>{{ physicalQuantity.symbol }}</td>
-                <td>{{ physicalQuantity.unitOfReference.symbol }}</td>
+                <td>{{ physicalQuantity.unitOfReference.symbol|translate }}</td>
             </tr>
         {% endfor %}
         </tbody>

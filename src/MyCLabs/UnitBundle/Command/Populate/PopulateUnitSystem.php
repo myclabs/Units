@@ -6,8 +6,7 @@ use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use Gedmo\Translatable\Entity\Repository\TranslationRepository;
-use Gedmo\Translatable\Entity\Translation;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 
 /**
@@ -22,15 +21,9 @@ class PopulateUnitSystem
      */
     private $entityManager;
 
-    /**
-     * @var TranslationRepository
-     */
-    private $translationRepository;
-
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->translationRepository = $entityManager->getRepository(Translation::class);
     }
 
     public function run()
@@ -47,14 +40,7 @@ class PopulateUnitSystem
     {
         $nameNode = $element->getElementsByTagName('name')->item(0);
 
-        // Default label
-        $label = $nameNode->getElementsByTagName('en')->item(0)->nodeValue;
-
-        $unitSystem = new UnitSystem($element->getAttribute('ref'), $label);
-
-        $this->entityManager->persist($unitSystem);
-
-        // Label translations
+        $label = new TranslatedString();
         foreach ($nameNode->childNodes as $node) {
             /** @var $node DOMNode */
             $lang = trim($node->nodeName);
@@ -64,7 +50,11 @@ class PopulateUnitSystem
                 continue;
             }
 
-            $this->translationRepository->translate($unitSystem, 'label', $lang, $value);
+            $label->$lang = $value;
         }
+
+        $unitSystem = new UnitSystem($element->getAttribute('ref'), $label);
+
+        $this->entityManager->persist($unitSystem);
     }
 }

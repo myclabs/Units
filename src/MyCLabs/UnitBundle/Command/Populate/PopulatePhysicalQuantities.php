@@ -6,11 +6,10 @@ use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use Gedmo\Translatable\Entity\Repository\TranslationRepository;
-use Gedmo\Translatable\Entity\Translation;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\BasePhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\DerivedPhysicalQuantity;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 
 /**
@@ -25,15 +24,9 @@ class PopulatePhysicalQuantities
      */
     private $entityManager;
 
-    /**
-     * @var TranslationRepository
-     */
-    private $translationRepository;
-
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->translationRepository = $entityManager->getRepository(Translation::class);
     }
 
     public function run()
@@ -48,8 +41,17 @@ class PopulatePhysicalQuantities
 
     protected function parsePhysicalQuantity(DOMElement $element)
     {
-        // Default label
-        $label = $element->getElementsByTagName('name')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
+        $label = new TranslatedString();
+        foreach ($element->getElementsByTagName('name')->item(0)->childNodes as $node) {
+            /** @var $node DOMNode */
+            $lang = trim($node->nodeName);
+            $value = trim($node->nodeValue);
+            if ($lang == '' || $value == '') {
+                continue;
+            }
+
+            $label->$lang = $value;
+        }
 
         if ($element->getElementsByTagName('symbol')->item(0)->hasChildNodes()) {
             $symbol = $element->getElementsByTagName('symbol')->item(0)->firstChild->nodeValue;
@@ -64,18 +66,6 @@ class PopulatePhysicalQuantities
         }
 
         $this->entityManager->persist($physicalQuantity);
-
-        // Label
-        foreach ($element->getElementsByTagName('name')->item(0)->childNodes as $node) {
-            /** @var $node DOMNode */
-            $lang = trim($node->nodeName);
-            $value = trim($node->nodeValue);
-            if ($lang == '' || $value == '' || $lang == 'en') {
-                continue;
-            }
-
-            $this->translationRepository->translate($physicalQuantity, 'label', $lang, $value);
-        }
     }
 
     public function update()

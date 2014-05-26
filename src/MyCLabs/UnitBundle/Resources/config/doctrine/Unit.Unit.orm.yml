@@ -10,21 +10,12 @@ MyCLabs\UnitBundle\Entity\Unit\Unit:
     standard: StandardUnit
     discrete: DiscreteUnit
 
-  gedmo:
-    translation:
-      locale: translatableLocale
-
   id:
     id:
       type: string
 
-  fields:
+  embedded:
     label:
-      type: string
-      nullable: true
-      gedmo:
-        - translatable
+      class: MyCLabs\UnitBundle\Entity\TranslatedString
     symbol:
-      type: string
-      gedmo:
-        - translatable
+      class: MyCLabs\UnitBundle\Entity\TranslatedString

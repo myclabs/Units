@@ -2,18 +2,17 @@
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use FOS\RestBundle\FOSRestBundle;
+use Mnapoli\Translated\Integration\Symfony2\TranslatedBundle;
 use Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle;
 use MyCLabs\UnitBundle\UnitBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle;
 use Sonata\IntlBundle\SonataIntlBundle;
-use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Symfony\Bundle\AsseticBundle\AsseticBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
-use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\HttpKernel\Kernel;
@@ -28,14 +27,13 @@ class AppKernel extends Kernel
             new SecurityBundle(),
             new TwigBundle(),
             new MonologBundle(),
-            new SwiftmailerBundle(),
             new AsseticBundle(),
             new DoctrineBundle(),
-            new StofDoctrineExtensionsBundle(),
             new SensioFrameworkExtraBundle(),
             new MopaBootstrapBundle(),
             new FOSRestBundle(),
             new SonataIntlBundle(),
+            new TranslatedBundle(),
             new UnitBundle(),
         ];
 

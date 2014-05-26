@@ -1,0 +1,9 @@
+MyCLabs\UnitBundle\Entity\TranslatedString:
+  type: embeddable
+  fields:
+    en:
+      type: string
+      nullable: true
+    fr:
+      type: string
+      nullable: true

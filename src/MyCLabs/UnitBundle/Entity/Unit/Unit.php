@@ -3,6 +3,7 @@
 namespace MyCLabs\UnitBundle\Entity\Unit;
 
 use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 
 /**
  * Unit.
@@ -21,32 +22,26 @@ abstract class Unit
 
     /**
      * Label.
-     * @var string
+     * @var TranslatedString
      */
     protected $label;
 
     /**
      * Display symbol.
-     * @var string
+     * @var TranslatedString
      */
     protected $symbol;
 
     /**
-     * Locale for Translatable extension.
-     * @var string
+     * @param string           $id     Unique identifier.
+     * @param TranslatedString $label  Label.
+     * @param TranslatedString $symbol Display symbol.
      */
-    protected $translatableLocale;
-
-    /**
-     * @param string $id     Unique identifier.
-     * @param string $label  Label.
-     * @param string $symbol Display symbol.
-     */
-    public function __construct($id, $label, $symbol)
+    public function __construct($id, TranslatedString $label, TranslatedString $symbol)
     {
         $this->id = (string) $id;
-        $this->label = (string) $label;
-        $this->symbol = (string) $symbol;
+        $this->label = $label;
+        $this->symbol = $symbol;
     }
 
     /**
@@ -62,7 +57,7 @@ abstract class Unit
     /**
      * Returns the label.
      *
-     * @return string
+     * @return TranslatedString
      */
     public function getLabel()
     {
@@ -72,7 +67,7 @@ abstract class Unit
     /**
      * Returns the display symbol.
      *
-     * @return string
+     * @return TranslatedString
      */
     public function getSymbol()
     {

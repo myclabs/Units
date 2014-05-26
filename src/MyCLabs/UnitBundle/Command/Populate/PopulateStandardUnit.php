@@ -6,9 +6,8 @@ use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use Gedmo\Translatable\Entity\Repository\TranslationRepository;
-use Gedmo\Translatable\Entity\Translation;
 use MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\UnitSystem;
 
@@ -24,15 +23,9 @@ class PopulateStandardUnit
      */
     private $entityManager;
 
-    /**
-     * @var TranslationRepository
-     */
-    private $translationRepository;
-
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->translationRepository = $entityManager->getRepository(Translation::class);
     }
 
     public function run()
@@ -50,24 +43,10 @@ class PopulateStandardUnit
         $id = $element->getAttribute('ref');
         $multiplier = $element->getElementsByTagName('multiplier')->item(0)->firstChild->nodeValue;
 
-        // Default label and symbol
-        $label = $element->getElementsByTagName('name')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
-        $symbol = $element->getElementsByTagName('symbol')->item(0)->getElementsByTagName('en')->item(0)->nodeValue;
-
-        $idUnitSystem = $element->getElementsByTagName('unitSystemRef')->item(0)->firstChild->nodeValue;
-        /** @var UnitSystem $unitSystem */
-        $unitSystem = $this->entityManager->find(UnitSystem::class, $idUnitSystem);
-
-        $idPhysicalQuantity = $element->getElementsByTagName('quantityRef')->item(0)->firstChild->nodeValue;
-        /** @var PhysicalQuantity $physicalQuantity */
-        $physicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $idPhysicalQuantity);
-
-        $unit = new StandardUnit($id, $label, $symbol, $physicalQuantity, $unitSystem, $multiplier);
-
-        $this->entityManager->persist($unit);
-
         // Label & Symbol
-        foreach (['fr'] as $lang) {
+        $label = new TranslatedString();
+        $symbol = new TranslatedString();
+        foreach (['en', 'fr'] as $lang) {
             // Label
             $found = false;
             foreach ($element->getElementsByTagName('name')->item(0)->childNodes as $node) {
@@ -81,7 +60,7 @@ class PopulateStandardUnit
                 continue;
             }
             /** @var $node DOMNode */
-            $label = trim($node->nodeValue);
+            $label->$lang = trim($node->nodeValue);
 
             // Symbol
             $found = false;
@@ -96,10 +75,19 @@ class PopulateStandardUnit
                 continue;
             }
             /** @var $node DOMNode */
-            $symbol = trim($node->nodeValue);
-
-            $this->translationRepository->translate($unit, 'label', $lang, $label);
-            $this->translationRepository->translate($unit, 'symbol', $lang, $symbol);
+            $symbol->$lang = trim($node->nodeValue);
         }
+
+        $idUnitSystem = $element->getElementsByTagName('unitSystemRef')->item(0)->firstChild->nodeValue;
+        /** @var UnitSystem $unitSystem */
+        $unitSystem = $this->entityManager->find(UnitSystem::class, $idUnitSystem);
+
+        $idPhysicalQuantity = $element->getElementsByTagName('quantityRef')->item(0)->firstChild->nodeValue;
+        /** @var PhysicalQuantity $physicalQuantity */
+        $physicalQuantity = $this->entityManager->find(PhysicalQuantity::class, $idPhysicalQuantity);
+
+        $unit = new StandardUnit($id, $label, $symbol, $physicalQuantity, $unitSystem, $multiplier);
+
+        $this->entityManager->persist($unit);
     }
 }

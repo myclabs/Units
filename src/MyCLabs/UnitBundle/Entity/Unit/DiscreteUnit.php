@@ -3,6 +3,7 @@
 namespace MyCLabs\UnitBundle\Entity\Unit;
 
 use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
+use MyCLabs\UnitBundle\Entity\TranslatedString;
 
 /**
  * Discrete unit.
@@ -17,13 +18,13 @@ use MyCLabs\UnitBundle\Entity\IncompatibleUnitsException;
 class DiscreteUnit extends Unit
 {
     /**
-     * @param string $id  External identifier.
-     * @param string $label Display name.
+     * @param string           $id    External identifier.
+     * @param TranslatedString $label Display name.
      */
-    public function __construct($id, $label)
+    public function __construct($id, TranslatedString $label)
     {
         // The symbol is not useful in discrete units, so we use the name
-        parent::__construct($id, $label, $label);
+        parent::__construct($id, $label, clone $label);
     }
 
     /**

@@ -58,34 +58,15 @@ doctrine:
         mappings:
             UnitBundle:
                 type: yml
-            gedmo_translatable:
-                type: annotation
-                prefix: Gedmo\Translatable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
-                alias: GedmoTranslatable
-                is_bundle: false
-
-# Swiftmailer Configuration
-swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
-    spool:     { type: memory }
-
-stof_doctrine_extensions:
-    default_locale: en
-    translation_fallback: true
-    persist_default_translation: true
-    orm:
-        default:
-            translatable: true
 
 fos_rest:
     routing_loader:
         default_format: json
     service:
         serializer: serializer
+
+translated:
+    default_locale: "%locale%"
 
 parameters:
     default_locale: %locale%

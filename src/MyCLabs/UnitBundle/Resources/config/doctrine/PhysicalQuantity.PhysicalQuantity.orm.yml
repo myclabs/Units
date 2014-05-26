@@ -9,23 +9,18 @@ MyCLabs\UnitBundle\Entity\PhysicalQuantity\PhysicalQuantity:
     standard: BasePhysicalQuantity
     discrete: DerivedPhysicalQuantity
 
-  gedmo:
-    translation:
-      locale: translatableLocale
-
   id:
     id:
       type: string
 
   fields:
-    label:
-      type: string
-      nullable: true
-      gedmo:
-        - translatable
     symbol:
       type: string
       nullable : true
+
+  embedded:
+    label:
+      class: MyCLabs\UnitBundle\Entity\TranslatedString
 
   manyToOne:
     unitOfReference:
