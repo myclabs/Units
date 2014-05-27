@@ -210,7 +210,7 @@ class UnitOperationTest extends WebTestCase
     {
         return [
             [ 'm', 'm', 1 ],
-            [ 'm', 'km', 1000 ],
+            [ 'm', 'km', 1000. ],
             [ 'km', 'm', 0.001 ],
             [ 'km.h^-1', 'km.h^-1', 1 ],
             [ 'km.h^-1', 'm.s^-1', 3.6 ],
