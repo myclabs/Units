@@ -236,7 +236,7 @@ class ComposedUnit extends Unit
             ));
         }
 
-        return $this->getConversionFactor() / $unit->getConversionFactor();
+        return $unit->getConversionFactor() / $this->getConversionFactor();
     }
 
     /**

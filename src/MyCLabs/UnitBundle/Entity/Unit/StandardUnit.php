@@ -117,7 +117,7 @@ class StandardUnit extends Unit
             ));
         }
 
-        return $this->getMultiplier() / $unit->getConversionFactor();
+        return $unit->getConversionFactor() / $this->getMultiplier();
     }
 
     /**

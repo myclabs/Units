@@ -92,6 +92,13 @@ abstract class Unit
      * Returns the conversion factor between this unit and the given unit.
      * If no unit is given, then the conversion factor is between this unit and the unit of reference.
      *
+     * WARNING: note that this is the conversion factor between the two units. This is the *inverse* of
+     * the conversion factor you can use to convert values.
+     *
+     * e.g. 1 km = 1000 m (the conversion factor here is 1000)
+     *      To convert a value in km to m, you need to divide by the conversion factor:
+     *      ? km / 1000 => ? m
+     *
      * @param Unit|null $unit Must be compatible with this unit.
      *
      * @throws IncompatibleUnitsException

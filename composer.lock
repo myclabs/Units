@@ -590,12 +590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "b421d03f69049e1f6037756f1093707bf443a52f"
+                "reference": "20e47ae52d38d78eadf5539399d480cdb6ed88e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/b421d03f69049e1f6037756f1093707bf443a52f",
-                "reference": "b421d03f69049e1f6037756f1093707bf443a52f",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/20e47ae52d38d78eadf5539399d480cdb6ed88e0",
+                "reference": "20e47ae52d38d78eadf5539399d480cdb6ed88e0",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-05-21 22:15:22"
+            "time": "2014-05-27 07:55:42"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -668,12 +668,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "b1304871830f9059b22118a3ab93d1e8cdd3674f"
+                "reference": "90cd807b1e75485d3505703c720ebf028a14073d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/b1304871830f9059b22118a3ab93d1e8cdd3674f",
-                "reference": "b1304871830f9059b22118a3ab93d1e8cdd3674f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/90cd807b1e75485d3505703c720ebf028a14073d",
+                "reference": "90cd807b1e75485d3505703c720ebf028a14073d",
                 "shasum": ""
             },
             "require": {
@@ -738,7 +738,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-05-21 20:42:38"
+            "time": "2014-05-27 08:09:35"
         },
         {
             "name": "guzzle/guzzle",
@@ -1424,16 +1424,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/Units-API.git",
-                "reference": "6a2357d72d65d1ab88efe7c42e3bd89ee9166919"
+                "reference": "0c58b6cd1a7746d775193221148b987d008d6d56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/6a2357d72d65d1ab88efe7c42e3bd89ee9166919",
-                "reference": "6a2357d72d65d1ab88efe7c42e3bd89ee9166919",
+                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/0c58b6cd1a7746d775193221148b987d008d6d56",
+                "reference": "0c58b6cd1a7746d775193221148b987d008d6d56",
                 "shasum": ""
             },
             "require": {
                 "guzzle/guzzle": "~3.7",
+                "mnapoli/doctrine-translated": "dev-master",
                 "php": ">=5.4.0"
             },
             "type": "library",
@@ -1443,11 +1444,14 @@
                     "UnitAPITest\\UnitTest\\MyCLabs\\UnitAPI\\": "tests/"
                 }
             },
+            "license": [
+                "MIT"
+            ],
             "support": {
                 "source": "https://github.com/myclabs/Units-API/tree/master",
                 "issues": "https://github.com/myclabs/Units-API/issues"
             },
-            "time": "2014-02-19 15:53:17"
+            "time": "2014-05-26 14:32:48"
         },
         {
             "name": "ocramius/proxy-manager",
