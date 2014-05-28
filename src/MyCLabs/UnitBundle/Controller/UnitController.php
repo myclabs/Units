@@ -65,7 +65,7 @@ class UnitController extends Controller
             $unit2 = $request->get('unit2');
 
             try {
-                $factor = $this->unitOperationService->getConversionFactor($unit1, $unit2);
+                $factor = $this->unitOperationService->getConversionFactor($unit2, $unit1);
             } catch (UnknownUnitException $e) {
                 $this->session->getFlashBag()->add(
                     'error',
