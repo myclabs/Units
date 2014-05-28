@@ -80,7 +80,7 @@ class UnitController extends FOSRestController
     /**
      * @Get("/unit-of-reference/{expression}", requirements={"expression"=".+"})
      */
-    public function getUnitOfReference($expression)
+    public function getUnitOfReferenceAction($expression)
     {
         try {
             $unit = $this->parser->parse($expression);

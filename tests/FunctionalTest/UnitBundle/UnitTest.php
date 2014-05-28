@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UnitTest extends WebTestCase
 {
     /**
-     * @dataProvider scenarioProvider
+     * @dataProvider getUnitProvider
      */
     public function testGetUnit($unitExpression, $expectedSymbol)
     {
@@ -33,7 +33,7 @@ class UnitTest extends WebTestCase
         $this->assertEquals($expectedSymbol, $unit->symbol->en);
     }
 
-    public function scenarioProvider()
+    public function getUnitProvider()
     {
         return [
             'm'                    => ['m', 'm'],
@@ -117,6 +117,35 @@ class UnitTest extends WebTestCase
         $this->assertEquals('UnknownUnitException', $exception->exception);
         $this->assertEquals('Unknown unit aaa', $exception->message);
         $this->assertEquals('aaa', $exception->unitId);
+    }
+    /**
+     * @dataProvider getUnitOfReferenceProvider
+     */
+    public function testGetUnitOfReference($unit, $unitOfReferenceExpected)
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/unit-of-reference/' . urlencode($unit));
+
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response);
+
+        /** @var UnitDTO $unitOfReference */
+        $unitOfReference = json_decode($response->getContent());
+
+        $this->assertEquals($unitOfReferenceExpected, $unitOfReference->id);
+    }
+
+    public function getUnitOfReferenceProvider()
+    {
+        return [
+            'm'        => ['m', 'm'],
+            'km'       => ['km', 'm'],
+            'un'       => ['un', 'un'],
+            'pourcent' => ['pourcent', 'un'],
+            'km.h^-1'  => ['km.h^-1', 'm.s^-1'],
+        ];
     }
 
     protected static function getPhpUnitXmlDir()
