@@ -52,14 +52,11 @@ class EmptyUnit extends Unit
             ));
         }
 
-
         if ($unit instanceof self) {
             return 1.;
-        } elseif ($unit instanceof PercentUnit) {
-            return 100.;
         }
 
-        throw new \Exception('Unsupported case');
+        return $unit->getConversionFactor() / $this->getConversionFactor();
     }
 
     /**

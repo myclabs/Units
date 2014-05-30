@@ -590,12 +590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "20e47ae52d38d78eadf5539399d480cdb6ed88e0"
+                "reference": "5d1275e938145a37df6d700ac2ec0886805b5b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/20e47ae52d38d78eadf5539399d480cdb6ed88e0",
-                "reference": "20e47ae52d38d78eadf5539399d480cdb6ed88e0",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/5d1275e938145a37df6d700ac2ec0886805b5b79",
+                "reference": "5d1275e938145a37df6d700ac2ec0886805b5b79",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-05-27 07:55:42"
+            "time": "2014-05-29 20:42:09"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -668,12 +668,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "90cd807b1e75485d3505703c720ebf028a14073d"
+                "reference": "cc0931cfa5b9f75a15cd3b7ebc1b531a408cff1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/90cd807b1e75485d3505703c720ebf028a14073d",
-                "reference": "90cd807b1e75485d3505703c720ebf028a14073d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/cc0931cfa5b9f75a15cd3b7ebc1b531a408cff1e",
+                "reference": "cc0931cfa5b9f75a15cd3b7ebc1b531a408cff1e",
                 "shasum": ""
             },
             "require": {
@@ -738,71 +738,48 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-05-27 08:09:35"
+            "time": "2014-05-30 06:48:29"
         },
         {
-            "name": "guzzle/guzzle",
-            "version": "v3.9.1",
+            "name": "guzzlehttp/guzzle",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "92d9934f2fca1da15178c91239576ae26e505e60"
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "85a0ba7de064493c928a8bcdc5eef01e0bde9953"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/92d9934f2fca1da15178c91239576ae26e505e60",
-                "reference": "92d9934f2fca1da15178c91239576ae26e505e60",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/85a0ba7de064493c928a8bcdc5eef01e0bde9953",
+                "reference": "85a0ba7de064493c928a8bcdc5eef01e0bde9953",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1"
-            },
-            "replace": {
-                "guzzle/batch": "self.version",
-                "guzzle/cache": "self.version",
-                "guzzle/common": "self.version",
-                "guzzle/http": "self.version",
-                "guzzle/inflection": "self.version",
-                "guzzle/iterator": "self.version",
-                "guzzle/log": "self.version",
-                "guzzle/parser": "self.version",
-                "guzzle/plugin": "self.version",
-                "guzzle/plugin-async": "self.version",
-                "guzzle/plugin-backoff": "self.version",
-                "guzzle/plugin-cache": "self.version",
-                "guzzle/plugin-cookie": "self.version",
-                "guzzle/plugin-curlauth": "self.version",
-                "guzzle/plugin-error-response": "self.version",
-                "guzzle/plugin-history": "self.version",
-                "guzzle/plugin-log": "self.version",
-                "guzzle/plugin-md5": "self.version",
-                "guzzle/plugin-mock": "self.version",
-                "guzzle/plugin-oauth": "self.version",
-                "guzzle/service": "self.version",
-                "guzzle/stream": "self.version"
+                "ext-json": "*",
+                "guzzlehttp/streams": "~1.0",
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "doctrine/cache": "~1.3",
-                "monolog/monolog": "~1.0",
-                "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/class-loader": "~2.1",
-                "zendframework/zend-cache": "2.*,<2.3",
-                "zendframework/zend-log": "2.*,<2.3"
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0",
+                "psr/log": "~1.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.8-dev"
+                    "dev-master": "4.0.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Guzzle": "src/",
-                    "Guzzle\\Tests": "tests/"
-                }
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -813,10 +790,6 @@
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
-                },
-                {
-                    "name": "Guzzle Community",
-                    "homepage": "https://github.com/guzzle/guzzle/contributors"
                 }
             ],
             "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
@@ -830,7 +803,60 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-05-07 17:04:22"
+            "time": "2014-05-28 05:13:19"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "cf0c8c33ca95cc147efba4c714f630ee44767180"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/cf0c8c33ca95cc147efba4c714f630ee44767180",
+                "reference": "cf0c8c33ca95cc147efba4c714f630ee44767180",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
+            ],
+            "time": "2014-04-03 04:48:24"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1424,16 +1450,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/Units-API.git",
-                "reference": "0c58b6cd1a7746d775193221148b987d008d6d56"
+                "reference": "b35506d6dbfbf6a816de7ff39471d6bfe126d699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/0c58b6cd1a7746d775193221148b987d008d6d56",
-                "reference": "0c58b6cd1a7746d775193221148b987d008d6d56",
+                "url": "https://api.github.com/repos/myclabs/Units-API/zipball/b35506d6dbfbf6a816de7ff39471d6bfe126d699",
+                "reference": "b35506d6dbfbf6a816de7ff39471d6bfe126d699",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": "~3.7",
+                "guzzlehttp/guzzle": "~4.0",
                 "mnapoli/doctrine-translated": "dev-master",
                 "php": ">=5.4.0"
             },
@@ -1451,7 +1477,7 @@
                 "source": "https://github.com/myclabs/Units-API/tree/master",
                 "issues": "https://github.com/myclabs/Units-API/issues"
             },
-            "time": "2014-05-26 14:32:48"
+            "time": "2014-05-27 12:44:37"
         },
         {
             "name": "ocramius/proxy-manager",

@@ -258,8 +258,10 @@ class UnitOperationTest extends WebTestCase
             [ 'kg^2.g', 'kg^3', 1000. ],
             [ 'm/s', 'km.h^-1', 0.27777777777778 ],
             [ 'un', 'un', 1. ],
-            [ 'un', 'pourcent', 100. ],
-            [ 'pourcent', 'un', 0.01 ],
+            [ 'un', 'pourcent', 0.01 ],
+            [ 'pourcent', 'un', 100. ],
+            [ 'pourcent.un', 'un', 100. ],
+            [ 'pourcent.m', 'm', 100. ],
         ];
     }
 
