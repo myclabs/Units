@@ -5,6 +5,7 @@ namespace UnitTest\UnitBundle\Service;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
+use MyCLabs\UnitBundle\Entity\Unit\EmptyUnit;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
@@ -23,6 +24,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
      */
     private $service;
 
+    private $un;
     private $m;
     private $km;
     private $s;
@@ -33,6 +35,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Mock units
+        $this->un = new EmptyUnit();
         $this->m = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
         $this->km = $this->getMockForAbstractClass(Unit::class, ['km', new TranslatedString(), new TranslatedString()]);
         $this->s = $this->getMockForAbstractClass(Unit::class, ['s', new TranslatedString(), new TranslatedString()]);
@@ -46,6 +49,8 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
             ->method('find')
             ->will($this->returnCallback(function ($id) {
                 switch ($id) {
+                    case 'un':
+                        return $this->un;
                     case 'm':
                         return $this->m;
                     case 'km':
@@ -108,6 +113,7 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
         $s = $this->getMockForAbstractClass(Unit::class, ['s', new TranslatedString(), new TranslatedString()]);
         $ms = $this->getMockForAbstractClass(Unit::class, ['m/s', new TranslatedString(), new TranslatedString()]);
         $kgco2e = $this->getMockForAbstractClass(Unit::class, ['kg_co2e', new TranslatedString(), new TranslatedString()]);
+        $un = new EmptyUnit();
 
         return [
             'm^2' => [
@@ -168,7 +174,24 @@ class UnitExpressionParserTest extends \PHPUnit_Framework_TestCase
                     new UnitComponent($kgco2e, 1),
                 ]
             ],
+            // Compatible with "un"
+            'm . un' => [
+                'm . un',
+                [
+                    new UnitComponent($m, 1),
+                    new UnitComponent($un, 1),
+                ]
+            ],
         ];
+    }
+
+    public function testParseEmptyUnit()
+    {
+        /** @var StandardUnit $unit */
+        $unit = $this->service->parse('un');
+
+        $this->assertInstanceOf(EmptyUnit::class, $unit);
+        $this->assertEquals('un', $unit->getId());
     }
 
     /**

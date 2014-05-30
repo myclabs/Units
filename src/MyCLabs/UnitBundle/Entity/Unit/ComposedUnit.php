@@ -22,9 +22,14 @@ class ComposedUnit extends Unit
 
     /**
      * @param UnitComponent[] $components
+     * @throws \InvalidArgumentException Impossible to create a composed unit with no components
      */
     public function __construct(array $components)
     {
+        if (empty($components)) {
+            throw new \InvalidArgumentException('Impossible to create a composed unit with no components');
+        }
+
         $this->components = $components;
     }
 
@@ -54,8 +59,6 @@ class ComposedUnit extends Unit
 
     /**
      * {@inheritdoc}
-     *
-     * @todo Refactor
      */
     public function getSymbol()
     {
@@ -63,49 +66,34 @@ class ComposedUnit extends Unit
         $rightPart = [];
 
         foreach ($this->components as $component) {
+            $unit = $component->getUnit();
+            if ($unit instanceof EmptyUnit) {
+                continue;
+            }
+            $exponent = $component->getExponent();
 
-            if ($component->getExponent() > 0) {
-                // Pour les exposants positifs on construit le numérateur du symbole de l'unité.
-                $leftPart[] = $component->getUnit()->getSymbol();
-                if ($component->getExponent() > 1) {
-                    switch ($component->getExponent()) {
-                        case 2:
-                            $leftPart[] = '²';
-                            break;
-                        case 3:
-                            $leftPart[] = '³';
-                            break;
-                        default:
-                            $leftPart[] = $component->getExponent();
-                    }
-                }
+            if ($exponent > 0) {
+                $leftPart[] = $unit->getSymbol();
+                $leftPart[] = $this->getExponentSymbol($exponent);
                 $leftPart[] = '.';
-
-            } elseif ($component->getExponent() < 0) {
-                // Pour les exposants négatifs on construite le dénominateur du symbole de l'unité.
-                $rightPart[] = $component->getUnit()->getSymbol();
-                if ($component->getExponent() < -1) {
-                    // pour un exposant négatif on prend la valeur absolue de celui ci.
-                    switch (abs($component->getExponent())) {
-                        case 2:
-                            $rightPart[] = '²';
-                            break;
-                        case 3:
-                            $rightPart[] = '³';
-                            break;
-                        default:
-                            $rightPart[] = $component->getExponent();
-                    }
-                }
+            } elseif ($exponent < 0) {
+                $rightPart[] = $unit->getSymbol();
+                // Pour un exposant négatif on prend la valeur absolue de celui ci.
+                $rightPart[] = $this->getExponentSymbol(abs($exponent));
                 $rightPart[] = '.';
             }
-
         }
 
+        // Enlève le trailing "."
+        array_pop($leftPart);
+        array_pop($rightPart);
+
         if (empty($leftPart)) {
+            if (empty($rightPart)) {
+                return (new EmptyUnit())->getSymbol();
+            }
             $leftPart = TranslatedString::untranslated('1');
         } else {
-            array_pop($leftPart);
             $leftPart = TranslatedString::join($leftPart);
         }
 
@@ -113,10 +101,20 @@ class ComposedUnit extends Unit
             return $leftPart;
         }
 
-        array_pop($rightPart);
         $rightPart = TranslatedString::join($rightPart);
 
         return TranslatedString::join([$leftPart, '/', $rightPart]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function equals(Unit $unit)
+    {
+        if ($unit instanceof ComposedUnit) {
+            $unit = $unit->simplify();
+        }
+        return ($this->simplify()->getId() === $unit->getId());
     }
 
     /**
@@ -189,10 +187,16 @@ class ComposedUnit extends Unit
             }
         }
 
+        // Sort components by the unit ID so that equivalent composed units are easily comparable
+        ksort($uniqueComponents);
+
         // Remove components with exponent 0
         $uniqueComponents = array_filter($uniqueComponents, function (UnitComponent $component) {
             return $component->getExponent() != 0;
         });
+
+        // Remove units without dimension (empty unit)
+        unset($uniqueComponents[EmptyUnit::ID]);
 
         // If only one component is left, with exponent=1, then it's a standard unit
         if (count($uniqueComponents) === 1) {
@@ -203,10 +207,9 @@ class ComposedUnit extends Unit
             }
         }
 
-        // Sort components so that equivalent Composed units are easily comparable
-        usort($uniqueComponents, function (UnitComponent $a, UnitComponent $b) {
-            return strcmp($a->getUnit()->getId(), $b->getUnit()->getId());
-        });
+        if (empty($uniqueComponents)) {
+            return new EmptyUnit();
+        }
 
         return new ComposedUnit(array_values($uniqueComponents));
     }
@@ -338,5 +341,22 @@ class ComposedUnit extends Unit
         }
 
         return $return;
+    }
+
+    private function getExponentSymbol($exponent)
+    {
+        switch ($exponent) {
+            case 1:
+                return '';
+                break;
+            case 2:
+                return '²';
+                break;
+            case 3:
+                return '³';
+                break;
+            default:
+                return (string) $exponent;
+        }
     }
 }

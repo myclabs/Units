@@ -75,6 +75,19 @@ abstract class Unit
     }
 
     /**
+     * Returns true if the units are equal.
+     *
+     * @param Unit $unit
+     *
+     * @return boolean
+     */
+    public function equals(Unit $unit)
+    {
+        // By default we compare the ids
+        return ($this->getId() === $unit->getId());
+    }
+
+    /**
      * Returns the unit of reference in the same physical quantity.
      *
      * @return Unit
@@ -122,7 +135,7 @@ abstract class Unit
      */
     public function isCompatibleWith(Unit $unit)
     {
-        return ($this->getBaseUnitOfReference()->getId() === $unit->getBaseUnitOfReference()->getId());
+        return $this->getBaseUnitOfReference()->equals($unit->getBaseUnitOfReference());
     }
 
     /**

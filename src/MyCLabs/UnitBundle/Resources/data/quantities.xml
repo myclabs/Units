@@ -6,38 +6,6 @@
 
     <!-- Pour toutes les conventions relatives à l'ordre entre les objets, le choix des identifiants, des symboles, et des libellés, voir specs -->
 
-    <!--  Exposant zéro -->
-
-    <quantity ref="sans_dimension">
-        <name>
-            <fr>Sans dimension</fr>
-            <en>Without dimension</en>
-        </name>
-        <standardUnitRef>un</standardUnitRef>
-        <symbol/>
-        <isBase>false</isBase>
-        <component>
-            <baseQuantityRef>l</baseQuantityRef>
-            <exponent>0</exponent>
-        </component>
-        <component>
-            <baseQuantityRef>m</baseQuantityRef>
-            <exponent>0</exponent>
-        </component>
-        <component>
-            <baseQuantityRef>t</baseQuantityRef>
-            <exponent>0</exponent>
-        </component>
-        <component>
-            <baseQuantityRef>numeraire</baseQuantityRef>
-            <exponent>0</exponent>
-        </component>
-        <component>
-            <baseQuantityRef>m_ghge</baseQuantityRef>
-            <exponent>0</exponent>
-        </component>
-    </quantity>
-
     <!-- Exposant 1 -->
 
     <quantity ref="l">

@@ -97,6 +97,20 @@ class UnitOperationTest extends WebTestCase
                     ->getOperation(),
                 'm.s^-1'
             ],
+            [
+                OperationBuilder::addition()
+                    ->with('un')
+                    ->with('un')
+                    ->getOperation(),
+                'un'
+            ],
+            [
+                OperationBuilder::addition()
+                    ->with('pourcent')
+                    ->with('un')
+                    ->getOperation(),
+                'un'
+            ],
             // Multiplications
             [
                 OperationBuilder::multiplication()
@@ -177,7 +191,7 @@ class UnitOperationTest extends WebTestCase
                     ->with('m', 1)
                     ->with('m', -1)
                     ->getOperation(),
-                '',
+                'un',
                 1.
             ],
             [
@@ -187,6 +201,30 @@ class UnitOperationTest extends WebTestCase
                     ->getOperation(),
                 'm^-1',
                 1. / (1000. * 1000.)
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('un', 1)
+                    ->with('un', 1)
+                    ->getOperation(),
+                'un',
+                1.
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('un', 1)
+                    ->with('un', -1)
+                    ->getOperation(),
+                'un',
+                1.
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('un', 1)
+                    ->with('pourcent', 1)
+                    ->getOperation(),
+                'un',
+                0.01
             ],
         ];
     }
@@ -209,16 +247,19 @@ class UnitOperationTest extends WebTestCase
     public function conversionFactorProvider()
     {
         return [
-            [ 'm', 'm', 1 ],
+            [ 'm', 'm', 1. ],
             [ 'm', 'km', 1000. ],
             [ 'km', 'm', 0.001 ],
-            [ 'km.h^-1', 'km.h^-1', 1 ],
+            [ 'km.h^-1', 'km.h^-1', 1. ],
             [ 'km.h^-1', 'm.s^-1', 3.6 ],
             [ 'm.s^-1', 'km.h^-1', 0.27777777777778 ],
-            [ 'm^2.animal^-1.m^-2.g.m^2.j^-5', 'animal^-1.g.m^2.j^-5', 1 ],
-            [ 'm.m^-2.m^2', 'm', 1 ],
-            [ 'kg^2.g', 'kg^3', 1000 ],
+            [ 'm^2.animal^-1.m^-2.g.m^2.j^-5', 'animal^-1.g.m^2.j^-5', 1. ],
+            [ 'm.m^-2.m^2', 'm', 1. ],
+            [ 'kg^2.g', 'kg^3', 1000. ],
             [ 'm/s', 'km.h^-1', 0.27777777777778 ],
+            [ 'un', 'un', 1. ],
+            [ 'un', 'pourcent', 100. ],
+            [ 'pourcent', 'un', 0.01 ],
         ];
     }
 
@@ -282,6 +323,14 @@ class UnitOperationTest extends WebTestCase
             [ 'm^2', 'm2', true ],
             [ 'm/s', 'm.s^-1', true ],
             [ 'm/s.h', 'm', true ],
+            [ 'j', 'kwh', true ],
+            [ 'm^2.kg.s^-2', 'j', true ],
+            [ 'j', 'm^2.kg.s^-2', true ],
+            [ 'un', 'un', true ],
+            [ 'un', 'pourcent', true ],
+            [ 'un', 'm', false ],
+            [ 'un', 'm.m^-1', true ],
+            [ 'un', 'j^-1.m^2.kg.s^-2', true ],
         ];
     }
 
@@ -321,12 +370,15 @@ class UnitOperationTest extends WebTestCase
     public function inverseProvider()
     {
         return [
-            'm'      => ['m', 'm^-1'],
-            'm.h'    => ['m.h', 'm^-1.h^-1'],
-            'm.h^-1' => ['m.h^-1', 'm^-1.h'],
-            'm^2'    => ['m^2', 'm^-2'],
-            'animal' => ['animal', 'animal^-1'],
-            'm/s'    => ['m/s', 'm/s^-1'],
+            'm'        => ['m', 'm^-1'],
+            'm.h'      => ['m.h', 'm^-1.h^-1'],
+            'm.h^-1'   => ['m.h^-1', 'm^-1.h'],
+            'm^2'      => ['m^2', 'm^-2'],
+            'animal'   => ['animal', 'animal^-1'],
+            'm/s'      => ['m/s', 'm/s^-1'],
+            'un'       => ['un', 'un'],
+            'pourcent' => ['pourcent', 'pourcent^-1'],
+            'un^-1'    => ['un^-1', 'un'],
         ];
     }
 

@@ -6,6 +6,27 @@
         <h1>{% trans %}Units{% endtrans %}</h1>
     </div>
 
+    <h3>{% trans %}Units without dimension{% endtrans %}</h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{% trans %}Identifier{% endtrans %}</th>
+            <th>{% trans %}Symbol{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for unit in noDimension %}
+            <tr>
+                <th>{{ unit.label|translate }}</th>
+                <td>{{ unit.id }}</td>
+                <td>{{ unit.symbol|translate }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
     <h3>{% trans %}Standard units{% endtrans %}</h3>
 
     <table class="table table-striped">

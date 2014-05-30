@@ -223,7 +223,7 @@ class ComposedUnitTest extends \PHPUnit_Framework_TestCase
             ],
             'h.h^-1' => [
                 'h.h^-1',
-                '',
+                'un',
             ],
         ];
     }

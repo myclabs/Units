@@ -6,6 +6,7 @@ use MyCLabs\UnitAPI\Operation\Operation;
 use MyCLabs\UnitAPI\Operation\OperationBuilder;
 use MyCLabs\UnitBundle\Entity\TranslatedString;
 use MyCLabs\UnitBundle\Entity\Unit\ComposedUnit;
+use MyCLabs\UnitBundle\Entity\Unit\EmptyUnit;
 use MyCLabs\UnitBundle\Entity\Unit\Unit;
 use MyCLabs\UnitBundle\Entity\Unit\UnitComponent;
 use MyCLabs\UnitBundle\Service\Operation\MultiplicationExecutor;
@@ -110,7 +111,7 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
                     ->with('m', 1)
                     ->with('m', -1)
                     ->getOperation(),
-                '',
+                'un',
                 1.
             ],
             [
@@ -129,6 +130,22 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
                 'm^-1',
                 1. / (1000. * 1000.)
             ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('un', 1)
+                    ->with('un', 1)
+                    ->getOperation(),
+                'un',
+                1.
+            ],
+            [
+                OperationBuilder::multiplication()
+                    ->with('un', 1)
+                    ->with('un', -1)
+                    ->getOperation(),
+                'un',
+                1.
+            ],
         ];
     }
 
@@ -137,6 +154,9 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
      */
     private function createParser()
     {
+        // Mock "un" unit
+        $unUnit = new EmptyUnit();
+
         // Mock "m" unit
         $mUnit = $this->getMockForAbstractClass(Unit::class, ['m', new TranslatedString(), new TranslatedString()]);
         $mUnit->expects($this->any())
@@ -203,8 +223,10 @@ class MultiplicationExecutorTest extends \PHPUnit_Framework_TestCase
         $parser = $this->getMock(UnitExpressionParser::class, [], [], '', false);
         $parser->expects($this->any())
             ->method('parse')
-            ->will($this->returnCallback(function ($id) use ($mUnit, $kmUnit, $kgUnit) {
+            ->will($this->returnCallback(function ($id) use ($unUnit, $mUnit, $kmUnit, $kgUnit) {
                 switch ($id) {
+                    case 'un':
+                        return $unUnit;
                     case 'm':
                         return $mUnit;
                     case 'km':

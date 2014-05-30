@@ -6,38 +6,6 @@
 
     <!-- Pour toutes les conventions relatives à l'ordre entre les objets, le choix des identifiants, des symboles, et des libellés, voir specs -->
 
-    <!-- Exposant zéro -->
-
-    <!-- Sans dimension -->
-
-    <standardUnit ref="pourcent">
-        <name>
-            <fr>pour cent</fr>
-            <en>percent</en>
-        </name>
-        <symbol>
-            <fr>%</fr>
-            <en>%</en>
-        </symbol>
-        <quantityRef>sans_dimension</quantityRef>
-        <multiplier>0.01</multiplier>
-        <unitSystemRef>international</unitSystemRef>
-    </standardUnit>
-
-    <standardUnit ref="un">
-        <name>
-            <fr>un</fr>
-            <en>one</en>
-        </name>
-        <symbol>
-            <fr>un</fr>
-            <en>one</en>
-        </symbol>
-        <quantityRef>sans_dimension</quantityRef>
-        <multiplier>1</multiplier>
-        <unitSystemRef>international</unitSystemRef>
-    </standardUnit>
-
     <!-- Exposant un -->
 
     <!-- Longueur -->

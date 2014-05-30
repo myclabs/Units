@@ -7,6 +7,8 @@ use MyCLabs\UnitAPI\Exception\IncompatibleUnitsException;
 use MyCLabs\UnitAPI\Exception\UnknownUnitException;
 use MyCLabs\UnitAPI\UnitOperationService;
 use MyCLabs\UnitBundle\Entity\Unit\DiscreteUnit;
+use MyCLabs\UnitBundle\Entity\Unit\EmptyUnit;
+use MyCLabs\UnitBundle\Entity\Unit\PercentUnit;
 use MyCLabs\UnitBundle\Entity\Unit\StandardUnit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,6 +52,7 @@ class UnitController extends Controller
         ]);
 
         return [
+            'noDimension'   => [new EmptyUnit(), new PercentUnit()],
             'standardUnits' => $standardUnits,
             'discreteUnits' => $discreteUnitRepository->findAll(),
         ];

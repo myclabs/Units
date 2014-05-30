@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 class UnitTest extends WebTestCase
 {
     /**
-     * @dataProvider getUnitProvider
+     * @dataProvider getUnitAndSymbolProvider
      */
-    public function testGetUnit($unitExpression, $expectedSymbol)
+    public function testGetUnitAndSymbol($unitExpression, $expectedSymbol)
     {
         $client = static::createClient();
 
@@ -33,7 +33,7 @@ class UnitTest extends WebTestCase
         $this->assertEquals($expectedSymbol, $unit->symbol->en);
     }
 
-    public function getUnitProvider()
+    public function getUnitAndSymbolProvider()
     {
         return [
             'm'                    => ['m', 'm'],
@@ -42,6 +42,16 @@ class UnitTest extends WebTestCase
             'm^2.animal^-1.m^-2.g' => ['m^2.animal^-1.m^-2.g', 'm².g/animal.m²'],
             'm/s'                  => ['m/s', 'm/s'],
             'kg_co2e'              => ['kg_co2e', 'kg CO2e'],
+            'un'                   => ['un', ''],
+            'un^-1'                => ['un^-1', ''],
+            'pourcent'             => ['pourcent', '%'],
+            'un.s^-1'              => ['un.s^-1', '1/s'],
+            'un.pourcent'          => ['un.pourcent', '%'],
+            'm.un.m'               => ['m.un.m', 'm.m'],
+            'un.m.un^-1.m^-1'      => ['un.m.un^-1.m^-1', 'm/m'],
+            'm^-2'                 => ['m^-2', '1/m²'],
+            'm^-3'                 => ['m^-3', '1/m³'],
+            'm^-4'                 => ['m^-4', '1/m4'],
         ];
     }
 
@@ -145,6 +155,7 @@ class UnitTest extends WebTestCase
             'un'       => ['un', 'un'],
             'pourcent' => ['pourcent', 'un'],
             'km.h^-1'  => ['km.h^-1', 'm.s^-1'],
+            'J'        => ['j', 'j'],
         ];
     }
 
@@ -155,7 +166,7 @@ class UnitTest extends WebTestCase
 
     protected function assertJsonResponse(Response $response, $statusCode = 200)
     {
-        $this->assertEquals($statusCode, $response->getStatusCode());
+        $this->assertEquals($statusCode, $response->getStatusCode(), substr($response->getContent(), 0, 500));
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
     }
 }
