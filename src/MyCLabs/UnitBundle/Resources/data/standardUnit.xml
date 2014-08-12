@@ -523,6 +523,20 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
+    <standardUnit ref="tj">
+        <name>
+            <fr>térajoule</fr>
+            <en>terajoule</en>
+        </name>
+        <symbol>
+            <fr>TJ</fr>
+            <en>TJ</en>
+        </symbol>
+        <quantityRef>ml2/t2</quantityRef>
+        <multiplier>1e+012</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+
     <standardUnit ref="gwh">
         <name>
             <fr>gigawatt-heure</fr>
