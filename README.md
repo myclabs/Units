@@ -66,3 +66,18 @@ The first time, the server needs to be set up:
 ```bash
 $ cap production deploy:setup
 ```
+
+## Troubleshooting
+
+Some server files could belong to the last deploying user, if necessary run the following command on the server:
+
+```bash
+$ chown -R root:deployers /home/web/units/shared/cached-copy
+```
+
+Capistrano may have some problem with authentication using interactive method. Uninstalling the net-ssh gem and reinstalling the 2.7.0 version solve this problem:
+
+```bash
+$ gem uninstall net-ssh
+$ gem install net-ssh -v 2.7.0
+```
