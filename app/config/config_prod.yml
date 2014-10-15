@@ -11,6 +11,7 @@ doctrine:
             type: memcached
             host: localhost
             port: 11211
+            persistent: true
             instance_class: Memcached
         #query_cache_driver:
         #    type: memcached
