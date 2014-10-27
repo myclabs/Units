@@ -67,6 +67,12 @@ The first time, the server needs to be set up:
 $ cap production deploy:setup
 ```
 
+If you are running Capifony locally with a different user, set the user name at runtime:
+
+```bash
+$ cap -s user=myusername production deploy
+```
+
 ## Troubleshooting
 
 Some server files could belong to the last deploying user, if necessary run the following command on the server:
