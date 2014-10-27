@@ -11,7 +11,6 @@ doctrine:
             type: memcached
             host: localhost
             port: 11211
-            persistent: true
             instance_class: Memcached
         #query_cache_driver:
         #    type: memcached
@@ -34,8 +33,6 @@ monolog:
 services:
     session.memcached:
         class: Memcached
-        arguments:
-            persistent_id: "units"
         calls:
             - [ addServer, [ "localhost", 11211 ]]
 
