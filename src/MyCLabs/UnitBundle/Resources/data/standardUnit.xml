@@ -467,6 +467,20 @@
         <unitSystemRef>international</unitSystemRef>
     </standardUnit>
 
+    <standardUnit ref="wh">
+        <name>
+            <fr>Watt-heure</fr>
+            <en>Watt hour</en>
+        </name>
+        <symbol>
+            <fr>Wh</fr>
+            <en>Wh</en>
+        </symbol>
+        <quantityRef>ml2/t2</quantityRef>
+        <multiplier>3.6e+003</multiplier>
+        <unitSystemRef>international</unitSystemRef>
+    </standardUnit>
+
     <standardUnit ref="mj">
         <name>
             <fr>mégajoule</fr>
@@ -484,7 +498,7 @@
     <standardUnit ref="kwh">
         <name>
             <fr>kilowatt-heure</fr>
-            <en>kilowatt-hour</en>
+            <en>kilowatt hour</en>
         </name>
         <symbol>
             <fr>kWh</fr>
@@ -512,7 +526,7 @@
     <standardUnit ref="mwh">
         <name>
             <fr>mégawatt-heure</fr>
-            <en>megawatt-hour</en>
+            <en>megawatt hour</en>
         </name>
         <symbol>
             <fr>MWh</fr>
@@ -540,7 +554,7 @@
     <standardUnit ref="gwh">
         <name>
             <fr>gigawatt-heure</fr>
-            <en>gigawatt-hour</en>
+            <en>gigawatt hour</en>
         </name>
         <symbol>
             <fr>GWh</fr>
