@@ -469,8 +469,8 @@
 
     <standardUnit ref="wh">
         <name>
-            <fr>Watt-heure</fr>
-            <en>Watt hour</en>
+            <fr>watt-heure</fr>
+            <en>watt hour</en>
         </name>
         <symbol>
             <fr>Wh</fr>
