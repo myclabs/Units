@@ -82,6 +82,7 @@
             <en>meal</en>
         </name>
     </discreteUnit>
+    
     <!--
     l'unité suivante sera utilisée pour lorsqu'on préfère n'afficher aucun libellé d'unité, et que l'unité "vide" ne
     soit pas modifiable.
@@ -92,6 +93,14 @@
             <en> </en>
         </name>
     </discreteUnit>
+    
+    <discreteUnit ref="site">
+        <name>
+            <fr>site</fr>
+            <en>site</en>
+        </name>
+    </discreteUnit>
+
     <!--
     l'unité suivante sera utilisée pour éviter de créer trop d'unités discrètes pour des cas particuliers
     par exemple pour le formulaire "immobilisations" du projet Bolloré
